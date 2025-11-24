@@ -1,0 +1,33 @@
+# ROS2 构建文件
+build/
+install/
+log/
+devel/
+
+# 编译文件
+*.o
+*.so
+*.a
+*.pyc
+__pycache__/
+
+# 数据文件和录包
+rosbag2_*/
+*.bag
+*.pcd
+
+# 临时测试目录（根据需要决定是否忽略）
+# chassis_response_test/
+# chassis_test/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+*~
+*.tmp
+*.bak
+
+# IDE
+.vscode/
+.idea/
+*.swp
