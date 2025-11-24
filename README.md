@@ -37,10 +37,5 @@ ROS2 foxy
     ps：--symlink-instal方便调试参数文件不用二次编译，
         --packages-select编译指定包
 
-## 二. 框架图
-![功能包流程图](image/软件框架图.png)
 
-## 三. 测试图
-![fast_lio测试](image/fast_lio测试.jpg)
-![小车](image/小车.jpg)
 
