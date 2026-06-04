@@ -1,0 +1,61 @@
+[0.117s] Invoking command in '/home/jetson/slash_ws/build/simple_mpc': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake /home/jetson/slash_ws/src/slash_controller/simple_mpc -DCMAKE_INSTALL_PREFIX=/home/jetson/slash_ws/install/simple_mpc
+[13.314s] -- The C compiler identification is GNU 9.4.0
+[13.314s] -- The CXX compiler identification is GNU 9.4.0
+[13.315s] -- Check for working C compiler: /usr/bin/cc
+[13.322s] -- Check for working C compiler: /usr/bin/cc -- works
+[13.325s] -- Detecting C compiler ABI info
+[13.325s] -- Detecting C compiler ABI info - done
+[13.325s] -- Detecting C compile features
+[13.326s] -- Detecting C compile features - done
+[13.326s] -- Check for working CXX compiler: /usr/bin/c++
+[13.326s] -- Check for working CXX compiler: /usr/bin/c++ -- works
+[13.326s] -- Detecting CXX compiler ABI info
+[13.326s] -- Detecting CXX compiler ABI info - done
+[13.326s] -- Detecting CXX compile features
+[13.326s] -- Detecting CXX compile features - done
+[13.327s] -- Found ament_cmake: 0.9.12 (/opt/ros/foxy/share/ament_cmake/cmake)
+[13.327s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+[13.327s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[13.327s] -- Found rclpy: 1.0.13 (/opt/ros/foxy/share/rclpy/cmake)
+[13.327s] -- Found ament_lint_auto: 0.9.8 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+[13.327s] -- Added test 'copyright' to check source files copyright and LICENSE
+[13.327s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[13.327s] -- Configured cppcheck include dirs: 
+[13.327s] -- Configured cppcheck exclude dirs and/or files: 
+[13.328s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[13.328s] -- Configured cpplint exclude dirs and/or files: 
+[13.328s] -- Added test 'flake8' to check Python code syntax and style conventions
+[13.328s] -- Added test 'lint_cmake' to check CMake code style
+[13.328s] -- Added test 'pep257' to check Python code against some of the style conventions in PEP 257
+[13.328s] -- Added test 'uncrustify' to check C / C++ code style
+[13.328s] -- Configured uncrustify additional arguments: 
+[13.328s] -- Added test 'xmllint' to check XML markup files
+[13.328s] -- Configuring done
+[13.329s] -- Generating done
+[13.329s] -- Build files have been written to: /home/jetson/slash_ws/build/simple_mpc
+[13.380s] Invoked command in '/home/jetson/slash_ws/build/simple_mpc' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake /home/jetson/slash_ws/src/slash_controller/simple_mpc -DCMAKE_INSTALL_PREFIX=/home/jetson/slash_ws/install/simple_mpc
+[13.401s] Invoking command in '/home/jetson/slash_ws/build/simple_mpc': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/simple_mpc -- -j8 -l8
+[13.845s] Invoked command in '/home/jetson/slash_ws/build/simple_mpc' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/simple_mpc -- -j8 -l8
+[13.848s] Invoking command in '/home/jetson/slash_ws/build/simple_mpc': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/simple_mpc
+[15.200s] -- Install configuration: ""
+[15.201s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/lib/simple_mpc/mpc_node.py
+[15.201s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/waypoints
+[15.201s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/waypoints/test_waypoints.csv
+[15.201s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/rviz
+[15.201s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/rviz/mpc.rviz
+[15.201s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/ament_index/resource_index/package_run_dependencies/simple_mpc
+[15.202s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/ament_index/resource_index/parent_prefix_path/simple_mpc
+[15.202s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/environment/ament_prefix_path.sh
+[15.202s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/environment/ament_prefix_path.dsv
+[15.202s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/environment/path.sh
+[15.202s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/environment/path.dsv
+[15.202s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/local_setup.bash
+[15.202s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/local_setup.sh
+[15.202s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/local_setup.zsh
+[15.203s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/local_setup.dsv
+[15.203s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/package.dsv
+[15.203s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/ament_index/resource_index/packages/simple_mpc
+[15.203s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/cmake/simple_mpcConfig.cmake
+[15.219s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/cmake/simple_mpcConfig-version.cmake
+[15.220s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/package.xml
+[15.266s] Invoked command in '/home/jetson/slash_ws/build/simple_mpc' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/simple_mpc

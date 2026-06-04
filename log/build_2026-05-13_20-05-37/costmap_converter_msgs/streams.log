@@ -1,0 +1,241 @@
+[0.186s] Invoking command in '/home/jetson/slash_ws/build/costmap_converter_msgs': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake /home/jetson/slash_ws/src/slash_navigation/costmap_converter/costmap_converter_msgs -DCMAKE_INSTALL_PREFIX=/home/jetson/slash_ws/install/costmap_converter_msgs
+[1.709s] -- The C compiler identification is GNU 9.4.0
+[1.711s] -- The CXX compiler identification is GNU 9.4.0
+[1.711s] -- Check for working C compiler: /usr/bin/cc
+[1.712s] -- Check for working C compiler: /usr/bin/cc -- works
+[1.712s] -- Detecting C compiler ABI info
+[1.712s] -- Detecting C compiler ABI info - done
+[1.712s] -- Detecting C compile features
+[1.712s] -- Detecting C compile features - done
+[1.712s] -- Check for working CXX compiler: /usr/bin/c++
+[1.959s] -- Check for working CXX compiler: /usr/bin/c++ -- works
+[1.959s] -- Detecting CXX compiler ABI info
+[2.323s] -- Detecting CXX compiler ABI info - done
+[2.358s] -- Detecting CXX compile features
+[2.360s] -- Detecting CXX compile features - done
+[2.372s] -- Found ament_cmake: 0.9.12 (/opt/ros/foxy/share/ament_cmake/cmake)
+[2.510s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+[2.510s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[3.246s] -- Found builtin_interfaces: 1.0.0 (/opt/ros/foxy/share/builtin_interfaces/cmake)
+[3.342s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[3.367s] -- Found rosidl_adapter: 1.3.1 (/opt/ros/foxy/share/rosidl_adapter/cmake)
+[3.956s] -- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "1.1.1f")  
+[4.085s] -- Found FastRTPS: /opt/ros/foxy/include  
+[4.402s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[4.522s] -- Found geometry_msgs: 2.0.5 (/opt/ros/foxy/share/geometry_msgs/cmake)
+[4.764s] -- Found rosidl_default_generators: 1.0.1 (/opt/ros/foxy/share/rosidl_default_generators/cmake)
+[5.039s] -- Found PythonInterp: /usr/bin/python3 (found version "3.8.10") 
+[5.700s] -- Found ament_cmake_ros: 0.9.2 (/opt/ros/foxy/share/ament_cmake_ros/cmake)
+[6.621s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[6.966s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[7.084s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3.5") 
+[7.087s] -- Found python_cmake_module: 0.8.1 (/opt/ros/foxy/share/python_cmake_module/cmake)
+[7.172s] -- Found PythonLibs: /usr/lib/aarch64-linux-gnu/libpython3.8.so (found suitable version "3.8.10", minimum required is "3.5") 
+[7.173s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[7.173s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.8
+[7.173s] -- Using PYTHON_LIBRARIES: /usr/lib/aarch64-linux-gnu/libpython3.8.so
+[7.267s] -- Found PythonExtra: .so  
+[8.642s] -- Configuring done
+[8.871s] -- Generating done
+[8.922s] -- Build files have been written to: /home/jetson/slash_ws/build/costmap_converter_msgs
+[10.923s] Invoked command in '/home/jetson/slash_ws/build/costmap_converter_msgs' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake /home/jetson/slash_ws/src/slash_navigation/costmap_converter/costmap_converter_msgs -DCMAKE_INSTALL_PREFIX=/home/jetson/slash_ws/install/costmap_converter_msgs
+[10.925s] Invoking command in '/home/jetson/slash_ws/build/costmap_converter_msgs': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/costmap_converter_msgs -- -j8 -l8
+[21.053s] [  2%] [34m[1mGenerating C code for ROS interfaces[0m
+[21.054s] [35m[1mScanning dependencies of target costmap_converter_msgs__cpp[0m
+[21.054s] [  5%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[21.054s] [35m[1mScanning dependencies of target costmap_converter_msgs__rosidl_generator_c[0m
+[21.054s] [  7%] [32mBuilding C object CMakeFiles/costmap_converter_msgs__rosidl_generator_c.dir/rosidl_generator_c/costmap_converter_msgs/msg/detail/obstacle_msg__functions.c.o[0m
+[21.054s] [ 10%] [32mBuilding C object CMakeFiles/costmap_converter_msgs__rosidl_generator_c.dir/rosidl_generator_c/costmap_converter_msgs/msg/detail/obstacle_array_msg__functions.c.o[0m
+[21.055s] [ 10%] Built target costmap_converter_msgs__cpp
+[21.055s] [ 12%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[21.055s] [ 15%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[21.055s] [ 17%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[21.055s] [ 20%] [32m[1mLinking C shared library libcostmap_converter_msgs__rosidl_generator_c.so[0m
+[21.055s] [ 20%] Built target costmap_converter_msgs__rosidl_generator_c
+[21.055s] [ 23%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[21.056s] [35m[1mScanning dependencies of target costmap_converter_msgs__rosidl_typesupport_cpp[0m
+[21.056s] [35m[1mScanning dependencies of target costmap_converter_msgs__rosidl_typesupport_introspection_cpp[0m
+[21.056s] [ 28%] [32mBuilding CXX object CMakeFiles/costmap_converter_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/costmap_converter_msgs/msg/detail/obstacle_array_msg__type_support.cpp.o[0m
+[21.056s] [ 28%] [32mBuilding CXX object CMakeFiles/costmap_converter_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/costmap_converter_msgs/msg/obstacle_msg__type_support.cpp.o[0m
+[21.056s] [ 30%] [32mBuilding CXX object CMakeFiles/costmap_converter_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/costmap_converter_msgs/msg/detail/obstacle_msg__type_support.cpp.o[0m
+[21.056s] [ 33%] [32mBuilding CXX object CMakeFiles/costmap_converter_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/costmap_converter_msgs/msg/obstacle_array_msg__type_support.cpp.o[0m
+[21.056s] [35m[1mScanning dependencies of target costmap_converter_msgs__rosidl_typesupport_fastrtps_cpp[0m
+[21.056s] [ 35%] [32mBuilding CXX object CMakeFiles/costmap_converter_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/costmap_converter_msgs/msg/detail/dds_fastrtps/obstacle_msg__type_support.cpp.o[0m
+[21.057s] [ 38%] [32mBuilding CXX object CMakeFiles/costmap_converter_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/costmap_converter_msgs/msg/detail/dds_fastrtps/obstacle_array_msg__type_support.cpp.o[0m
+[21.057s] [35m[1mScanning dependencies of target costmap_converter_msgs__rosidl_typesupport_introspection_c[0m
+[21.057s] [ 41%] [32mBuilding C object CMakeFiles/costmap_converter_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/costmap_converter_msgs/msg/detail/obstacle_msg__type_support.c.o[0m
+[21.057s] [ 43%] [32mBuilding C object CMakeFiles/costmap_converter_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/costmap_converter_msgs/msg/detail/obstacle_array_msg__type_support.c.o[0m
+[21.057s] [ 46%] [32m[1mLinking C shared library libcostmap_converter_msgs__rosidl_typesupport_introspection_c.so[0m
+[21.057s] [ 48%] [32m[1mLinking CXX shared library libcostmap_converter_msgs__rosidl_typesupport_cpp.so[0m
+[21.057s] [ 48%] Built target costmap_converter_msgs__rosidl_typesupport_introspection_c
+[21.057s] [ 48%] Built target costmap_converter_msgs__rosidl_typesupport_cpp
+[21.057s] [ 51%] [32m[1mLinking CXX shared library libcostmap_converter_msgs__rosidl_typesupport_introspection_cpp.so[0m
+[21.058s] [ 51%] Built target costmap_converter_msgs__rosidl_typesupport_introspection_cpp
+[21.852s] [ 53%] [32m[1mLinking CXX shared library libcostmap_converter_msgs__rosidl_typesupport_fastrtps_cpp.so[0m
+[22.468s] [ 53%] Built target costmap_converter_msgs__rosidl_typesupport_fastrtps_cpp
+[22.580s] [ 56%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[23.734s] [35m[1mScanning dependencies of target costmap_converter_msgs__rosidl_typesupport_c[0m
+[23.854s] [ 58%] [32mBuilding CXX object CMakeFiles/costmap_converter_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/costmap_converter_msgs/msg/obstacle_msg__type_support.cpp.o[0m
+[23.997s] [ 61%] [32mBuilding CXX object CMakeFiles/costmap_converter_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/costmap_converter_msgs/msg/obstacle_array_msg__type_support.cpp.o[0m
+[24.223s] [ 64%] [32m[1mLinking CXX shared library libcostmap_converter_msgs__rosidl_typesupport_c.so[0m
+[24.514s] [ 64%] Built target costmap_converter_msgs__rosidl_typesupport_c
+[24.578s] [ 66%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[25.904s] [35m[1mScanning dependencies of target costmap_converter_msgs__rosidl_typesupport_fastrtps_c[0m
+[26.000s] [ 69%] [32mBuilding CXX object CMakeFiles/costmap_converter_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/costmap_converter_msgs/msg/detail/obstacle_msg__type_support_c.cpp.o[0m
+[27.947s] [ 71%] [32mBuilding CXX object CMakeFiles/costmap_converter_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/costmap_converter_msgs/msg/detail/obstacle_array_msg__type_support_c.cpp.o[0m
+[29.998s] [ 74%] [32m[1mLinking CXX shared library libcostmap_converter_msgs__rosidl_typesupport_fastrtps_c.so[0m
+[30.601s] [ 74%] Built target costmap_converter_msgs__rosidl_typesupport_fastrtps_c
+[30.676s] [35m[1mScanning dependencies of target costmap_converter_msgs[0m
+[30.751s] [ 74%] Built target costmap_converter_msgs
+[30.821s] [35m[1mScanning dependencies of target costmap_converter_msgs__py[0m
+[30.948s] [ 76%] [34m[1mGenerating Python code for ROS interfaces[0m
+[33.772s] [ 76%] Built target costmap_converter_msgs__py
+[33.854s] [35m[1mScanning dependencies of target costmap_converter_msgs__python[0m
+[33.995s] [ 79%] [32mBuilding C object CMakeFiles/costmap_converter_msgs__python.dir/rosidl_generator_py/costmap_converter_msgs/msg/_obstacle_msg_s.c.o[0m
+[34.496s] [ 82%] [32mBuilding C object CMakeFiles/costmap_converter_msgs__python.dir/rosidl_generator_py/costmap_converter_msgs/msg/_obstacle_array_msg_s.c.o[0m
+[34.908s] [ 84%] [32m[1mLinking C shared library rosidl_generator_py/costmap_converter_msgs/libcostmap_converter_msgs__python.so[0m
+[35.156s] [ 84%] Built target costmap_converter_msgs__python
+[35.240s] [35m[1mScanning dependencies of target costmap_converter_msgs__rosidl_typesupport_introspection_c__pyext[0m
+[35.352s] [ 87%] [32mBuilding C object CMakeFiles/costmap_converter_msgs__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/costmap_converter_msgs/_costmap_converter_msgs_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[35.764s] [ 89%] [32m[1mLinking C shared library rosidl_generator_py/costmap_converter_msgs/costmap_converter_msgs_s__rosidl_typesupport_introspection_c.cpython-38-aarch64-linux-gnu.so[0m
+[36.028s] [ 89%] Built target costmap_converter_msgs__rosidl_typesupport_introspection_c__pyext
+[36.105s] [35m[1mScanning dependencies of target costmap_converter_msgs__rosidl_typesupport_fastrtps_c__pyext[0m
+[36.228s] [ 92%] [32mBuilding C object CMakeFiles/costmap_converter_msgs__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/costmap_converter_msgs/_costmap_converter_msgs_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[36.680s] [ 94%] [32m[1mLinking CXX shared library rosidl_generator_py/costmap_converter_msgs/costmap_converter_msgs_s__rosidl_typesupport_fastrtps_c.cpython-38-aarch64-linux-gnu.so[0m
+[36.920s] [ 94%] Built target costmap_converter_msgs__rosidl_typesupport_fastrtps_c__pyext
+[37.003s] [35m[1mScanning dependencies of target costmap_converter_msgs__rosidl_typesupport_c__pyext[0m
+[37.109s] [ 97%] [32mBuilding C object CMakeFiles/costmap_converter_msgs__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/costmap_converter_msgs/_costmap_converter_msgs_s.ep.rosidl_typesupport_c.c.o[0m
+[37.576s] [100%] [32m[1mLinking C shared library rosidl_generator_py/costmap_converter_msgs/costmap_converter_msgs_s__rosidl_typesupport_c.cpython-38-aarch64-linux-gnu.so[0m
+[37.742s] [100%] Built target costmap_converter_msgs__rosidl_typesupport_c__pyext
+[37.791s] Invoked command in '/home/jetson/slash_ws/build/costmap_converter_msgs' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/costmap_converter_msgs -- -j8 -l8
+[37.808s] Invoking command in '/home/jetson/slash_ws/build/costmap_converter_msgs': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/costmap_converter_msgs
+[37.865s] -- Install configuration: ""
+[37.865s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/ament_index/resource_index/rosidl_interfaces/costmap_converter_msgs
+[37.865s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs
+[37.866s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg
+[37.866s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/obstacle_array_msg.h
+[37.866s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/obstacle_msg.h
+[37.866s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail
+[37.872s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__functions.h
+[37.877s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__type_support.h
+[37.877s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__struct.h
+[37.877s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__functions.h
+[37.877s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__functions.c
+[37.878s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__struct.h
+[37.878s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__type_support.h
+[37.878s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__functions.c
+[37.878s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/rosidl_generator_c__visibility_control.h
+[37.878s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/environment/library_path.sh
+[37.878s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/environment/library_path.dsv
+[37.880s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_generator_c.so
+[37.880s] -- Set runtime path of "/home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_generator_c.so" to ""
+[37.880s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs
+[37.880s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg
+[37.880s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail
+[37.880s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__rosidl_typesupport_fastrtps_c.h
+[37.880s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__rosidl_typesupport_fastrtps_c.h
+[37.880s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[37.881s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_fastrtps_c.so
+[37.881s] -- Set runtime path of "/home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_fastrtps_c.so" to ""
+[37.881s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs
+[37.881s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg
+[37.881s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[37.881s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail
+[37.881s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__rosidl_typesupport_fastrtps_cpp.hpp
+[37.881s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__rosidl_typesupport_fastrtps_cpp.hpp
+[37.882s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/dds_fastrtps
+[37.882s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_fastrtps_cpp.so
+[37.882s] -- Set runtime path of "/home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_fastrtps_cpp.so" to ""
+[37.882s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs
+[37.882s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg
+[37.882s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[37.882s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail
+[37.882s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__type_support.c
+[37.882s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__type_support.c
+[37.883s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__rosidl_typesupport_introspection_c.h
+[37.883s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__rosidl_typesupport_introspection_c.h
+[37.883s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_introspection_c.so
+[37.883s] -- Set runtime path of "/home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_introspection_c.so" to ""
+[37.883s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_c.so
+[37.883s] -- Set runtime path of "/home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_c.so" to ""
+[37.884s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs
+[37.884s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg
+[37.884s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/rosidl_generator_cpp__visibility_control.hpp
+[37.884s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/obstacle_array_msg.hpp
+[37.884s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/obstacle_msg.hpp
+[37.884s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail
+[37.884s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__type_support.hpp
+[37.884s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__builder.hpp
+[37.884s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__builder.hpp
+[37.885s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__traits.hpp
+[37.885s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__struct.hpp
+[37.885s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__type_support.hpp
+[37.885s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__traits.hpp
+[37.885s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__struct.hpp
+[37.885s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs
+[37.885s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg
+[37.885s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail
+[37.885s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__rosidl_typesupport_introspection_cpp.hpp
+[37.886s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__rosidl_typesupport_introspection_cpp.hpp
+[37.886s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__type_support.cpp
+[37.886s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__type_support.cpp
+[37.886s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_introspection_cpp.so
+[37.886s] -- Set runtime path of "/home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_introspection_cpp.so" to ""
+[37.886s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_cpp.so
+[37.886s] -- Set runtime path of "/home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_cpp.so" to ""
+[37.886s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/environment/pythonpath.sh
+[37.886s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/environment/pythonpath.dsv
+[37.887s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/__init__.py
+[38.037s] Compiling '/home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/__init__.py'...
+[38.070s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/msg
+[38.070s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/msg/_obstacle_msg_s.c
+[38.070s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/msg/_obstacle_array_msg_s.c
+[38.070s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/msg/_obstacle_msg.py
+[38.070s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/msg/__init__.py
+[38.071s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/msg/_obstacle_array_msg.py
+[38.071s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/costmap_converter_msgs_s__rosidl_typesupport_fastrtps_c.cpython-38-aarch64-linux-gnu.so
+[38.071s] -- Set runtime path of "/home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/costmap_converter_msgs_s__rosidl_typesupport_fastrtps_c.cpython-38-aarch64-linux-gnu.so" to ""
+[38.072s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/costmap_converter_msgs_s__rosidl_typesupport_introspection_c.cpython-38-aarch64-linux-gnu.so
+[38.072s] -- Set runtime path of "/home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/costmap_converter_msgs_s__rosidl_typesupport_introspection_c.cpython-38-aarch64-linux-gnu.so" to ""
+[38.072s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/costmap_converter_msgs_s__rosidl_typesupport_c.cpython-38-aarch64-linux-gnu.so
+[38.072s] -- Set runtime path of "/home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/costmap_converter_msgs_s__rosidl_typesupport_c.cpython-38-aarch64-linux-gnu.so" to ""
+[38.072s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__python.so
+[38.072s] -- Set runtime path of "/home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__python.so" to ""
+[38.072s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/msg/ObstacleMsg.idl
+[38.072s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/msg/ObstacleArrayMsg.idl
+[38.072s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/msg/ObstacleMsg.msg
+[38.073s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/msg/ObstacleArrayMsg.msg
+[38.073s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/ament_index/resource_index/package_run_dependencies/costmap_converter_msgs
+[38.073s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/ament_index/resource_index/parent_prefix_path/costmap_converter_msgs
+[38.073s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/environment/ament_prefix_path.sh
+[38.073s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/environment/ament_prefix_path.dsv
+[38.073s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/environment/path.sh
+[38.073s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/environment/path.dsv
+[38.073s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/local_setup.bash
+[38.073s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/local_setup.sh
+[38.074s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/local_setup.zsh
+[38.074s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/local_setup.dsv
+[38.074s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/package.dsv
+[38.074s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/ament_index/resource_index/packages/costmap_converter_msgs
+[38.074s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_generator_cExport.cmake
+[38.074s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_generator_cExport-noconfig.cmake
+[38.074s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_typesupport_introspection_cExport.cmake
+[38.075s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[38.075s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_typesupport_cExport.cmake
+[38.075s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_typesupport_cExport-noconfig.cmake
+[38.075s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_generator_cppExport.cmake
+[38.075s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_typesupport_introspection_cppExport.cmake
+[38.087s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[38.088s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_typesupport_cppExport.cmake
+[38.088s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_typesupport_cppExport-noconfig.cmake
+[38.088s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/rosidl_cmake-extras.cmake
+[38.088s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/ament_cmake_export_dependencies-extras.cmake
+[38.088s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/ament_cmake_export_libraries-extras.cmake
+[38.089s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/ament_cmake_export_targets-extras.cmake
+[38.089s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/ament_cmake_export_include_directories-extras.cmake
+[38.089s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[38.089s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[38.089s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgsConfig.cmake
+[38.092s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgsConfig-version.cmake
+[38.092s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/package.xml
+[38.109s] Invoked command in '/home/jetson/slash_ws/build/costmap_converter_msgs' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/costmap_converter_msgs

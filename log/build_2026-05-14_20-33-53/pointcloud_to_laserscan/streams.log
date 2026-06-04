@@ -1,0 +1,45 @@
+[0.335s] Invoking command in '/home/jetson/slash_ws/build/pointcloud_to_laserscan': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/pointcloud_to_laserscan -- -j8 -l8
+[1.271s] [ 20%] Built target pointcloud_to_laserscan_node
+[1.271s] [ 40%] Built target laserscan_to_pointcloud_node
+[1.272s] [ 60%] Built target laserscan_to_pointcloud
+[1.272s] [ 80%] Built target pointcloud_to_laserscan
+[1.272s] [100%] Built target dummy_pointcloud_publisher
+[2.037s] Invoked command in '/home/jetson/slash_ws/build/pointcloud_to_laserscan' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/pointcloud_to_laserscan -- -j8 -l8
+[2.044s] Invoking command in '/home/jetson/slash_ws/build/pointcloud_to_laserscan': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/pointcloud_to_laserscan
+[2.070s] -- Install configuration: ""
+[2.070s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/lib/pointcloud_to_laserscan/laserscan_to_pointcloud_node
+[2.071s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/lib/pointcloud_to_laserscan/pointcloud_to_laserscan_node
+[2.071s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/include
+[2.071s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/include/pointcloud_to_laserscan
+[2.072s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/include/pointcloud_to_laserscan/pointcloud_to_laserscan_node.hpp
+[2.072s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/include/pointcloud_to_laserscan/visibility_control.h
+[2.072s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/include/pointcloud_to_laserscan/laserscan_to_pointcloud_node.hpp
+[2.072s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/environment/library_path.sh
+[2.073s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/environment/library_path.dsv
+[2.073s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/lib/liblaserscan_to_pointcloud.so
+[2.073s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/lib/libpointcloud_to_laserscan.so
+[2.074s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/lib/pointcloud_to_laserscan/dummy_pointcloud_publisher
+[2.075s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/launch
+[2.075s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/launch/sample_laserscan_to_pointcloud_launch.py
+[2.076s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/launch/sample_pointcloud_to_laserscan_launch.py
+[2.076s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/launch/pointcloud_to_laserscan_launch.py
+[2.076s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/ament_index/resource_index/package_run_dependencies/pointcloud_to_laserscan
+[2.076s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/ament_index/resource_index/parent_prefix_path/pointcloud_to_laserscan
+[2.076s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/environment/ament_prefix_path.sh
+[2.077s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/environment/ament_prefix_path.dsv
+[2.077s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/environment/path.sh
+[2.077s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/environment/path.dsv
+[2.077s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/local_setup.bash
+[2.077s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/local_setup.sh
+[2.077s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/local_setup.zsh
+[2.077s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/local_setup.dsv
+[2.077s] -- Installing: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/package.dsv
+[2.085s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/ament_index/resource_index/packages/pointcloud_to_laserscan
+[2.086s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/ament_index/resource_index/rclcpp_components/pointcloud_to_laserscan
+[2.086s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/cmake/ament_cmake_export_dependencies-extras.cmake
+[2.086s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/cmake/ament_cmake_export_include_directories-extras.cmake
+[2.086s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/cmake/ament_cmake_export_libraries-extras.cmake
+[2.086s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/cmake/pointcloud_to_laserscanConfig.cmake
+[2.086s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/cmake/pointcloud_to_laserscanConfig-version.cmake
+[2.086s] -- Up-to-date: /home/jetson/slash_ws/install/pointcloud_to_laserscan/share/pointcloud_to_laserscan/package.xml
+[2.201s] Invoked command in '/home/jetson/slash_ws/build/pointcloud_to_laserscan' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/pointcloud_to_laserscan

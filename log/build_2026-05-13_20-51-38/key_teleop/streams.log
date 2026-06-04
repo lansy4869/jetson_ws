@@ -1,0 +1,22 @@
+[4.457s] Invoking command in '/home/jetson/slash_ws/src/slash_hardware/f1tenth_system/teleop_tools/key_teleop': PYTHONPATH=/home/jetson/slash_ws/build/key_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/key_teleop/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../../../build/key_teleop build --build-base /home/jetson/slash_ws/build/key_teleop/build install --record /home/jetson/slash_ws/build/key_teleop/install.log --single-version-externally-managed install_data
+[6.021s] running egg_info
+[6.052s] writing ../../../../../build/key_teleop/key_teleop.egg-info/PKG-INFO
+[6.056s] writing dependency_links to ../../../../../build/key_teleop/key_teleop.egg-info/dependency_links.txt
+[6.056s] writing entry points to ../../../../../build/key_teleop/key_teleop.egg-info/entry_points.txt
+[6.057s] writing requirements to ../../../../../build/key_teleop/key_teleop.egg-info/requires.txt
+[6.057s] writing top-level names to ../../../../../build/key_teleop/key_teleop.egg-info/top_level.txt
+[6.115s] reading manifest file '../../../../../build/key_teleop/key_teleop.egg-info/SOURCES.txt'
+[6.116s] adding license file 'LICENSE'
+[6.117s] writing manifest file '../../../../../build/key_teleop/key_teleop.egg-info/SOURCES.txt'
+[6.117s] running build
+[6.118s] running build_py
+[6.118s] running install
+[6.132s] running install_lib
+[6.159s] running install_data
+[6.159s] running install_egg_info
+[6.190s] removing '/home/jetson/slash_ws/install/key_teleop/lib/python3.8/site-packages/key_teleop-0.3.0-py3.8.egg-info' (and everything under it)
+[6.191s] Copying ../../../../../build/key_teleop/key_teleop.egg-info to /home/jetson/slash_ws/install/key_teleop/lib/python3.8/site-packages/key_teleop-0.3.0-py3.8.egg-info
+[6.192s] running install_scripts
+[6.457s] Installing key_teleop script to /home/jetson/slash_ws/install/key_teleop/lib/key_teleop
+[6.458s] writing list of installed files to '/home/jetson/slash_ws/build/key_teleop/install.log'
+[6.941s] Invoked command in '/home/jetson/slash_ws/src/slash_hardware/f1tenth_system/teleop_tools/key_teleop' returned '0': PYTHONPATH=/home/jetson/slash_ws/build/key_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/key_teleop/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../../../build/key_teleop build --build-base /home/jetson/slash_ws/build/key_teleop/build install --record /home/jetson/slash_ws/build/key_teleop/install.log --single-version-externally-managed install_data

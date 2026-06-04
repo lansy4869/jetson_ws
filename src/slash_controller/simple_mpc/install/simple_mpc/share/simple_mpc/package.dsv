@@ -1,0 +1,5 @@
+source;share/simple_mpc/hook/cmake_prefix_path.dsv
+source;share/simple_mpc/hook/cmake_prefix_path.sh
+source;share/simple_mpc/local_setup.bash
+source;share/simple_mpc/local_setup.dsv
+source;share/simple_mpc/local_setup.sh

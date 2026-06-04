@@ -1,0 +1,25 @@
+[1.465s] Invoking command in '/home/jetson/slash_ws/build/simple_mpc': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/simple_mpc -- -j8 -l8
+[1.809s] Invoked command in '/home/jetson/slash_ws/build/simple_mpc' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/simple_mpc -- -j8 -l8
+[1.823s] Invoking command in '/home/jetson/slash_ws/build/simple_mpc': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/simple_mpc
+[1.869s] -- Install configuration: ""
+[1.871s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/lib/simple_mpc/mpc_node.py
+[1.871s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/waypoints
+[1.871s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/waypoints/test_waypoints.csv
+[1.871s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/rviz
+[1.872s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/rviz/mpc.rviz
+[1.883s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/ament_index/resource_index/package_run_dependencies/simple_mpc
+[1.884s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/ament_index/resource_index/parent_prefix_path/simple_mpc
+[1.884s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/environment/ament_prefix_path.sh
+[1.884s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/environment/ament_prefix_path.dsv
+[1.884s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/environment/path.sh
+[1.884s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/environment/path.dsv
+[1.885s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/local_setup.bash
+[1.885s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/local_setup.sh
+[1.885s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/local_setup.zsh
+[1.885s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/local_setup.dsv
+[1.885s] -- Installing: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/package.dsv
+[1.885s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/ament_index/resource_index/packages/simple_mpc
+[1.885s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/cmake/simple_mpcConfig.cmake
+[1.886s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/cmake/simple_mpcConfig-version.cmake
+[1.886s] -- Up-to-date: /home/jetson/slash_ws/install/simple_mpc/share/simple_mpc/package.xml
+[3.084s] Invoked command in '/home/jetson/slash_ws/build/simple_mpc' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/simple_mpc

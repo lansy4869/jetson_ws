@@ -1,0 +1,82 @@
+[0.022s] Invoking command in '/home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake /home/jetson/slash_ws/src/slash_controller/simple_mpc -DCMAKE_INSTALL_PREFIX=/home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc
+[0.036s] [0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.036s]   Compatibility with CMake < 3.10 will be removed from a future version of
+[0.036s]   CMake.
+[0.037s] 
+[0.037s]   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+[0.037s]   to tell CMake that the project requires at least <min> but has been updated
+[0.037s]   to work with policies introduced by <max> or earlier.
+[0.037s] 
+[0.037s] [0m
+[0.127s] -- The C compiler identification is GNU 9.4.0
+[0.222s] -- The CXX compiler identification is GNU 9.4.0
+[0.237s] -- Detecting C compiler ABI info
+[0.340s] -- Detecting C compiler ABI info - done
+[0.368s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.369s] -- Detecting C compile features
+[0.369s] -- Detecting C compile features - done
+[0.392s] -- Detecting CXX compiler ABI info
+[0.507s] -- Detecting CXX compiler ABI info - done
+[0.543s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.544s] -- Detecting CXX compile features
+[0.545s] -- Detecting CXX compile features - done
+[0.563s] -- Found ament_cmake: 0.9.12 (/opt/ros/foxy/share/ament_cmake/cmake)
+[0.572s] [33mCMake Warning (dev) at /opt/ros/foxy/share/ament_cmake_core/cmake/core/python.cmake:22 (find_package):
+[0.572s]   Policy CMP0148 is not set: The FindPythonInterp and FindPythonLibs modules
+[0.573s]   are removed.  Run "cmake --help-policy CMP0148" for policy details.  Use
+[0.573s]   the cmake_policy command to set the policy and suppress this warning.
+[0.573s] 
+[0.573s] Call Stack (most recent call first):
+[0.574s]   /opt/ros/foxy/share/ament_cmake_core/cmake/core/all.cmake:53 (include)
+[0.574s]   /opt/ros/foxy/share/ament_cmake_core/cmake/ament_cmake_core-extras.cmake:17 (include)
+[0.574s]   /opt/ros/foxy/share/ament_cmake_core/cmake/ament_cmake_coreConfig.cmake:41 (include)
+[0.574s]   /opt/ros/foxy/share/ament_cmake/cmake/ament_cmake_export_dependencies-extras.cmake:15 (find_package)
+[0.574s]   /opt/ros/foxy/share/ament_cmake/cmake/ament_cmakeConfig.cmake:41 (include)
+[0.575s]   CMakeLists.txt:19 (find_package)
+[0.575s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[0.575s] [0m
+[0.604s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3")
+[0.605s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[0.968s] -- Found rclpy: 1.0.13 (/opt/ros/foxy/share/rclpy/cmake)
+[0.970s] -- Found ament_lint_auto: 0.9.8 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+[1.109s] -- Added test 'copyright' to check source files copyright and LICENSE
+[1.117s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[1.117s] -- Configured cppcheck include dirs: 
+[1.117s] -- Configured cppcheck exclude dirs and/or files: 
+[1.125s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[1.125s] -- Configured cpplint exclude dirs and/or files: 
+[1.126s] -- Added test 'flake8' to check Python code syntax and style conventions
+[1.129s] -- Added test 'lint_cmake' to check CMake code style
+[1.130s] -- Added test 'pep257' to check Python code against some of the style conventions in PEP 257
+[1.139s] -- Added test 'uncrustify' to check C / C++ code style
+[1.139s] -- Configured uncrustify additional arguments: 
+[1.140s] -- Added test 'xmllint' to check XML markup files
+[1.142s] -- Configuring done (1.1s)
+[1.149s] -- Generating done (0.0s)
+[1.151s] -- Build files have been written to: /home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc
+[1.160s] Invoked command in '/home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc' returned '0': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake /home/jetson/slash_ws/src/slash_controller/simple_mpc -DCMAKE_INSTALL_PREFIX=/home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc
+[1.168s] Invoking command in '/home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc -- -j8 -l8
+[1.203s] Invoked command in '/home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc' returned '0': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc -- -j8 -l8
+[1.227s] Invoking command in '/home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc
+[1.236s] -- Install configuration: ""
+[1.236s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/lib/simple_mpc/mpc_node.py
+[1.237s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/waypoints
+[1.237s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/waypoints/test_waypoints.csv
+[1.237s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/rviz
+[1.238s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/rviz/mpc.rviz
+[1.238s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/ament_index/resource_index/package_run_dependencies/simple_mpc
+[1.238s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/ament_index/resource_index/parent_prefix_path/simple_mpc
+[1.239s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/environment/ament_prefix_path.sh
+[1.239s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/environment/ament_prefix_path.dsv
+[1.239s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/environment/path.sh
+[1.240s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/environment/path.dsv
+[1.240s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/local_setup.bash
+[1.240s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/local_setup.sh
+[1.240s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/local_setup.zsh
+[1.241s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/local_setup.dsv
+[1.241s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/package.dsv
+[1.241s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/ament_index/resource_index/packages/simple_mpc
+[1.242s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/cmake/simple_mpcConfig.cmake
+[1.242s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/cmake/simple_mpcConfig-version.cmake
+[1.242s] -- Installing: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/package.xml
+[1.247s] Invoked command in '/home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc' returned '0': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc

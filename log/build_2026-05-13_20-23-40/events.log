@@ -1,0 +1,59 @@
+[0.000000] (-) TimerEvent: {}
+[0.001790] (ackermann_mux) JobQueued: {'identifier': 'ackermann_mux', 'dependencies': OrderedDict()}
+[0.002732] (costmap_converter_msgs) JobQueued: {'identifier': 'costmap_converter_msgs', 'dependencies': OrderedDict()}
+[0.003162] (key_teleop) JobQueued: {'identifier': 'key_teleop', 'dependencies': OrderedDict()}
+[0.006820] (linefit_ground_segmentation) JobQueued: {'identifier': 'linefit_ground_segmentation', 'dependencies': OrderedDict()}
+[0.006918] (livox_ros_driver2) JobQueued: {'identifier': 'livox_ros_driver2', 'dependencies': OrderedDict()}
+[0.006966] (mouse_teleop) JobQueued: {'identifier': 'mouse_teleop', 'dependencies': OrderedDict()}
+[0.007004] (pointcloud_to_laserscan) JobQueued: {'identifier': 'pointcloud_to_laserscan', 'dependencies': OrderedDict()}
+[0.007040] (roboracer_china_2025) JobQueued: {'identifier': 'roboracer_china_2025', 'dependencies': OrderedDict()}
+[0.007074] (simple_mpc) JobQueued: {'identifier': 'simple_mpc', 'dependencies': OrderedDict()}
+[0.007108] (slash_nav2) JobQueued: {'identifier': 'slash_nav2', 'dependencies': OrderedDict()}
+[0.007138] (teleop_tools_msgs) JobQueued: {'identifier': 'teleop_tools_msgs', 'dependencies': OrderedDict()}
+[0.007169] (twist_to_ackermann) JobQueued: {'identifier': 'twist_to_ackermann', 'dependencies': OrderedDict()}
+[0.007198] (vesc_msgs) JobQueued: {'identifier': 'vesc_msgs', 'dependencies': OrderedDict()}
+[0.007228] (costmap_converter) JobQueued: {'identifier': 'costmap_converter', 'dependencies': OrderedDict([('costmap_converter_msgs', '/home/jetson/slash_ws/install/costmap_converter_msgs')])}
+[0.007271] (fast_lio) JobQueued: {'identifier': 'fast_lio', 'dependencies': OrderedDict([('livox_ros_driver2', '/home/jetson/slash_ws/install/livox_ros_driver2')])}
+[0.007310] (joy_teleop) JobQueued: {'identifier': 'joy_teleop', 'dependencies': OrderedDict([('teleop_tools_msgs', '/home/jetson/slash_ws/install/teleop_tools_msgs')])}
+[0.007348] (linefit_ground_segmentation_ros) JobQueued: {'identifier': 'linefit_ground_segmentation_ros', 'dependencies': OrderedDict([('linefit_ground_segmentation', '/home/jetson/slash_ws/install/linefit_ground_segmentation')])}
+[0.007387] (teb_msgs) JobQueued: {'identifier': 'teb_msgs', 'dependencies': OrderedDict([('costmap_converter_msgs', '/home/jetson/slash_ws/install/costmap_converter_msgs')])}
+[0.007424] (vesc_ackermann) JobQueued: {'identifier': 'vesc_ackermann', 'dependencies': OrderedDict([('vesc_msgs', '/home/jetson/slash_ws/install/vesc_msgs')])}
+[0.007476] (vesc_driver) JobQueued: {'identifier': 'vesc_driver', 'dependencies': OrderedDict([('vesc_msgs', '/home/jetson/slash_ws/install/vesc_msgs')])}
+[0.007516] (teb_local_planner) JobQueued: {'identifier': 'teb_local_planner', 'dependencies': OrderedDict([('costmap_converter_msgs', '/home/jetson/slash_ws/install/costmap_converter_msgs'), ('costmap_converter', '/home/jetson/slash_ws/install/costmap_converter'), ('teb_msgs', '/home/jetson/slash_ws/install/teb_msgs')])}
+[0.007556] (teleop_tools) JobQueued: {'identifier': 'teleop_tools', 'dependencies': OrderedDict([('key_teleop', '/home/jetson/slash_ws/install/key_teleop'), ('teleop_tools_msgs', '/home/jetson/slash_ws/install/teleop_tools_msgs'), ('joy_teleop', '/home/jetson/slash_ws/install/joy_teleop')])}
+[0.007595] (vesc) JobQueued: {'identifier': 'vesc', 'dependencies': OrderedDict([('vesc_msgs', '/home/jetson/slash_ws/install/vesc_msgs'), ('vesc_ackermann', '/home/jetson/slash_ws/install/vesc_ackermann'), ('vesc_driver', '/home/jetson/slash_ws/install/vesc_driver')])}
+[0.007632] (f1tenth_stack) JobQueued: {'identifier': 'f1tenth_stack', 'dependencies': OrderedDict([('ackermann_mux', '/home/jetson/slash_ws/install/ackermann_mux'), ('teleop_tools_msgs', '/home/jetson/slash_ws/install/teleop_tools_msgs'), ('vesc_msgs', '/home/jetson/slash_ws/install/vesc_msgs'), ('joy_teleop', '/home/jetson/slash_ws/install/joy_teleop'), ('vesc_ackermann', '/home/jetson/slash_ws/install/vesc_ackermann'), ('vesc_driver', '/home/jetson/slash_ws/install/vesc_driver'), ('vesc', '/home/jetson/slash_ws/install/vesc')])}
+[0.007688] (vesc_msgs) JobStarted: {'identifier': 'vesc_msgs'}
+[0.029002] (costmap_converter_msgs) JobStarted: {'identifier': 'costmap_converter_msgs'}
+[0.046104] (teleop_tools_msgs) JobStarted: {'identifier': 'teleop_tools_msgs'}
+[0.062639] (ackermann_mux) JobStarted: {'identifier': 'ackermann_mux'}
+[0.079666] (key_teleop) JobStarted: {'identifier': 'key_teleop'}
+[0.099161] (-) TimerEvent: {}
+[0.100897] (linefit_ground_segmentation) JobStarted: {'identifier': 'linefit_ground_segmentation'}
+[0.117758] (livox_ros_driver2) JobStarted: {'identifier': 'livox_ros_driver2'}
+[0.123442] (livox_ros_driver2) JobEnded: {'identifier': 'livox_ros_driver2', 'rc': 0}
+[0.128135] (mouse_teleop) JobStarted: {'identifier': 'mouse_teleop'}
+[0.145495] (vesc_msgs) JobEnded: {'identifier': 'vesc_msgs', 'rc': 'SIGINT'}
+[0.148646] (costmap_converter_msgs) JobEnded: {'identifier': 'costmap_converter_msgs', 'rc': 'SIGINT'}
+[0.150568] (teleop_tools_msgs) JobEnded: {'identifier': 'teleop_tools_msgs', 'rc': 'SIGINT'}
+[0.151421] (ackermann_mux) JobEnded: {'identifier': 'ackermann_mux', 'rc': 'SIGINT'}
+[0.152035] (key_teleop) JobEnded: {'identifier': 'key_teleop', 'rc': 'SIGINT'}
+[0.152585] (linefit_ground_segmentation) JobEnded: {'identifier': 'linefit_ground_segmentation', 'rc': 'SIGINT'}
+[0.153118] (mouse_teleop) JobEnded: {'identifier': 'mouse_teleop', 'rc': 'SIGINT'}
+[0.161349] (pointcloud_to_laserscan) JobSkipped: {'identifier': 'pointcloud_to_laserscan'}
+[0.161574] (roboracer_china_2025) JobSkipped: {'identifier': 'roboracer_china_2025'}
+[0.161736] (simple_mpc) JobSkipped: {'identifier': 'simple_mpc'}
+[0.161793] (slash_nav2) JobSkipped: {'identifier': 'slash_nav2'}
+[0.161831] (twist_to_ackermann) JobSkipped: {'identifier': 'twist_to_ackermann'}
+[0.161867] (costmap_converter) JobSkipped: {'identifier': 'costmap_converter'}
+[0.161899] (fast_lio) JobSkipped: {'identifier': 'fast_lio'}
+[0.161934] (joy_teleop) JobSkipped: {'identifier': 'joy_teleop'}
+[0.161965] (linefit_ground_segmentation_ros) JobSkipped: {'identifier': 'linefit_ground_segmentation_ros'}
+[0.161997] (teb_msgs) JobSkipped: {'identifier': 'teb_msgs'}
+[0.162032] (vesc_ackermann) JobSkipped: {'identifier': 'vesc_ackermann'}
+[0.162063] (vesc_driver) JobSkipped: {'identifier': 'vesc_driver'}
+[0.162094] (teb_local_planner) JobSkipped: {'identifier': 'teb_local_planner'}
+[0.162124] (teleop_tools) JobSkipped: {'identifier': 'teleop_tools'}
+[0.162153] (vesc) JobSkipped: {'identifier': 'vesc'}
+[0.162184] (f1tenth_stack) JobSkipped: {'identifier': 'f1tenth_stack'}
+[0.162223] (-) EventReactorShutdown: {}
