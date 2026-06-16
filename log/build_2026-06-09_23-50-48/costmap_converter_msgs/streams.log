@@ -1,0 +1,135 @@
+[0.178s] Invoking command in '/home/jetson/slash_ws/build/costmap_converter_msgs': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/costmap_converter_msgs -- -j8 -l8
+[1.105s] [  2%] Built target costmap_converter_msgs__cpp
+[1.105s] [ 12%] Built target costmap_converter_msgs__rosidl_generator_c
+[1.105s] [ 23%] Built target costmap_converter_msgs__rosidl_typesupport_introspection_cpp
+[1.105s] [ 33%] Built target costmap_converter_msgs__rosidl_typesupport_cpp
+[1.105s] [ 43%] Built target costmap_converter_msgs__rosidl_typesupport_fastrtps_cpp
+[1.105s] [ 53%] Built target costmap_converter_msgs__rosidl_typesupport_c
+[1.106s] [ 64%] Built target costmap_converter_msgs__rosidl_typesupport_introspection_c
+[1.106s] [ 74%] Built target costmap_converter_msgs__rosidl_typesupport_fastrtps_c
+[1.106s] [ 74%] Built target costmap_converter_msgs
+[1.106s] [ 76%] Built target costmap_converter_msgs__py
+[1.106s] [ 84%] Built target costmap_converter_msgs__python
+[1.106s] [ 89%] Built target costmap_converter_msgs__rosidl_typesupport_introspection_c__pyext
+[1.106s] [ 94%] Built target costmap_converter_msgs__rosidl_typesupport_c__pyext
+[1.106s] [100%] Built target costmap_converter_msgs__rosidl_typesupport_fastrtps_c__pyext
+[1.882s] Invoked command in '/home/jetson/slash_ws/build/costmap_converter_msgs' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/costmap_converter_msgs -- -j8 -l8
+[1.891s] Invoking command in '/home/jetson/slash_ws/build/costmap_converter_msgs': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/costmap_converter_msgs
+[1.968s] -- Install configuration: ""
+[1.968s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/ament_index/resource_index/rosidl_interfaces/costmap_converter_msgs
+[1.968s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs
+[1.968s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg
+[1.969s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/obstacle_array_msg.h
+[1.969s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/obstacle_msg.h
+[1.970s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail
+[1.971s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__functions.h
+[1.973s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__type_support.h
+[1.973s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__struct.h
+[1.973s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__functions.h
+[1.973s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__functions.c
+[1.973s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__struct.h
+[1.973s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__type_support.h
+[1.973s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__functions.c
+[1.974s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/rosidl_generator_c__visibility_control.h
+[1.974s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/environment/library_path.sh
+[1.974s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/environment/library_path.dsv
+[1.974s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_generator_c.so
+[1.974s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs
+[1.974s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg
+[1.974s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail
+[1.975s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__rosidl_typesupport_fastrtps_c.h
+[1.980s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__rosidl_typesupport_fastrtps_c.h
+[1.981s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[1.981s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_fastrtps_c.so
+[1.981s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs
+[1.981s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg
+[1.981s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[1.982s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail
+[1.982s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__rosidl_typesupport_fastrtps_cpp.hpp
+[1.984s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__rosidl_typesupport_fastrtps_cpp.hpp
+[1.984s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/dds_fastrtps
+[1.985s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_fastrtps_cpp.so
+[1.985s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs
+[1.985s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg
+[1.985s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[1.985s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail
+[1.985s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__type_support.c
+[1.985s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__type_support.c
+[1.985s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__rosidl_typesupport_introspection_c.h
+[1.986s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__rosidl_typesupport_introspection_c.h
+[1.991s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_introspection_c.so
+[1.991s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_c.so
+[1.991s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs
+[1.992s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg
+[1.992s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/rosidl_generator_cpp__visibility_control.hpp
+[1.992s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/obstacle_array_msg.hpp
+[1.992s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/obstacle_msg.hpp
+[1.992s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail
+[1.992s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__type_support.hpp
+[1.992s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__builder.hpp
+[1.994s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__builder.hpp
+[2.002s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__traits.hpp
+[2.011s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__struct.hpp
+[2.012s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__type_support.hpp
+[2.013s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__traits.hpp
+[2.013s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__struct.hpp
+[2.013s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs
+[2.013s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg
+[2.013s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail
+[2.014s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__rosidl_typesupport_introspection_cpp.hpp
+[2.019s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__rosidl_typesupport_introspection_cpp.hpp
+[2.029s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_msg__type_support.cpp
+[2.029s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/include/costmap_converter_msgs/msg/detail/obstacle_array_msg__type_support.cpp
+[2.030s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_introspection_cpp.so
+[2.030s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__rosidl_typesupport_cpp.so
+[2.030s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/environment/pythonpath.sh
+[2.030s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/environment/pythonpath.dsv
+[2.033s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/__init__.py
+[2.119s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/msg
+[2.119s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/msg/_obstacle_msg_s.c
+[2.120s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/msg/_obstacle_array_msg_s.c
+[2.120s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/msg/_obstacle_msg.py
+[2.120s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/msg/__init__.py
+[2.120s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/msg/_obstacle_array_msg.py
+[2.120s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/costmap_converter_msgs_s__rosidl_typesupport_fastrtps_c.cpython-38-aarch64-linux-gnu.so
+[2.122s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/costmap_converter_msgs_s__rosidl_typesupport_introspection_c.cpython-38-aarch64-linux-gnu.so
+[2.123s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages/costmap_converter_msgs/costmap_converter_msgs_s__rosidl_typesupport_c.cpython-38-aarch64-linux-gnu.so
+[2.124s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/lib/libcostmap_converter_msgs__python.so
+[2.125s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/msg/ObstacleMsg.idl
+[2.125s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/msg/ObstacleArrayMsg.idl
+[2.127s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/msg/ObstacleMsg.msg
+[2.128s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/msg/ObstacleArrayMsg.msg
+[2.129s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/ament_index/resource_index/package_run_dependencies/costmap_converter_msgs
+[2.129s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/ament_index/resource_index/parent_prefix_path/costmap_converter_msgs
+[2.129s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/environment/ament_prefix_path.sh
+[2.130s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/environment/ament_prefix_path.dsv
+[2.130s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/environment/path.sh
+[2.130s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/environment/path.dsv
+[2.131s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/local_setup.bash
+[2.133s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/local_setup.sh
+[2.133s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/local_setup.zsh
+[2.133s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/local_setup.dsv
+[2.135s] -- Installing: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/package.dsv
+[2.135s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/ament_index/resource_index/packages/costmap_converter_msgs
+[2.135s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_generator_cExport.cmake
+[2.135s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_generator_cExport-noconfig.cmake
+[2.136s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_typesupport_introspection_cExport.cmake
+[2.136s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[2.136s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_typesupport_cExport.cmake
+[2.136s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_typesupport_cExport-noconfig.cmake
+[2.136s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_generator_cppExport.cmake
+[2.137s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_typesupport_introspection_cppExport.cmake
+[2.137s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[2.137s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_typesupport_cppExport.cmake
+[2.137s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgs__rosidl_typesupport_cppExport-noconfig.cmake
+[2.137s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/rosidl_cmake-extras.cmake
+[2.138s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/ament_cmake_export_dependencies-extras.cmake
+[2.138s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/ament_cmake_export_libraries-extras.cmake
+[2.138s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/ament_cmake_export_targets-extras.cmake
+[2.138s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/ament_cmake_export_include_directories-extras.cmake
+[2.138s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[2.139s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[2.139s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgsConfig.cmake
+[2.139s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/cmake/costmap_converter_msgsConfig-version.cmake
+[2.139s] -- Up-to-date: /home/jetson/slash_ws/install/costmap_converter_msgs/share/costmap_converter_msgs/package.xml
+[2.293s] Invoked command in '/home/jetson/slash_ws/build/costmap_converter_msgs' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/costmap_converter_msgs

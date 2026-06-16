@@ -1,0 +1,19 @@
+running develop
+running egg_info
+writing roboracer_china_2025.egg-info/PKG-INFO
+writing dependency_links to roboracer_china_2025.egg-info/dependency_links.txt
+writing entry points to roboracer_china_2025.egg-info/entry_points.txt
+writing requirements to roboracer_china_2025.egg-info/requires.txt
+writing top-level names to roboracer_china_2025.egg-info/top_level.txt
+reading manifest file 'roboracer_china_2025.egg-info/SOURCES.txt'
+writing manifest file 'roboracer_china_2025.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer-china-2025.egg-link (link to .)
+Installing battle_fast2_node script to /home/jetson/slash_ws/install/roboracer_china_2025/lib/roboracer_china_2025
+
+Installed /home/jetson/slash_ws/build/roboracer_china_2025
+running symlink_data
+symbolically linking /home/jetson/slash_ws/build/roboracer_china_2025/resource/roboracer_china_2025 -> /home/jetson/slash_ws/install/roboracer_china_2025/share/ament_index/resource_index/packages
+symbolically linking /home/jetson/slash_ws/build/roboracer_china_2025/package.xml -> /home/jetson/slash_ws/install/roboracer_china_2025/share/roboracer_china_2025
+symbolically linking /home/jetson/slash_ws/build/roboracer_china_2025/launch/battle_fast2.launch.py -> /home/jetson/slash_ws/install/roboracer_china_2025/share/roboracer_china_2025/launch
+symbolically linking /home/jetson/slash_ws/build/roboracer_china_2025/launch/race_reactive_bringup.launch.py -> /home/jetson/slash_ws/install/roboracer_china_2025/share/roboracer_china_2025/launch

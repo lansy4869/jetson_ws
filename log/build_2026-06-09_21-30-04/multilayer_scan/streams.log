@@ -1,0 +1,42 @@
+[7.500s] Invoking command in '/home/jetson/slash_ws/src/slash_perception/multilayer_scan': PYTHONPATH=/home/jetson/slash_ws/build/multilayer_scan/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/multilayer_scan/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/multilayer_scan build --build-base /home/jetson/slash_ws/build/multilayer_scan/build install --record /home/jetson/slash_ws/build/multilayer_scan/install.log --single-version-externally-managed install_data
+[10.909s] running egg_info
+[10.910s] creating ../../../build/multilayer_scan/multilayer_scan.egg-info
+[10.910s] writing ../../../build/multilayer_scan/multilayer_scan.egg-info/PKG-INFO
+[10.910s] writing dependency_links to ../../../build/multilayer_scan/multilayer_scan.egg-info/dependency_links.txt
+[10.910s] writing entry points to ../../../build/multilayer_scan/multilayer_scan.egg-info/entry_points.txt
+[10.910s] writing requirements to ../../../build/multilayer_scan/multilayer_scan.egg-info/requires.txt
+[10.910s] writing top-level names to ../../../build/multilayer_scan/multilayer_scan.egg-info/top_level.txt
+[10.910s] writing manifest file '../../../build/multilayer_scan/multilayer_scan.egg-info/SOURCES.txt'
+[10.910s] reading manifest file '../../../build/multilayer_scan/multilayer_scan.egg-info/SOURCES.txt'
+[10.911s] writing manifest file '../../../build/multilayer_scan/multilayer_scan.egg-info/SOURCES.txt'
+[10.911s] running build
+[10.911s] running build_py
+[10.911s] creating /home/jetson/slash_ws/build/multilayer_scan/build
+[10.911s] creating /home/jetson/slash_ws/build/multilayer_scan/build/lib
+[10.911s] creating /home/jetson/slash_ws/build/multilayer_scan/build/lib/multilayer_scan
+[10.911s] copying multilayer_scan/multilayer_scan_node.py -> /home/jetson/slash_ws/build/multilayer_scan/build/lib/multilayer_scan
+[10.911s] copying multilayer_scan/__init__.py -> /home/jetson/slash_ws/build/multilayer_scan/build/lib/multilayer_scan
+[10.911s] running install
+[10.911s] running install_lib
+[10.928s] creating /home/jetson/slash_ws/install/multilayer_scan/lib/python3.8/site-packages/multilayer_scan
+[10.929s] copying /home/jetson/slash_ws/build/multilayer_scan/build/lib/multilayer_scan/multilayer_scan_node.py -> /home/jetson/slash_ws/install/multilayer_scan/lib/python3.8/site-packages/multilayer_scan
+[10.929s] copying /home/jetson/slash_ws/build/multilayer_scan/build/lib/multilayer_scan/__init__.py -> /home/jetson/slash_ws/install/multilayer_scan/lib/python3.8/site-packages/multilayer_scan
+[10.929s] byte-compiling /home/jetson/slash_ws/install/multilayer_scan/lib/python3.8/site-packages/multilayer_scan/multilayer_scan_node.py to multilayer_scan_node.cpython-38.pyc
+[10.931s] byte-compiling /home/jetson/slash_ws/install/multilayer_scan/lib/python3.8/site-packages/multilayer_scan/__init__.py to __init__.cpython-38.pyc
+[10.931s] running install_data
+[10.931s] creating /home/jetson/slash_ws/install/multilayer_scan/share/ament_index
+[10.937s] creating /home/jetson/slash_ws/install/multilayer_scan/share/ament_index/resource_index
+[10.938s] creating /home/jetson/slash_ws/install/multilayer_scan/share/ament_index/resource_index/packages
+[10.938s] copying resource/multilayer_scan -> /home/jetson/slash_ws/install/multilayer_scan/share/ament_index/resource_index/packages
+[10.941s] copying package.xml -> /home/jetson/slash_ws/install/multilayer_scan/share/multilayer_scan
+[10.941s] creating /home/jetson/slash_ws/install/multilayer_scan/share/multilayer_scan/launch
+[10.941s] copying launch/race_3d.launch.py -> /home/jetson/slash_ws/install/multilayer_scan/share/multilayer_scan/launch
+[10.941s] copying launch/multilayer_scan.launch.py -> /home/jetson/slash_ws/install/multilayer_scan/share/multilayer_scan/launch
+[10.944s] creating /home/jetson/slash_ws/install/multilayer_scan/share/multilayer_scan/config
+[10.944s] copying config/multilayer_scan.yaml -> /home/jetson/slash_ws/install/multilayer_scan/share/multilayer_scan/config
+[10.945s] running install_egg_info
+[11.006s] Copying ../../../build/multilayer_scan/multilayer_scan.egg-info to /home/jetson/slash_ws/install/multilayer_scan/lib/python3.8/site-packages/multilayer_scan-0.0.1-py3.8.egg-info
+[11.010s] running install_scripts
+[11.287s] Installing multilayer_scan_node script to /home/jetson/slash_ws/install/multilayer_scan/lib/multilayer_scan
+[11.289s] writing list of installed files to '/home/jetson/slash_ws/build/multilayer_scan/install.log'
+[11.679s] Invoked command in '/home/jetson/slash_ws/src/slash_perception/multilayer_scan' returned '0': PYTHONPATH=/home/jetson/slash_ws/build/multilayer_scan/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/multilayer_scan/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/multilayer_scan build --build-base /home/jetson/slash_ws/build/multilayer_scan/build install --record /home/jetson/slash_ws/build/multilayer_scan/install.log --single-version-externally-managed install_data

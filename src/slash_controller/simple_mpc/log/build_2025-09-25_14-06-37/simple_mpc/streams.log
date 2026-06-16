@@ -1,0 +1,25 @@
+[0.028s] Invoking command in '/home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc -- -j8 -l8
+[0.116s] Invoked command in '/home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc' returned '0': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc -- -j8 -l8
+[0.149s] Invoking command in '/home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc
+[0.168s] -- Install configuration: ""
+[0.168s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/lib/simple_mpc/mpc_node.py
+[0.168s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/waypoints
+[0.169s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/waypoints/test_waypoints.csv
+[0.169s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/rviz
+[0.169s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/rviz/mpc.rviz
+[0.169s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/ament_index/resource_index/package_run_dependencies/simple_mpc
+[0.169s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/ament_index/resource_index/parent_prefix_path/simple_mpc
+[0.169s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/environment/ament_prefix_path.sh
+[0.169s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/environment/ament_prefix_path.dsv
+[0.170s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/environment/path.sh
+[0.170s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/environment/path.dsv
+[0.170s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/local_setup.bash
+[0.170s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/local_setup.sh
+[0.170s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/local_setup.zsh
+[0.171s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/local_setup.dsv
+[0.171s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/package.dsv
+[0.171s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/ament_index/resource_index/packages/simple_mpc
+[0.171s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/cmake/simple_mpcConfig.cmake
+[0.171s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/cmake/simple_mpcConfig-version.cmake
+[0.171s] -- Up-to-date: /home/jetson/slash_ws/src/slash_controller/simple_mpc/install/simple_mpc/share/simple_mpc/package.xml
+[0.177s] Invoked command in '/home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc' returned '0': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc

@@ -1,0 +1,4 @@
+Invoking command in '/home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc -- -j8 -l8
+Invoked command in '/home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc' returned '0': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc -- -j8 -l8
+Invoking command in '/home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc
+Invoked command in '/home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc' returned '0': CMAKE_PREFIX_PATH=/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/src/slash_controller/simple_mpc/build/simple_mpc

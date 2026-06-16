@@ -1,0 +1,1365 @@
+#!/usr/bin/env python3
+#coding=utf-8
+import copy
+import math
+import time
+import os
+from collections import deque
+import pandas as pd
+import numpy as np
+import rclpy
+from ackermann_msgs.msg import AckermannDriveStamped
+from builtin_interfaces.msg import Duration
+from geometry_msgs.msg import Point, PoseStamped
+from nav_msgs.msg import Odometry, Path
+from rclpy.node import Node
+from rclpy.qos import QoSHistoryPolicy, QoSProfile, QoSReliabilityPolicy
+from sensor_msgs.msg import LaserScan
+from std_msgs.msg import Bool, Float32, UInt8, UInt32
+from visualization_msgs.msg import Marker
+
+DIR_DETECT_THRESHOLD = 2.5
+OBS_DETECT_THRESHOLD = 5.0
+MAX_SPEED_RATE = 2.0
+THRESHOLD_obs = 0.5
+THRESHOLD_TURN = 0.5
+START_ANGLE = -60
+END_ANGLE = 60
+MIN_OBS_SPEED = 1.0
+CONTROL_MODE_HEURISTIC = 0
+CONTROL_MODE_MPC_STEER = 1
+CONTROL_MODE_MPC_FULL = 2
+CONTROL_MODE_MPC_PP = 3
+
+BEHAVIOR_CRUISE = 0
+BEHAVIOR_FOLLOW = 1
+BEHAVIOR_OVERTAKE_PREPARE = 2
+BEHAVIOR_OVERTAKE_EXECUTE = 3
+BEHAVIOR_RETURN_TO_RACELINE = 4
+
+BEHAVIOR_NAME_MAP = {
+    BEHAVIOR_CRUISE: 'CRUISE',
+    BEHAVIOR_FOLLOW: 'FOLLOW',
+    BEHAVIOR_OVERTAKE_PREPARE: 'OVERTAKE_PREPARE',
+    BEHAVIOR_OVERTAKE_EXECUTE: 'OVERTAKE_EXECUTE',
+    BEHAVIOR_RETURN_TO_RACELINE: 'RETURN_TO_RACELINE',
+}
+
+
+class BattleVehicleNode(Node):
+    def __init__(self):
+        super().__init__('battle_fast2_node')
+
+        # ====================== Raceline 参数 ======================
+        self.declare_parameter('raceline_csv', '/home/jetson/Raceline-Optimization/inputs/tracks/Spielberg_map.csv')
+        self.raceline_array = None
+        self.raceline_path_msg = None
+        raceline_path = self.get_parameter('raceline_csv').value
+        if raceline_path and os.path.exists(raceline_path):
+            self._load_raceline(raceline_path)
+        else:
+            self.get_logger().warn(f"⚠️ 未提供 raceline 或文件不存在: {raceline_path}，将退化为纯反应式")
+
+        self.raceline_pub = self.create_publisher(Path, '/raceline', 1)
+        self.raceline_timer = self.create_timer(0.5, self.publish_raceline_timer)
+
+        # ---- 话题参数 ----
+        self.declare_parameter('scan_topic', '/scan')
+        self.declare_parameter('drive_topic', '/drive')
+        self.declare_parameter('marker_topic', '/arrow_marker_02')
+        self.declare_parameter('debug_scan_topic', '/front_scan_02')
+        self.declare_parameter('odom_topic', '/odom')
+
+        # ---- MPC参数 ----
+        self.declare_parameter('mpc_enable', True)
+        self.declare_parameter('mpc_mode', 'steer_only')
+        self.declare_parameter('mpc_timeout_ms', 8.0)
+        self.declare_parameter('wheelbase', 0.25)
+        self.declare_parameter('horizon', 8)
+        self.declare_parameter('dt', 0.1)
+        self.declare_parameter('mpc_steer_candidates', 11)
+        self.declare_parameter('mpc_accel_candidates', 7)
+        self.declare_parameter('mpc_max_speed', 9.0)
+        self.declare_parameter('mpc_min_speed', 0.0)
+        self.declare_parameter('mpc_max_accel', 2.0)
+        self.declare_parameter('mpc_max_decel', -2.0)
+
+        # Phase 2 速度边界
+        self.declare_parameter('follow_speed_cap', 1.0)
+        self.declare_parameter('chaoche_speed_cap', 2.0)
+        self.declare_parameter('final_speed_cap', 10.0)
+
+        # Phase 3诊断
+        self.declare_parameter('diag_print_hz', 2.0)
+        self.declare_parameter('publish_diag_topics', True)
+
+        # safety 接口
+        self.declare_parameter('safety_pre_cmd_topic', '/battle_fast2/pre_safety_drive')
+        self.declare_parameter('safety_status_topic', '/battle_fast2/safety_status')
+
+        # Pure Pursuit
+        self.declare_parameter('pure_pursuit_enable', True)
+        self.declare_parameter('pp_lookahead', 1.2)
+        # PP 速度策略：默认使用 build_local_ref() 生成的 v_ref（raceline/v_opt），
+        # 避免在中高速弯道因为启发式速度过低导致速度被“压死”。
+        self.declare_parameter('pp_speed_use_ref_v', True)
+        self.declare_parameter('pp_curvature_speed_k', 0.3)
+        self.declare_parameter('pp_min_speed', 3.0)
+
+        # Risk-aware MPC
+        self.declare_parameter('risk_enable', True)
+        self.declare_parameter('risk_safe_distance', 1.2)
+        self.declare_parameter('risk_weight', 8.0)
+        self.declare_parameter('risk_collision_penalty', 5000.0)
+
+        # Temporal obstacle modeling
+        self.declare_parameter('temporal_obs_enable', True)
+        self.declare_parameter('obs_history_size', 12)
+        self.declare_parameter('obs_rel_speed_follow_threshold', 0.12)
+        self.declare_parameter('obs_min_track_frames', 3)
+        self.declare_parameter('obs_variance_threshold', 1.0)
+        self.declare_parameter('front_sector_deg', 12)
+
+        # Behavior FSM
+        self.declare_parameter('fsm_enable', True)
+        self.declare_parameter('fsm_follow_opening_threshold', 1.4)
+        self.declare_parameter('fsm_prepare_opening_threshold', 2.0)
+        self.declare_parameter('fsm_execute_opening_threshold', 2.3)
+        self.declare_parameter('fsm_clear_return_threshold', 2.0)
+        self.declare_parameter('fsm_prepare_hold_s', 0.35)
+        self.declare_parameter('fsm_execute_hold_s', 0.65)
+        self.declare_parameter('fsm_return_hold_s', 0.45)
+        self.declare_parameter('overtake_side_bias_deg', 10.0)
+
+        # 读取参数
+        scan_topic = self.get_parameter('scan_topic').value
+        drive_topic = self.get_parameter('drive_topic').value
+        marker_topic = self.get_parameter('marker_topic').value
+        debug_scan_topic = self.get_parameter('debug_scan_topic').value
+        odom_topic = self.get_parameter('odom_topic').value
+
+        self.mpc_enable = bool(self.get_parameter('mpc_enable').value)
+        self.mpc_mode = str(self.get_parameter('mpc_mode').value)
+        self.mpc_timeout_ms = float(self.get_parameter('mpc_timeout_ms').value)
+        self.wheelbase = max(0.05, float(self.get_parameter('wheelbase').value))
+        self.mpc_horizon = max(3, int(self.get_parameter('horizon').value))
+        self.mpc_dt = max(0.02, float(self.get_parameter('dt').value))
+        self.mpc_steer_candidates = max(5, int(self.get_parameter('mpc_steer_candidates').value))
+        self.mpc_accel_candidates = max(3, int(self.get_parameter('mpc_accel_candidates').value))
+        self.mpc_max_speed = float(self.get_parameter('mpc_max_speed').value)
+        self.mpc_min_speed = float(self.get_parameter('mpc_min_speed').value)
+        self.mpc_max_accel = float(self.get_parameter('mpc_max_accel').value)
+        self.mpc_max_decel = float(self.get_parameter('mpc_max_decel').value)
+        self.follow_speed_cap = float(self.get_parameter('follow_speed_cap').value)
+        self.chaoche_speed_cap = float(self.get_parameter('chaoche_speed_cap').value)
+        self.final_speed_cap = float(self.get_parameter('final_speed_cap').value)
+        self.diag_print_hz = max(0.2, float(self.get_parameter('diag_print_hz').value))
+        self.publish_diag_topics = bool(self.get_parameter('publish_diag_topics').value)
+        safety_pre_cmd_topic = self.get_parameter('safety_pre_cmd_topic').value
+        safety_status_topic = self.get_parameter('safety_status_topic').value
+        self.pure_pursuit_enable = bool(self.get_parameter('pure_pursuit_enable').value)
+        self.pp_lookahead = float(self.get_parameter('pp_lookahead').value)
+        self.pp_speed_use_ref_v = bool(self.get_parameter('pp_speed_use_ref_v').value)
+        self.pp_curvature_speed_k = float(self.get_parameter('pp_curvature_speed_k').value)
+        self.pp_min_speed = float(self.get_parameter('pp_min_speed').value)
+        self.pp_curvature_speed_k = max(0.0, self.pp_curvature_speed_k)
+        self.pp_min_speed = max(0.0, self.pp_min_speed)
+        self.risk_enable = bool(self.get_parameter('risk_enable').value)
+        self.risk_safe_distance = max(0.2, float(self.get_parameter('risk_safe_distance').value))
+        self.risk_weight = max(0.0, float(self.get_parameter('risk_weight').value))
+        self.risk_collision_penalty = max(0.0, float(self.get_parameter('risk_collision_penalty').value))
+        self.temporal_obs_enable = bool(self.get_parameter('temporal_obs_enable').value)
+        self.obs_history_size = max(3, int(self.get_parameter('obs_history_size').value))
+        self.obs_rel_speed_follow_threshold = float(self.get_parameter('obs_rel_speed_follow_threshold').value)
+        self.obs_min_track_frames = max(2, int(self.get_parameter('obs_min_track_frames').value))
+        self.obs_variance_threshold = max(0.0, float(self.get_parameter('obs_variance_threshold').value))
+        self.front_sector_deg = max(5, int(self.get_parameter('front_sector_deg').value))
+        self.fsm_enable = bool(self.get_parameter('fsm_enable').value)
+        self.fsm_follow_opening_threshold = float(self.get_parameter('fsm_follow_opening_threshold').value)
+        self.fsm_prepare_opening_threshold = float(self.get_parameter('fsm_prepare_opening_threshold').value)
+        self.fsm_execute_opening_threshold = float(self.get_parameter('fsm_execute_opening_threshold').value)
+        self.fsm_clear_return_threshold = float(self.get_parameter('fsm_clear_return_threshold').value)
+        self.fsm_prepare_hold_s = float(self.get_parameter('fsm_prepare_hold_s').value)
+        self.fsm_execute_hold_s = float(self.get_parameter('fsm_execute_hold_s').value)
+        self.fsm_return_hold_s = float(self.get_parameter('fsm_return_hold_s').value)
+        self.overtake_side_bias_deg = float(self.get_parameter('overtake_side_bias_deg').value)
+
+        self.get_logger().info(
+            f"Battle Node Started. scan={scan_topic}, drive={drive_topic}, odom={odom_topic}, "
+            f"mpc_enable={self.mpc_enable}, mpc_mode={self.mpc_mode}, "
+            f"pure_pursuit_enable={self.pure_pursuit_enable}, pp_lookahead={self.pp_lookahead:.2f}m, "
+            f"pp_speed_use_ref_v={self.pp_speed_use_ref_v}, "
+            f"pp_curvature_speed_k={self.pp_curvature_speed_k:.2f}, pp_min_speed={self.pp_min_speed:.2f}m/s, "
+            f"risk_enable={self.risk_enable}, risk_safe_distance={self.risk_safe_distance:.2f}m, "
+            f"temporal_obs_enable={self.temporal_obs_enable}, fsm_enable={self.fsm_enable}, "
+            f"raceline_loaded={'True' if self.raceline_array is not None else 'False'}"
+        )
+
+        # 原有反应式状态
+        self.last_angle = 0.0
+        self.last_max_dir_index = 0
+        self.GO_STARIGHT = 0
+        self.TRANSITION = 0
+        self.last_in_normol = False
+        self.last_in_straight = False
+        self.speed_rate = 1.0
+        self.straight_cnt = 0
+        self.Follow = False
+        self.turn_rate = 1.0
+        self.P = 1.1
+        self.D = 0.2
+        self.dynamic_obs = False
+        self.chaoche = False
+        self.behavior_state = BEHAVIOR_CRUISE
+        self.behavior_state_stamp = time.monotonic()
+        self.behavior_overtake_side = 0  # -1 right, +1 left
+        self.behavior_state_switch_count = 0
+        self.obs_track_history = deque(maxlen=self.obs_history_size)
+        self.last_obs_summary = {
+            'detected': False,
+            'center_deg': 0.0,
+            'distance': float('inf'),
+            'width_deg': 0.0,
+            'rel_speed': 0.0,
+            'track_count': 0,
+            'is_dynamic': False,
+        }
+
+        # Odom 与控制状态
+        self.have_odom = False
+        self.odom_speed = 0.0
+        self.odom_position_x = 0.0
+        self.odom_position_y = 0.0
+        self.odom_yaw = 0.0
+        self.last_mpc_steer = 0.0
+        self.last_mpc_speed = 0.0
+        self.last_control_mode = CONTROL_MODE_HEURISTIC
+        self.current_speed_upper_bound = self.mpc_max_speed
+        self.last_mpc_reason = 'init'
+        self.last_front_clearance = 0.0
+        self.last_risk_min_margin = float('inf')
+        self.last_cmd_steer = 0.0
+        self.last_cmd_speed = 0.0
+
+        # 统计
+        self.control_cycle_count = 0
+        self.mpc_attempt_count = 0
+        self.mpc_success_count = 0
+        self.mode_switch_count = 0
+        self.last_solve_time_ms = 0.0
+        self.max_solve_time_ms = 0.0
+        self.sum_solve_time_ms = 0.0
+        self.have_safety_status = False
+        self.safety_status = False
+
+        qos_profile = QoSProfile(
+            reliability=QoSReliabilityPolicy.BEST_EFFORT,
+            history=QoSHistoryPolicy.KEEP_LAST,
+            depth=10
+        )
+
+        self.scan_sub = self.create_subscription(LaserScan, scan_topic, self.middle_line_callback, qos_profile)
+        self.odom_sub = self.create_subscription(Odometry, odom_topic, self.odom_callback, 20)
+        self.drive_pub = self.create_publisher(AckermannDriveStamped, drive_topic, 1)
+        self.scan_pub = self.create_publisher(LaserScan, debug_scan_topic, 10)
+        self.marker_pub = self.create_publisher(Marker, marker_topic, 1)
+        self.heuristic_pub = self.create_publisher(AckermannDriveStamped, 'battle_fast2/drive_heuristic', 10)
+        self.mpc_pub = self.create_publisher(AckermannDriveStamped, 'battle_fast2/drive_mpc', 10)
+        self.mode_pub = self.create_publisher(UInt8, 'battle_fast2/control_mode', 10)
+        self.behavior_pub = self.create_publisher(UInt8, 'battle_fast2/behavior_state', 10)
+        self.mpc_ok_pub = self.create_publisher(Bool, 'battle_fast2/mpc_ok', 10)
+        self.solve_time_pub = self.create_publisher(Float32, 'battle_fast2/mpc_solve_time_ms', 10)
+        self.mode_switch_pub = self.create_publisher(UInt32, 'battle_fast2/mode_switch_count', 10)
+        self.behavior_switch_pub = self.create_publisher(UInt32, 'battle_fast2/behavior_state_switch_count', 10)
+        self.current_speed_pub = self.create_publisher(Float32, 'battle_fast2/current_speed_mps', 10)
+        self.obs_distance_pub = self.create_publisher(Float32, 'battle_fast2/obs_distance_m', 10)
+        self.obs_rel_speed_pub = self.create_publisher(Float32, 'battle_fast2/obs_rel_speed_mps', 10)
+        self.obs_dynamic_pub = self.create_publisher(Bool, 'battle_fast2/obs_is_dynamic', 10)
+        self.front_clearance_pub = self.create_publisher(Float32, 'battle_fast2/front_clearance_m', 10)
+        self.risk_margin_pub = self.create_publisher(Float32, 'battle_fast2/risk_min_margin_m', 10)
+        self.steer_cmd_pub = self.create_publisher(Float32, 'battle_fast2/steering_cmd_rad', 10)
+        self.speed_cmd_pub = self.create_publisher(Float32, 'battle_fast2/speed_cmd_mps', 10)
+        self.pre_safety_pub = self.create_publisher(AckermannDriveStamped, safety_pre_cmd_topic, 10)
+        self.safety_status_sub = self.create_subscription(Bool, safety_status_topic, self.safety_status_callback, 10)
+        self.diag_timer = self.create_timer(1.0 / self.diag_print_hz, self.diagnostic_timer_callback)
+
+    def odom_callback(self, msg: Odometry):
+        self.have_odom = True
+        self.odom_speed = float(msg.twist.twist.linear.x)
+        self.odom_position_x = float(msg.pose.pose.position.x)
+        self.odom_position_y = float(msg.pose.pose.position.y)
+        qx = msg.pose.pose.orientation.x
+        qy = msg.pose.pose.orientation.y
+        qz = msg.pose.pose.orientation.z
+        qw = msg.pose.pose.orientation.w
+        siny_cosp = 2.0 * (qw * qz + qx * qy)
+        cosy_cosp = 1.0 - 2.0 * (qy * qy + qz * qz)
+        self.odom_yaw = math.atan2(siny_cosp, cosy_cosp)
+
+    def safety_status_callback(self, msg: Bool):
+        self.have_safety_status = True
+        self.safety_status = bool(msg.data)
+
+    def diagnostic_timer_callback(self):
+        behavior_name = BEHAVIOR_NAME_MAP.get(self.behavior_state, 'UNKNOWN')
+        risk_margin_print = self.last_risk_min_margin if math.isfinite(self.last_risk_min_margin) else -1.0
+        self.get_logger().info(
+            f"speed={self.odom_speed:.2f}m/s solve={self.last_solve_time_ms:.2f}ms "
+            f"mode={self.last_control_mode} behavior={behavior_name} "
+            f"front={self.last_front_clearance:.2f}m margin={risk_margin_print:.2f}m"
+        )
+        if self.publish_diag_topics:
+            solve_msg = Float32()
+            solve_msg.data = float(self.last_solve_time_ms)
+            self.solve_time_pub.publish(solve_msg)
+            switch_msg = UInt32()
+            switch_msg.data = int(self.mode_switch_count)
+            self.mode_switch_pub.publish(switch_msg)
+            behavior_switch_msg = UInt32()
+            behavior_switch_msg.data = int(self.behavior_state_switch_count)
+            self.behavior_switch_pub.publish(behavior_switch_msg)
+            speed_msg = Float32()
+            speed_msg.data = float(self.odom_speed)
+            self.current_speed_pub.publish(speed_msg)
+            obs_distance_msg = Float32()
+            obs_distance_msg.data = float(self.last_obs_summary['distance']) if self.last_obs_summary['detected'] else -1.0
+            self.obs_distance_pub.publish(obs_distance_msg)
+            obs_rel_speed_msg = Float32()
+            obs_rel_speed_msg.data = float(self.last_obs_summary['rel_speed']) if self.last_obs_summary['detected'] else 0.0
+            self.obs_rel_speed_pub.publish(obs_rel_speed_msg)
+            obs_dynamic_msg = Bool()
+            obs_dynamic_msg.data = bool(self.last_obs_summary['is_dynamic']) if self.last_obs_summary['detected'] else False
+            self.obs_dynamic_pub.publish(obs_dynamic_msg)
+            front_clearance_msg = Float32()
+            front_clearance_msg.data = float(self.last_front_clearance)
+            self.front_clearance_pub.publish(front_clearance_msg)
+            risk_margin_msg = Float32()
+            risk_margin_msg.data = float(self.last_risk_min_margin) if math.isfinite(self.last_risk_min_margin) else -1.0
+            self.risk_margin_pub.publish(risk_margin_msg)
+            steer_cmd_msg = Float32()
+            steer_cmd_msg.data = float(self.last_cmd_steer)
+            self.steer_cmd_pub.publish(steer_cmd_msg)
+            speed_cmd_msg = Float32()
+            speed_cmd_msg.data = float(self.last_cmd_speed)
+            self.speed_cmd_pub.publish(speed_cmd_msg)
+
+    def publish_arrow_marker(self, max_dir_index, frame_id='laser'):
+        marker = Marker()
+        marker.header.frame_id = frame_id
+        marker.header.stamp = self.get_clock().now().to_msg()
+        marker.ns = 'direction_arrow'
+        marker.id = 0
+        marker.type = Marker.ARROW
+        marker.action = Marker.ADD
+        p0 = Point(x=0.0, y=0.0, z=0.0)
+        angle_rad = math.radians(max_dir_index)
+        p1 = Point(x=math.sin(angle_rad), y=math.cos(angle_rad), z=0.0)
+        marker.points = [p0, p1]
+        marker.scale.x = 0.1
+        marker.scale.y = 0.1
+        marker.scale.z = 0.2
+        marker.color.a = 1.0
+        marker.color.r = 0.1
+        marker.color.g = 1.0
+        marker.color.b = 0.1
+        marker.lifetime = Duration(sec=0, nanosec=100000000)
+        self.marker_pub.publish(marker)
+
+    # ====================== 以下所有 frontend 函数保持完全不变 ======================
+    def get_dis(self, data, angle, deg=True, return_inten=True):
+        if deg:
+            angle = np.deg2rad(angle)
+        dis = 0
+        intensities = None
+        temp = int((angle - data.angle_min) / data.angle_increment)
+        start_idx = max(0, temp - 2)
+        end_idx = min(len(data.ranges), temp + 2)
+        data_tmp = data.ranges[start_idx:end_idx]
+        inten_tmp = data.intensities[start_idx:end_idx] if len(data.intensities) > 0 else [0] * len(data_tmp)
+        data_tmp = np.sort(np.array(data_tmp))
+        inten_tmp = np.sort(np.array(inten_tmp))
+        if len(data_tmp) > 2:
+            dis = data_tmp[2]
+            intensities = inten_tmp[2]
+        elif len(data_tmp) > 0:
+            dis = data_tmp[0]
+            intensities = inten_tmp[0]
+        if return_inten:
+            return dis, intensities
+        return dis
+
+    def get_range(self, data, start_angle, end_engle, return_inten=False):
+        all_dis = []
+        all_inten = []
+        for angle in range(start_angle, end_engle):
+            tmp = self.get_dis(data, angle, return_inten=return_inten)
+            all_dis.append(tmp[0])
+            all_inten.append(tmp[1])
+        if return_inten:
+            return all_dis, all_inten
+        return all_dis
+
+    def fill_zeros_with_neighbors(self, data):
+        result = list(data)
+        n = len(result)
+        for i in range(n):
+            if result[i] == 0:
+                left = next((result[j] for j in range(i - 1, -1, -1) if result[j] != 0), None)
+                if left is not None:
+                    result[i] = left
+                    continue
+                right = next((result[j] for j in range(i + 1, n) if result[j] != 0), None)
+                if right is not None:
+                    result[i] = right
+                    continue
+                result[i] = 0
+        return result
+
+    def filter_obstacles_by_variance(self, Left_obs_orig, dis_90, variance_threshold=1.0):
+        Left_obs = []
+        if len(Left_obs_orig) > 0:
+            for i in range(0, int(len(Left_obs_orig) / 2), 1):
+                idx_start = int(Left_obs_orig[2 * i])
+                idx_end = int(Left_obs_orig[2 * i + 1])
+                obstacle_range = dis_90[idx_start: idx_end]
+                if len(obstacle_range) == 0:
+                    continue
+                dis_obs_var = float(np.var(obstacle_range))
+                print('in filter_obstacles_by_variance, variance:', dis_obs_var)
+                if variance_threshold <= 0.0 or dis_obs_var <= variance_threshold:
+                    Left_obs.append(idx_start)
+                    Left_obs.append(idx_end)
+        return Left_obs
+
+    def filter_anomalous_values(self, data, max_distance=4, angle_range=2):
+        data = np.array(data)
+        for i in range(1, len(data) - 1):
+            if data[i] != max_distance:
+                if all(data[j] == max_distance for j in range(i - angle_range, i + angle_range + 1) if 0 <= j < len(data)):
+                    data[i] = (data[i - 1] + data[i + 1]) / 2
+        return data.tolist()
+
+    def filter_small_obstacles(self, Left_obs, min_obstacle_size=2):
+        for i in range(int(len(Left_obs) / 2)):
+            if abs(Left_obs[2 * i] - Left_obs[2 * i + 1]) <= min_obstacle_size:
+                Left_obs[2 * i] = -1
+                Left_obs[2 * i + 1] = -1
+        Left_obs_temp = Left_obs
+        Left_obs = [x for x in Left_obs_temp if x != -1]
+        return Left_obs
+
+    def pub_scan(self, dis_90, header):
+        scan_msg = LaserScan()
+        scan_msg.header = header
+        scan_msg.angle_min = np.pi / 2
+        scan_msg.angle_max = -np.pi / 2
+        scan_msg.angle_increment = -np.pi / 180
+        scan_msg.ranges = [float(x) for x in dis_90]
+        scan_msg.intensities = []
+        scan_msg.range_max = 100.0
+        self.scan_pub.publish(scan_msg)
+
+    def DynamicObastcle(self, dis_list, inten_list, max_dir_num, obs):
+        if len(max_dir_num) < 3:
+            return False
+        max_range = [max_dir_num[0], max_dir_num[-1]]
+        obs_range = [max_dir_num[1], max_dir_num[2]]
+        range_list = inten_list[max_range[0]:max_range[1]]
+        obs_intensity = inten_list[obs_range[0]:obs_range[1]]
+        if len(range_list) == 0 or len(obs_intensity) == 0:
+            return False
+        average_obs_intensity = np.mean(obs_intensity)
+        average_intensity = np.mean(range_list)
+        abs_tmp = abs(average_obs_intensity - average_intensity)
+        if abs_tmp > 5:
+            print('detect dynamic obs abs_tmpabs_tmpabs_tmpabs_tmp!!!!', abs_tmp)
+            return True
+        return False
+
+    def _index_to_heading_rad(self, idx):
+        deg = float(idx) - 90.0
+        return deg / 180.0 * math.pi
+
+    def _normalize_angle(self, angle):
+        return (angle + math.pi) % (2 * math.pi) - math.pi
+
+    def _extract_obstacle_summary(self, dis_obs_90, left_obs):
+        if len(left_obs) == 0:
+            return {
+                'detected': False,
+                'center_idx': 90,
+                'center_deg': 0.0,
+                'distance': float('inf'),
+                'width_deg': 0.0,
+            }
+        best_i = 0
+        best_distance = float('inf')
+        for i in range(0, int(len(left_obs) / 2), 1):
+            s_idx = int(left_obs[2 * i])
+            e_idx = int(left_obs[2 * i + 1])
+            c_idx = int((s_idx + e_idx) / 2)
+            d = float(dis_obs_90[c_idx])
+            if d < best_distance:
+                best_distance = d
+                best_i = i
+        s_idx = int(left_obs[2 * best_i])
+        e_idx = int(left_obs[2 * best_i + 1])
+        c_idx = int((s_idx + e_idx) / 2)
+        width = float(max(1, e_idx - s_idx))
+        return {
+            'detected': True,
+            'center_idx': c_idx,
+            'center_deg': float(c_idx - 90),
+            'distance': float(dis_obs_90[c_idx]),
+            'width_deg': width,
+        }
+
+    def _update_obstacle_track(self, obs_summary):
+        now_t = time.monotonic()
+        if not self.temporal_obs_enable:
+            if not obs_summary['detected']:
+                self.obs_track_history.clear()
+                self.last_obs_summary = {
+                    'detected': False,
+                    'center_deg': 0.0,
+                    'distance': float('inf'),
+                    'width_deg': 0.0,
+                    'rel_speed': 0.0,
+                    'track_count': 0,
+                    'is_dynamic': False,
+                }
+            else:
+                self.obs_track_history.clear()
+                self.last_obs_summary = {
+                    'detected': True,
+                    'center_deg': float(obs_summary['center_deg']),
+                    'distance': float(obs_summary['distance']),
+                    'width_deg': float(obs_summary['width_deg']),
+                    'rel_speed': 0.0,
+                    'track_count': 1,
+                    'is_dynamic': False,
+                }
+            return self.last_obs_summary
+
+        if not obs_summary['detected']:
+            self.obs_track_history.clear()
+            self.last_obs_summary = {
+                'detected': False,
+                'center_deg': 0.0,
+                'distance': float('inf'),
+                'width_deg': 0.0,
+                'rel_speed': 0.0,
+                'track_count': 0,
+                'is_dynamic': False,
+            }
+            return self.last_obs_summary
+
+        self.obs_track_history.append({
+            't': now_t,
+            'center_deg': float(obs_summary['center_deg']),
+            'distance': float(obs_summary['distance']),
+            'width_deg': float(obs_summary['width_deg']),
+        })
+
+        rel_speed = 0.0
+        if len(self.obs_track_history) >= 2:
+            a = self.obs_track_history[-2]
+            b = self.obs_track_history[-1]
+            dt = max(1e-3, b['t'] - a['t'])
+            rel_speed = (a['distance'] - b['distance']) / dt
+
+        avg_abs_center_rate = 0.0
+        if len(self.obs_track_history) >= 3:
+            rates = []
+            for i in range(1, len(self.obs_track_history)):
+                prev = self.obs_track_history[i - 1]
+                cur = self.obs_track_history[i]
+                dt = max(1e-3, cur['t'] - prev['t'])
+                rates.append(abs(cur['center_deg'] - prev['center_deg']) / dt)
+            avg_abs_center_rate = float(np.mean(rates)) if len(rates) > 0 else 0.0
+
+        track_count = len(self.obs_track_history)
+        is_dynamic = (
+            track_count >= self.obs_min_track_frames and
+            (abs(rel_speed) > self.obs_rel_speed_follow_threshold or avg_abs_center_rate > 8.0)
+        )
+
+        self.last_obs_summary = {
+            'detected': True,
+            'center_deg': float(obs_summary['center_deg']),
+            'distance': float(obs_summary['distance']),
+            'width_deg': float(obs_summary['width_deg']),
+            'rel_speed': float(rel_speed),
+            'track_count': int(track_count),
+            'is_dynamic': bool(is_dynamic),
+        }
+        return self.last_obs_summary
+
+    def _best_opening_side(self, dis_90):
+        left_opening = float(np.mean(dis_90[120:170])) if len(dis_90) > 170 else float(np.mean(dis_90[120:]))
+        right_opening = float(np.mean(dis_90[10:60])) if len(dis_90) > 60 else float(np.mean(dis_90[:60]))
+        if left_opening >= right_opening:
+            return 1, left_opening, right_opening
+        return -1, left_opening, right_opening
+
+    def _front_clearance(self, dis_90):
+        c = 90
+        r = self.front_sector_deg
+        s = max(0, c - r)
+        e = min(len(dis_90), c + r + 1)
+        if s >= e:
+            return 0.0
+        return float(np.min(dis_90[s:e]))
+
+    def _set_behavior_state(self, new_state):
+        if new_state != self.behavior_state:
+            self.behavior_state = new_state
+            self.behavior_state_stamp = time.monotonic()
+            self.behavior_state_switch_count += 1
+
+    def _update_behavior_state(self, front_state):
+        obs = front_state['obs_summary']
+        clearance = float(front_state['front_clearance'])
+        side_suggest, left_opening, right_opening = self._best_opening_side(front_state['dis_90'])
+        now = time.monotonic()
+        in_state_s = now - self.behavior_state_stamp
+
+        if not obs['detected']:
+            if self.behavior_state in (BEHAVIOR_OVERTAKE_EXECUTE, BEHAVIOR_RETURN_TO_RACELINE):
+                if in_state_s > self.fsm_return_hold_s:
+                    self._set_behavior_state(BEHAVIOR_CRUISE)
+            else:
+                self._set_behavior_state(BEHAVIOR_CRUISE)
+            self.behavior_overtake_side = 0
+            self.Follow = False
+            self.chaoche = False
+            return
+
+        rel_speed = float(obs['rel_speed'])
+        obs_distance = float(obs['distance'])
+
+        if self.behavior_state == BEHAVIOR_CRUISE:
+            if clearance < self.fsm_follow_opening_threshold:
+                self._set_behavior_state(BEHAVIOR_FOLLOW)
+
+        elif self.behavior_state == BEHAVIOR_FOLLOW:
+            enough_opening = max(left_opening, right_opening) > self.fsm_prepare_opening_threshold
+            close_and_slow = obs_distance < 2.8 and rel_speed < 0.18
+            if enough_opening and close_and_slow:
+                self.behavior_overtake_side = side_suggest
+                self._set_behavior_state(BEHAVIOR_OVERTAKE_PREPARE)
+            elif clearance > self.fsm_clear_return_threshold and rel_speed < 0.0:
+                self._set_behavior_state(BEHAVIOR_CRUISE)
+
+        elif self.behavior_state == BEHAVIOR_OVERTAKE_PREPARE:
+            if self.behavior_overtake_side == 0:
+                self.behavior_overtake_side = side_suggest
+            selected_opening = left_opening if self.behavior_overtake_side > 0 else right_opening
+            if selected_opening > self.fsm_execute_opening_threshold and in_state_s > self.fsm_prepare_hold_s:
+                self._set_behavior_state(BEHAVIOR_OVERTAKE_EXECUTE)
+            elif clearance < self.fsm_follow_opening_threshold * 0.85:
+                self._set_behavior_state(BEHAVIOR_FOLLOW)
+
+        elif self.behavior_state == BEHAVIOR_OVERTAKE_EXECUTE:
+            if in_state_s > self.fsm_execute_hold_s and clearance > self.fsm_clear_return_threshold:
+                self._set_behavior_state(BEHAVIOR_RETURN_TO_RACELINE)
+
+        elif self.behavior_state == BEHAVIOR_RETURN_TO_RACELINE:
+            if in_state_s > self.fsm_return_hold_s:
+                self._set_behavior_state(BEHAVIOR_CRUISE)
+
+        if self.behavior_state == BEHAVIOR_FOLLOW:
+            self.Follow = True
+            self.chaoche = False
+        elif self.behavior_state in (BEHAVIOR_OVERTAKE_PREPARE, BEHAVIOR_OVERTAKE_EXECUTE):
+            self.Follow = False
+            self.chaoche = True
+        else:
+            self.Follow = False
+            self.chaoche = False
+
+    def _apply_behavior_heading_bias(self, heading_rad):
+        if self.behavior_state in (BEHAVIOR_OVERTAKE_PREPARE, BEHAVIOR_OVERTAKE_EXECUTE) and self.behavior_overtake_side != 0:
+            bias = math.radians(self.overtake_side_bias_deg) * float(self.behavior_overtake_side)
+            return self._normalize_angle(heading_rad + bias)
+        return heading_rad
+
+    def _query_obstacle_distance(self, dis_90, x, y):
+        ang = math.atan2(y, x)
+        ang = float(np.clip(ang, -math.pi / 2, math.pi / 2))
+        idx = int(round(90 + ang / math.pi * 180))
+        idx = int(np.clip(idx, 0, len(dis_90) - 1))
+        return float(dis_90[idx]), idx
+
+    def frontend_scan_process(self, data):
+        self.dynamic_obs = False
+        self.chaoche = False
+        self.Follow = False
+        self.D = 0.2
+        print('###########################################################')
+        dis_90, inten_90 = self.get_range(data, -89, 91, True)
+        dis_90 = dis_90[::-1]
+        inten_90 = inten_90[::-1]
+        dis_obs_90 = copy.deepcopy(dis_90)
+        lenth_dis = len(dis_90)
+        left = 0
+        right = 0
+        Left_obs_orig = []
+        Left_obs = []
+        max_dis_num = []
+        max_dir_num = []
+        max_dis = 0
+        max_dir_range = 0
+        max_dis_index = 0
+        max_dir_index = 0
+        self.pub_scan(dis_90, data.header)
+        dis_90 = self.fill_zeros_with_neighbors(dis_90)
+        inten_90 = self.fill_zeros_with_neighbors(inten_90)
+        dis_obs_90 = self.fill_zeros_with_neighbors(dis_obs_90)
+        dis_90_copy = tuple(dis_90)
+        for i in range(0, lenth_dis, 1):
+            if dis_90[i] > max_dis and i > 20 and i < 160:
+                max_dis = dis_90[i]
+                max_dis_index = i
+            if dis_90[i] > DIR_DETECT_THRESHOLD:
+                dis_90[i] = DIR_DETECT_THRESHOLD
+            if dis_obs_90[i] > OBS_DETECT_THRESHOLD:
+                dis_obs_90[i] = OBS_DETECT_THRESHOLD
+        dis_90 = self.filter_anomalous_values(dis_90, max_distance=DIR_DETECT_THRESHOLD, angle_range=2)
+        dis_obs_90 = self.filter_anomalous_values(dis_obs_90, max_distance=OBS_DETECT_THRESHOLD, angle_range=2)
+        if max_dis_index < 89:
+            left = 1
+        else:
+            right = 1
+        for i in range(0, lenth_dis - 2, 1):
+            if dis_obs_90[i] - dis_obs_90[i + 1] > THRESHOLD_obs and len(Left_obs_orig) % 2 == 0:
+                Left_obs_orig.append(i + 1)
+            elif dis_obs_90[i + 1] - dis_obs_90[i] > THRESHOLD_obs and len(Left_obs_orig) % 2 == 1:
+                Left_obs_orig.append(i)
+        if len(Left_obs_orig) % 2 == 1:
+            print('error!!!!!!!!!!!!')
+            Left_obs_orig.pop()
+        Left_obs = self.filter_small_obstacles(Left_obs_orig, min_obstacle_size=2)
+        Left_obs = self.filter_obstacles_by_variance(
+            Left_obs, dis_obs_90, variance_threshold=self.obs_variance_threshold
+        )
+        if len(Left_obs) > 0:
+            for i in range(0, int(len(Left_obs) / 2), 1):
+                idx_mid = int((Left_obs[2 * i] + Left_obs[2 * i + 1]) / 2)
+                obs_middle = dis_obs_90[idx_mid]
+                start_expand = int(max(Left_obs[2 * i] - min((Left_obs[2 * i + 1] - Left_obs[2 * i]) / 2 * (4 - obs_middle), 10), 0))
+                end_expand = int(min(Left_obs[2 * i + 1] + min((Left_obs[2 * i + 1] - Left_obs[2 * i]) / 2 * (4 - obs_middle), 10), lenth_dis - 1))
+                for j in range(start_expand, end_expand, 1):
+                    dis_obs_90[j] = obs_middle
+                Left_obs[2 * i] = start_expand
+                Left_obs[2 * i + 1] = end_expand
+            print('有障碍物，障碍物是', Left_obs)
+        else:
+            print('没有障碍物')
+        if len(Left_obs) > 0:
+            for i in range(0, int(len(Left_obs) / 2) + 1, 1):
+                if i == 0:
+                    for j in range(Left_obs[0] - 1, 0, -1):
+                        if dis_obs_90[j] <= dis_obs_90[Left_obs[0] + 1]:
+                            max_dis_num.append(j)
+                            max_dis_num.append(Left_obs[0] + 1)
+                            break
+                    if len(max_dis_num) == 0:
+                        for j in range(0, Left_obs[0] - 1, 1):
+                            if dis_obs_90[j] >= dis_obs_90[Left_obs[0] + 1]:
+                                max_dis_num.append(j)
+                                max_dis_num.append(Left_obs[0] + 1)
+                                break
+                elif i < int(len(Left_obs) / 2):
+                    max_dis_num.append(Left_obs[2 * i - 1])
+                    max_dis_num.append(Left_obs[2 * i])
+                elif i == int(len(Left_obs) / 2):
+                    for j in range(Left_obs[2 * i - 1] + 1, lenth_dis - 1, 1):
+                        if dis_obs_90[j] <= dis_obs_90[Left_obs[2 * i - 1] - 1]:
+                            max_dis_num.append(Left_obs[2 * i - 1] - 1)
+                            max_dis_num.append(j)
+                            break
+        max_dis_val = 0
+        max_dis_index_temp = max_dis_index
+        for i in range(0, int(len(max_dis_num) / 2), 1):
+            if max_dis_val < max_dis_num[2 * i + 1] - max_dis_num[2 * i]:
+                max_dis_val = max_dis_num[2 * i + 1] - max_dis_num[2 * i]
+                max_dis_index = (max_dis_num[2 * i + 1] + max_dis_num[2 * i]) / 2
+        if left == 1 and max_dis_index < 90 and dis_obs_90[0] < dis_obs_90[lenth_dis - 1] - 1:
+            max_dis_index = max_dis_index + 5 * abs(dis_obs_90[lenth_dis - 1] - dis_obs_90[0])
+        elif right == 1 and max_dis_index > 90 and dis_obs_90[0] - 1 > dis_obs_90[lenth_dis - 1]:
+            max_dis_index = max_dis_index - 5 * abs(dis_obs_90[lenth_dis - 1] - dis_obs_90[0])
+        print('max_dis_index_temp', max_dis_index_temp)
+        if len(Left_obs) == 2:
+            if max_dis_index_temp >= 89:
+                print('turn right')
+                if Left_obs[0] >= 89:
+                    max_dis_index = int((89 + Left_obs[0]) / 2)
+                elif Left_obs[1] <= 89:
+                    max_dis_index = max_dis_index_temp
+                else:
+                    max_dis_index = max_dis_index_temp
+            else:
+                if Left_obs[0] >= 89:
+                    print('1')
+                    max_dis_index = max_dis_index_temp
+                elif Left_obs[1] <= 89:
+                    print('2')
+                    max_dis_index = int((89 + Left_obs[1]) / 2)
+                else:
+                    print('3')
+                    max_dis_index = max_dis_index_temp
+        if len(Left_obs) == 4:
+            middle_temp = int((Left_obs[1] + Left_obs[2]) / 2)
+            if max_dis_index_temp >= 89:
+                if Left_obs[0] >= 89:
+                    max_dis_index = int((89 + Left_obs[0]) / 2)
+                elif Left_obs[1] <= 89 and middle_temp > 89:
+                    max_dis_index = int((Left_obs[1] + max_dis_index_temp) / 2)
+                elif middle_temp <= 89 and Left_obs[2] > 89:
+                    max_dis_index = middle_temp
+                else:
+                    max_dis_index = max_dis_index_temp
+            else:
+                print('turn left')
+                if Left_obs[0] > 89:
+                    max_dis_index = max_dis_index_temp
+                elif Left_obs[0] <= 89 and middle_temp > 89:
+                    max_dis_index = middle_temp
+                elif middle_temp <= 89 and Left_obs[3] > 89:
+                    max_dis_index = middle_temp
+                else:
+                    max_dis_index = int((Left_obs[3] + 89) / 2)
+        for i in range(0, lenth_dis - 2, 1):
+            if dis_90[i] < DIR_DETECT_THRESHOLD and dis_90[i + 1] == DIR_DETECT_THRESHOLD and len(max_dir_num) % 2 == 0:
+                max_dir_num.append(i + 1)
+            elif dis_90[i] == DIR_DETECT_THRESHOLD and dis_90[i + 1] < DIR_DETECT_THRESHOLD and len(max_dir_num) % 2 == 1:
+                max_dir_num.append(i)
+        if len(max_dir_num) % 2 == 1 and len(max_dir_num) != 1:
+            self.get_logger().error('出现单个不封闭区域，请检查障碍物检测逻辑')
+        if len(max_dir_num) == 1:
+            if max_dir_num[0] < 90:
+                max_dir_index = int((max_dir_num[0]) / 2)
+                print('\033[32m转弯阶段1左转，最大距离朝向: %s\033[0m' % (max_dir_index - lenth_dis / 2))
+            elif max_dir_num[0] > 90:
+                max_dir_index = int((max_dir_num[0] + lenth_dis - 2) / 2)
+                print('\033[32m转弯阶段1右转，最大距离朝向: %s\033[0m' % (max_dir_index - lenth_dis / 2))
+            self.GO_STARIGHT = 0
+        if len(max_dir_num) == 2:
+            print('找到 %d 个最大距离区域，区域大小 %d' % ((int(len(max_dir_num) / 2)), max_dir_num[1] - max_dir_num[0]))
+            max_dir_index = int((max_dir_num[0] + max_dir_num[1]) / 2)
+            max_dir_range = max_dir_num[1] - max_dir_num[0]
+        if len(max_dir_num) > 2:
+            print('有多个最大距离区域，障碍物个数为:', len(Left_obs) / 2)
+            if len(Left_obs) > 0:
+                self.dynamic_obs = self.DynamicObastcle(dis_list=dis_90, inten_list=inten_90, max_dir_num=max_dir_num, obs=Left_obs)
+            cand_space = []
+            cand_dirs = []
+            for i in range(0, int(len(max_dir_num) / 2), 1):
+                cand_space.append(max_dir_num[2 * (i) + 1] - max_dir_num[2 * (i)])
+                cand_dirs.append((max_dir_num[2 * (i) + 1] + max_dir_num[2 * (i)]) / 2)
+            cand_dir_id = np.where(np.array(cand_space) > 18)[0]
+            if len(cand_dir_id) != 0:
+                selected_dirs = np.array(cand_dirs)[cand_dir_id].tolist()
+                max_dir_idx = np.argmin(selected_dirs)
+                selected_ranges = np.array(cand_space)[cand_dir_id].tolist()
+                max_dir_index = selected_dirs[max_dir_idx]
+                max_dir_range = selected_ranges[max_dir_idx]
+            cand_dir_chaoche_idx = np.where(np.array(cand_space) > 30)[0]
+            if self.dynamic_obs:
+                if cand_dir_chaoche_idx.size:
+                    self.chaoche = True
+                else:
+                    self.Follow = True
+            else:
+                cand_dir_id = np.argmax(np.array(cand_space))
+                max_dir_index = cand_dirs[cand_dir_id]
+                max_dir_range = cand_space[cand_dir_id]
+            if self.dynamic_obs:
+                if len(max_dir_num) >= 3:
+                    max_dir_index = int((max_dir_num[1] + max_dir_num[2]) / 2)
+                    max_dir_range = max_dir_num[-1] - max_dir_num[0]
+                    self.Follow = True
+                if max_dir_index < 90:
+                    max_dir_index -= 2
+                else:
+                    max_dir_index += 2
+        print(max_dir_num, self.P)
+        if max_dir_index >= 75 and max_dir_index <= 105:
+            mean_straight = np.mean(dis_90_copy[80:100])
+            self.GO_STARIGHT = 1
+            self.TRANSITION = 0
+            if self.last_in_straight and max_dir_range > 20:
+                print('在直道路段保持加速，最大距离朝向:', (max_dir_index - len(dis_90) / 2), ' 加速空间范围：', max_dir_range)
+                self.speed_rate *= 8.05
+                if mean_straight > 11 and len(Left_obs) == 0:
+                    limit_rate = 8.8
+                elif mean_straight > 8 and len(Left_obs) == 0:
+                    limit_rate = 5.5
+                elif mean_straight > 7 and len(Left_obs) == 0:
+                    limit_rate = 3.3
+                else:
+                    limit_rate = 3.0
+                if self.speed_rate > limit_rate:
+                    self.speed_rate = limit_rate
+                print('速度增益', self.speed_rate)
+            else:
+                self.speed_rate = 1.1
+            self.last_in_straight = True
+        elif max_dir_index < 75 and max_dir_index > 0:
+            print('\033[32m转弯阶段2左转，最大距离朝向: %s\033[0m' % (max_dir_index - lenth_dis / 2))
+            self.P = 1.5
+            self.speed_rate = 1.0
+            self.turn_rate = 0.8
+            self.last_in_straight = False
+        elif max_dir_index > 105:
+            print('\033[32m转弯阶段2右转，最大距离朝向: %s\033[0m' % (max_dir_index - lenth_dis / 2))
+            self.P = 1.5
+            self.speed_rate = 1.0
+            self.turn_rate = 0.8
+            self.last_in_straight = False
+        normol = 1
+        if len(max_dir_num) == 0:
+            if self.GO_STARIGHT == 1 or self.TRANSITION == 1:
+                for i in range(0, lenth_dis - 2, 1):
+                    if dis_90[i + 1] - dis_90[i] > THRESHOLD_TURN:
+                        max_dir_index = int((i + 1 + len(dis_90) / 2) / 2)
+                        self.get_logger().warn('进入过渡路段，前方左转，最大距离朝向: %f' % (max_dir_index - len(dis_90) / 2))
+                        self.P = 0.8
+                        normol = 0
+                        break
+                    elif dis_90[i] - dis_90[i + 1] > THRESHOLD_TURN:
+                        max_dir_index = int((i + len(dis_90) / 2) / 2)
+                        self.get_logger().warn('进入过渡路段，前方右转，最大距离朝向: %f' % (max_dir_index - len(dis_90) / 2))
+                        self.P = 0.8
+                        normol = 0
+                        break
+            if normol == 1:
+                max_dir_index = self.last_max_dir_index
+                print('\033[38;5;208m隐藏款，无法判断方向，保持上一次动作并减速，最大距离朝向: %f\033[0m' % (max_dir_index - len(dis_90) / 2))
+                if self.last_in_normol:
+                    self.speed_rate *= 0.9
+                    self.turn_rate *= 1.2
+                    if self.speed_rate < 0.5:
+                        self.speed_rate = 0.5
+                    if self.turn_rate > 2.5:
+                        self.turn_rate = 2.5
+                else:
+                    self.speed_rate = 0.9
+                    self.turn_rate = 1.2
+                self.last_in_normol = True
+            else:
+                self.speed_rate = 1.0
+                self.turn_rate = 1.0
+                self.last_in_normol = False
+            self.TRANSITION = 1
+            self.GO_STARIGHT = 0
+        dis_90[0] = dis_90[0] + 0.00001
+        dis_90[lenth_dis - 1] = dis_90[lenth_dis - 1] + 0.00001
+        obs_summary = self._extract_obstacle_summary(dis_obs_90, Left_obs)
+        tracked_obs = self._update_obstacle_track(obs_summary)
+        self.dynamic_obs = bool(tracked_obs['is_dynamic'])
+        front_clearance = self._front_clearance(dis_90)
+        self.last_front_clearance = float(front_clearance)
+        return {
+            'dis_90': dis_90,
+            'lenth_dis': lenth_dis,
+            'max_dis': max_dis,
+            'max_dir_index': max_dir_index,
+            'max_dir_num': max_dir_num,
+            'left_obs': Left_obs,
+            'obs_summary': tracked_obs,
+            'front_clearance': front_clearance,
+            'header': data.header,
+        }
+
+    def heuristic_backend_control(self, front_state):
+        dis_90 = front_state['dis_90']
+        lenth_dis = front_state['lenth_dis']
+        max_dis = front_state['max_dis']
+        max_dir_index = front_state['max_dir_index']
+        print('视野中最大距离是', max_dis)
+        angle = 0.0
+        if max_dir_index != 0:
+            term1 = -max(math.exp(-max_dis / DIR_DETECT_THRESHOLD), 0.7) * (max_dir_index - 90) / 360 * math.pi
+            term2 = (dis_90[0] - dis_90[lenth_dis - 1]) / (dis_90[0] + dis_90[lenth_dis - 1])
+            print(f'term1:{term1}, term2:{term2}')
+            if dis_90[0] / dis_90[lenth_dis - 1] > 3 or dis_90[lenth_dis - 1] / dis_90[0] > 3:
+                self.D = 0.5
+                print('边界！！！！！！！！！！！！！！！！')
+                angle = 1.0 * term1 + 0.05 * term2
+            else:
+                angle = 1.0 * term1 + 0.02 * term2
+        else:
+            if dis_90[0] / dis_90[lenth_dis - 1] > 3 or dis_90[lenth_dis - 1] / dis_90[0] > 3:
+                angle = -max(math.exp(-max_dis / DIR_DETECT_THRESHOLD), 0.7) * (max_dir_index - 90) / 360 * math.pi + 0.1 * (dis_90[0] - dis_90[lenth_dis - 1]) / (dis_90[0] + dis_90[lenth_dis - 1])
+            else:
+                angle = -max(math.exp(-max_dis / DIR_DETECT_THRESHOLD), 0.7) * (max_dir_index - 90) / 360 * math.pi + 0.05 * (dis_90[0] - dis_90[lenth_dis - 1]) / (dis_90[0] + dis_90[lenth_dis - 1])
+        steering_angle = self.P * angle + self.D * (angle - self.last_angle)
+        self.last_angle = angle
+        speed = 1.8 * (0.3 * math.exp(-np.clip(abs(angle), 0, 0.5)) + 0.7)
+        steering_angle = self.turn_rate * steering_angle
+        steering_angle = np.clip(steering_angle, -math.pi / 4, math.pi / 4)
+        return {
+            'angle': angle,
+            'steering': float(steering_angle),
+            'speed': float(self.speed_rate * speed),
+            'base_speed': float(speed),
+        }
+
+    # ====================== Raceline 相关函数（已大幅优化弯道速度） ======================
+    def _load_raceline(self, csv_path):
+        df = pd.read_csv(csv_path, comment='#', header=None)
+        raw_array = df.to_numpy(dtype=np.float32)
+        self.get_logger().info(f"原始 CSV shape={raw_array.shape}, 列数={raw_array.shape[1]}")
+        if raw_array.shape[1] == 4:
+            x_vals = raw_array[:, 0]
+            y_vals = raw_array[:, 1]
+            dx = np.diff(x_vals, append=x_vals[0])
+            dy = np.diff(y_vals, append=y_vals[0])
+            yaw_vals = np.arctan2(dy, dx)
+            dx2 = np.diff(x_vals, append=x_vals[0])
+            dy2 = np.diff(y_vals, append=y_vals[0])
+            distances = np.sqrt(dx2 + dy2)
+            s_vals = np.concatenate([[0.0], np.cumsum(distances[:-1])])
+            curvature = np.abs(np.diff(yaw_vals, append=yaw_vals[0])) / (distances + 1e-6)
+            # === 关键优化：弯道减速更温和，直道更快 ===
+            v_opt = 9.5 / (1.0 + 2.5 * curvature)
+            v_opt = np.clip(v_opt, 2.0, 9.5)
+            self.raceline_array = np.column_stack([s_vals, x_vals, y_vals, yaw_vals, curvature, v_opt]).astype(np.float32)
+            self.get_logger().info(
+                f"✅ 已补充缺失列！新 shape={self.raceline_array.shape}\n"
+                f" v_opt 范围: [{v_opt.min():.2f}, {v_opt.max():.2f}] m/s（已优化低/高速弯减速）"
+            )
+        else:
+            self.raceline_array = raw_array
+
+        self.raceline_path_msg = Path()
+        self.raceline_path_msg.header.frame_id = 'map'
+        for i in range(len(self.raceline_array)):
+            pose = PoseStamped()
+            pose.header.frame_id = 'map'
+            x = float(self.raceline_array[i, 1])
+            y = float(self.raceline_array[i, 2])
+            yaw = float(self.raceline_array[i, 3])
+            pose.pose.position.x = x
+            pose.pose.position.y = y
+            pose.pose.position.z = 0.0
+            pose.pose.orientation.x = 0.0
+            pose.pose.orientation.y = 0.0
+            pose.pose.orientation.z = math.sin(yaw / 2.0)
+            pose.pose.orientation.w = math.cos(yaw / 2.0)
+            self.raceline_path_msg.poses.append(pose)
+        self.get_logger().info(f"✅ 成功加载赛道线！共 {len(self.raceline_array)} 个点")
+
+    def publish_raceline_timer(self):
+        if self.raceline_path_msg is not None:
+            self.raceline_path_msg.header.stamp = self.get_clock().now().to_msg()
+            self.raceline_pub.publish(self.raceline_path_msg)
+
+    def _find_closest_raceline_index(self, current_pose):
+        if self.raceline_array is None or current_pose is None:
+            return 0
+        min_dist = float('inf')
+        best_idx = 0
+        for i in range(len(self.raceline_array)):
+            dx = self.raceline_array[i, 1] - current_pose.pose.position.x
+            dy = self.raceline_array[i, 2] - current_pose.pose.position.y
+            d = dx * dx + dy * dy
+            if d < min_dist:
+                min_dist = d
+                best_idx = i
+        return best_idx
+
+    def _find_index_by_s(self, target_s):
+        if self.raceline_array is None:
+            return 0
+        s_values = self.raceline_array[:, 0]
+        total_length = s_values[-1]
+        target_s = target_s % total_length
+        idx = np.searchsorted(s_values, target_s)
+        if idx == len(s_values):
+            idx = 0
+        return idx
+
+    def _bias_heading_with_laser(self, global_heading, front_state, weight_global=0.85):
+        max_dir_index = front_state['max_dir_index']
+        global_index = 90 + int(global_heading / math.pi * 180)
+        window = 40
+        best_idx = max_dir_index
+        best_dis = 0
+        for i in range(max(0, global_index - window), min(180, global_index + window)):
+            dis = front_state['dis_90'][i]
+            if dis > best_dis:
+                best_dis = dis
+                best_idx = i
+        fused_index = weight_global * global_index + (1 - weight_global) * best_idx
+        return (fused_index - 90) / 180.0 * math.pi
+
+    def build_local_ref(self, front_state, target_speed, speed_upper_bound, current_pose=None):
+        if self.raceline_array is None or current_pose is None:
+            target_heading = (float(front_state['max_dir_index']) - 90.0) / 180.0 * math.pi
+            target_heading = float(np.clip(target_heading, -0.9, 0.9))
+            v_des = float(np.clip(target_speed, max(self.mpc_min_speed, 0.0), speed_upper_bound))
+        else:
+            closest_idx = self._find_closest_raceline_index(current_pose)
+            lookahead_s = self.raceline_array[closest_idx, 0] + self.pp_lookahead * 2.0   # 优化为2.0，更积极跟踪
+            target_idx = self._find_index_by_s(lookahead_s)
+            target_x = self.raceline_array[target_idx, 1]
+            target_y = self.raceline_array[target_idx, 2]
+            dx = target_x - current_pose.pose.position.x
+            dy = target_y - current_pose.pose.position.y
+            target_heading = math.atan2(dy, dx)
+            v_des = float(self.raceline_array[target_idx, 5])
+            v_des = np.clip(v_des, self.mpc_min_speed, speed_upper_bound)
+            # 强制最低速度，防止弯道过低
+            v_des = max(v_des, self.pp_min_speed)
+            target_heading = self._bias_heading_with_laser(target_heading, front_state, weight_global=0.85)
+
+        target_heading = self._apply_behavior_heading_bias(target_heading)
+
+        x_ref = np.zeros(self.mpc_horizon)
+        y_ref = np.zeros(self.mpc_horizon)
+        yaw_ref = np.zeros(self.mpc_horizon)
+        v_ref = np.zeros(self.mpc_horizon)
+        for k in range(self.mpc_horizon):
+            s = (k + 1) * self.mpc_dt * max(v_des, 0.3)
+            x_ref[k] = s * math.cos(target_heading)
+            y_ref[k] = s * math.sin(target_heading)
+            yaw_ref[k] = target_heading
+            v_ref[k] = v_des
+        return {'x': x_ref, 'y': y_ref, 'yaw': yaw_ref, 'v': v_ref}
+
+    def rollout_cost(self, steer, accel, state, ref, speed_upper_bound, front_state=None):
+        x = 0.0
+        y = 0.0
+        yaw = 0.0
+        v = float(state['v'])
+        cost = 0.0
+        min_margin = float('inf')
+        dis_90 = front_state['dis_90'] if front_state is not None and 'dis_90' in front_state else None
+        for k in range(self.mpc_horizon):
+            x += v * math.cos(yaw) * self.mpc_dt
+            y += v * math.sin(yaw) * self.mpc_dt
+            yaw += v / self.wheelbase * math.tan(steer) * self.mpc_dt
+            v = np.clip(v + accel * self.mpc_dt, self.mpc_min_speed, speed_upper_bound)
+            ex = x - ref['x'][k]
+            ey = y - ref['y'][k]
+            eyaw = (yaw - ref['yaw'][k] + math.pi) % (2 * math.pi) - math.pi
+            ev = v - ref['v'][k]
+            cost += 2.0 * ex * ex + 3.0 * ey * ey + 0.8 * eyaw * eyaw + 0.3 * ev * ev
+            cost += 0.05 * steer * steer + 0.02 * accel * accel
+            cost += 0.12 * (steer - self.last_mpc_steer) * (steer - self.last_mpc_steer)
+
+            if self.risk_enable and dis_90 is not None:
+                obs_dis, _ = self._query_obstacle_distance(dis_90, x, y)
+                pred_dis = math.sqrt(x * x + y * y)
+                margin = obs_dis - pred_dis
+                min_margin = min(min_margin, margin)
+                if margin < 0.0:
+                    cost += self.risk_collision_penalty
+                elif margin < self.risk_safe_distance:
+                    norm = (self.risk_safe_distance - margin) / self.risk_safe_distance
+                    stage_weight = 1.0 + 0.35 * k
+                    cost += self.risk_weight * stage_weight * (norm ** 2)
+        return float(cost), float(v), float(min_margin)
+
+    def solve_mpc(self, front_state, heuristic, speed_upper_bound, current_pose=None):
+        if not self.have_odom:
+            return False, heuristic['steering'], heuristic['speed'], 'no_odom', 0.0, float('inf')
+        ref = self.build_local_ref(front_state, heuristic['speed'], speed_upper_bound, current_pose)
+        start_t = time.monotonic()
+        timeout_s = self.mpc_timeout_ms / 1000.0
+        steer_grid = np.linspace(-math.pi / 4, math.pi / 4, self.mpc_steer_candidates)
+        accel_grid = [0.0]
+        if self.mpc_mode == 'full':
+            accel_grid = np.linspace(self.mpc_max_decel, self.mpc_max_accel, self.mpc_accel_candidates)
+        state = {'v': float(abs(self.odom_speed))}
+        best_cost = float('inf')
+        best_steer = heuristic['steering']
+        best_speed = heuristic['speed']
+        best_min_margin = float('inf')
+        for steer in steer_grid:
+            for accel in accel_grid:
+                if time.monotonic() - start_t > timeout_s:
+                    elapsed_ms = (time.monotonic() - start_t) * 1000.0
+                    return False, heuristic['steering'], heuristic['speed'], 'timeout', elapsed_ms, float('inf')
+                cost, vend, min_margin = self.rollout_cost(
+                    steer=float(steer),
+                    accel=float(accel),
+                    state=state,
+                    ref=ref,
+                    speed_upper_bound=speed_upper_bound,
+                    front_state=front_state
+                )
+                if cost < best_cost:
+                    best_cost = cost
+                    best_steer = float(steer)
+                    best_min_margin = float(min_margin)
+                    if self.mpc_mode == 'full':
+                        best_speed = float(np.clip(vend, self.mpc_min_speed, speed_upper_bound))
+        self.last_mpc_steer = best_steer
+        self.last_mpc_speed = best_speed
+        elapsed_ms = (time.monotonic() - start_t) * 1000.0
+        return True, best_steer, best_speed, 'ok', elapsed_ms, best_min_margin
+
+    def pure_pursuit_speed(self, ref, base_speed):
+        lookahead = self.pp_lookahead
+        x = np.array(ref['x'])
+        y = np.array(ref['y'])
+        dists = np.sqrt(x**2 + y**2)
+        idxs = np.where(dists >= lookahead)[0]
+        if len(idxs) == 0:
+            idx = len(dists) - 1
+        else:
+            idx = idxs[0]
+        yg = y[idx]
+        ld = dists[idx]
+        if ld < 1e-6:
+            return float(base_speed)
+        curvature = 2.0 * yg / (ld ** 2)
+        # === 关键优化：大幅降低曲率惩罚，弯道速度下降更温和 ===
+        speed_factor = 1.0 / (1.0 + self.pp_curvature_speed_k * abs(curvature) * self.wheelbase)
+        speed = base_speed * speed_factor
+        # 强制最低速度，彻底解决低/高速弯过度减速
+        speed = max(speed, self.pp_min_speed)
+        speed = float(np.clip(speed, self.mpc_min_speed, self.final_speed_cap))
+        return speed
+
+    def control_select_and_publish(self, data, current_frame, front_state, heuristic, current_pose=None):
+        drive_msg = AckermannDriveStamped()
+        drive_msg.header = data.header
+        heuristic_msg = AckermannDriveStamped()
+        heuristic_msg.header = data.header
+        heuristic_msg.drive.steering_angle = float(heuristic['steering'])
+        heuristic_msg.drive.speed = float(heuristic['speed'])
+        mode = CONTROL_MODE_HEURISTIC
+        steer_cmd = heuristic['steering']
+        speed_cmd = heuristic['speed']
+        mpc_ok = False
+        mpc_solve_ms = 0.0
+        risk_min_margin = float('inf')
+        self.control_cycle_count += 1
+        if self.fsm_enable:
+            self._update_behavior_state(front_state)
+        else:
+            self._set_behavior_state(BEHAVIOR_CRUISE)
+            self.behavior_overtake_side = 0
+            self.Follow = False
+            self.chaoche = False
+        speed_upper_bound = self.mpc_max_speed
+        if self.behavior_state == BEHAVIOR_FOLLOW:
+            speed_upper_bound = min(speed_upper_bound, self.follow_speed_cap)
+        elif self.behavior_state in (BEHAVIOR_OVERTAKE_PREPARE, BEHAVIOR_OVERTAKE_EXECUTE):
+            speed_upper_bound = min(speed_upper_bound, self.chaoche_speed_cap)
+        speed_upper_bound = float(min(speed_upper_bound, self.final_speed_cap))
+        self.current_speed_upper_bound = speed_upper_bound
+
+        if self.pure_pursuit_enable and self.mpc_enable and self.mpc_mode in ('steer_only', 'full'):
+            self.mpc_attempt_count += 1
+            ref = self.build_local_ref(front_state, heuristic['speed'], speed_upper_bound, current_pose)
+            mpc_ok, mpc_steer, _, _, mpc_solve_ms, risk_min_margin = self.solve_mpc(
+                front_state, heuristic, speed_upper_bound, current_pose
+            )
+            steer_cmd = mpc_steer if mpc_ok else heuristic['steering']
+            base_speed_for_pp = float(heuristic['speed'])
+            if self.pp_speed_use_ref_v:
+                try:
+                    base_speed_for_pp = float(ref['v'][0])
+                except Exception:
+                    base_speed_for_pp = float(heuristic['speed'])
+            pp_speed = self.pure_pursuit_speed(ref, base_speed_for_pp)
+            speed_cmd = pp_speed
+            mode = CONTROL_MODE_MPC_PP
+        self.last_risk_min_margin = float(risk_min_margin)
+
+        self.last_solve_time_ms = float(mpc_solve_ms)
+        if mpc_ok:
+            self.mpc_success_count += 1
+            self.sum_solve_time_ms += float(mpc_solve_ms)
+            self.max_solve_time_ms = max(self.max_solve_time_ms, float(mpc_solve_ms))
+        if mode != self.last_control_mode:
+            self.mode_switch_count += 1
+        self.last_mpc_steer = steer_cmd
+        self.last_mpc_speed = speed_cmd
+        speed_cmd = float(min(speed_cmd, speed_upper_bound))
+
+        if self.behavior_state == BEHAVIOR_FOLLOW:
+            print('\033[35m跟随！！22222！！跟随！！2222！！\033[0m')
+            speed_cmd = float(min(self.follow_speed_cap, speed_cmd))
+        elif self.behavior_state in (BEHAVIOR_OVERTAKE_PREPARE, BEHAVIOR_OVERTAKE_EXECUTE):
+            print('''\033[31m _____ _____
+\033[32m / ____| / ____|
+\033[33m | (___ _ _ _ __ ___ _ __ | | __
+\033[34m \___ \| | | | '_ \ / _ \ '__| | | |_ |
+\033[35m ____) | |_| | |_) | / | | || |
+\033[36m |/ \,_| ./ \___|_| \_____|
+\033[37m | |
+\033[35m |_| \033[5m超车模式启动！！！\033[0m''')
+        elif self.behavior_state == BEHAVIOR_RETURN_TO_RACELINE:
+            print('\033[36m回归主线中...\033[0m')
+
+        drive_msg.drive.steering_angle = float(np.clip(steer_cmd, -math.pi / 4, math.pi / 4))
+        drive_msg.drive.speed = float(np.clip(speed_cmd, 0.0, self.final_speed_cap))
+        self.last_cmd_steer = float(drive_msg.drive.steering_angle)
+        self.last_cmd_speed = float(drive_msg.drive.speed)
+        if drive_msg.drive.steering_angle > 0:
+            print('转向左转%f度' % (abs(drive_msg.drive.steering_angle * 180 / math.pi)))
+        else:
+            print('转向右转%f度' % (abs(drive_msg.drive.steering_angle * 180 / math.pi)))
+
+        self.publish_arrow_marker(front_state['max_dir_index'], current_frame)
+        self.last_max_dir_index = front_state['max_dir_index']
+
+        mpc_msg = AckermannDriveStamped()
+        mpc_msg.header = data.header
+        mpc_msg.drive.steering_angle = float(np.clip(self.last_mpc_steer, -math.pi / 4, math.pi / 4))
+        mpc_msg.drive.speed = float(np.clip(self.last_mpc_speed, 0.0, self.mpc_max_speed))
+        self.heuristic_pub.publish(heuristic_msg)
+        self.mpc_pub.publish(mpc_msg)
+        mode_msg = UInt8()
+        mode_msg.data = int(mode)
+        self.mode_pub.publish(mode_msg)
+        behavior_msg = UInt8()
+        behavior_msg.data = int(self.behavior_state)
+        self.behavior_pub.publish(behavior_msg)
+        ok_msg = Bool()
+        ok_msg.data = bool(mpc_ok)
+        self.mpc_ok_pub.publish(ok_msg)
+        self.last_control_mode = mode
+        self.pre_safety_pub.publish(drive_msg)
+        self.drive_pub.publish(drive_msg)
+
+    def middle_line_callback(self, data):
+        clean_ranges = np.nan_to_num(np.array(data.ranges), posinf=0.0, neginf=0.0)
+        data.ranges = clean_ranges.tolist()
+        current_frame = data.header.frame_id if data.header.frame_id else 'laser'
+        front_state = self.frontend_scan_process(data)
+        heuristic = self.heuristic_backend_control(front_state)
+
+        current_pose = None
+        if self.have_odom:
+            current_pose = PoseStamped()
+            current_pose.pose.position.x = self.odom_position_x
+            current_pose.pose.position.y = self.odom_position_y
+            current_pose.pose.orientation.w = math.cos(self.odom_yaw / 2.0)
+            current_pose.pose.orientation.z = math.sin(self.odom_yaw / 2.0)
+            current_pose.header.frame_id = 'map'
+
+        self.control_select_and_publish(data, current_frame, front_state, heuristic, current_pose)
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    battle_node = BattleVehicleNode()
+    try:
+        rclpy.spin(battle_node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        battle_node.destroy_node()
+        rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,43 @@
+[0.522s] Invoking command in '/home/jetson/slash_ws/build/slash_nav2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/slash_nav2 -- -j8 -l8
+[2.453s] Invoked command in '/home/jetson/slash_ws/build/slash_nav2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/slash_nav2 -- -j8 -l8
+[2.455s] Invoking command in '/home/jetson/slash_ws/build/slash_nav2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/slash_nav2
+[2.526s] -- Install configuration: ""
+[2.526s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/launch
+[2.526s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/launch/bringup_real.launch.py
+[2.526s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/config
+[2.526s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/config/nav2_params.yaml
+[2.526s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map
+[2.526s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map/RMUC.posegraph
+[2.526s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map/RMUL.yaml
+[2.526s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map/RMUC.pgm
+[2.527s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map/RMUL.pgm
+[2.527s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map/RMUC.data
+[2.527s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map/RMUL.data
+[2.527s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map/RMUL.posegraph
+[2.527s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map/RMUC.yaml
+[2.527s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/PCD
+[2.527s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/PCD/RMUL.pcd
+[2.527s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/PCD/RMUC.pcd
+[2.527s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/rviz
+[2.527s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/rviz/pointlio.rviz
+[2.528s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/rviz/fastlio.rviz
+[2.528s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/rviz/nav2.rviz
+[2.528s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/urdf
+[2.528s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/urdf/sentry_robot_sim.xacro
+[2.528s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/urdf/sentry_robot_real.xacro
+[2.529s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/ament_index/resource_index/package_run_dependencies/slash_nav2
+[2.529s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/ament_index/resource_index/parent_prefix_path/slash_nav2
+[2.529s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/environment/ament_prefix_path.sh
+[2.529s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/environment/ament_prefix_path.dsv
+[2.529s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/environment/path.sh
+[2.529s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/environment/path.dsv
+[2.529s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/local_setup.bash
+[2.529s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/local_setup.sh
+[2.529s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/local_setup.zsh
+[2.530s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/local_setup.dsv
+[2.530s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/package.dsv
+[2.530s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/ament_index/resource_index/packages/slash_nav2
+[2.530s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/cmake/slash_nav2Config.cmake
+[2.530s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/cmake/slash_nav2Config-version.cmake
+[2.530s] -- Up-to-date: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/package.xml
+[2.636s] Invoked command in '/home/jetson/slash_ws/build/slash_nav2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/slash_nav2

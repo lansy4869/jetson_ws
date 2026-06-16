@@ -1,0 +1,36 @@
+# 三维多层感知参数（创新点 1）
+#
+# 高度带定义在 livox_frame 的 z 轴（向上为正），单位 m。
+# ⚠ 输入：默认 /livox/lidar（MID-360 PointCloud2，与本车 /scan 同源）。
+#   启用 linefit 后可改 input_topic:=/segmentation/obstacle，并把 low 下界放更低。
+# ⚠ 避地面：雷达在 base_link 上方 ~0.11m，livox_frame 内 z≈0 为雷达平面，地面约 z≈-0.11 以下；
+#   band 下界须在地面之上。下面是 RViz 可调起点，务必上车按现象标定。
+# ⚠ 调参方法：把雷达对着已知高度的障碍/路肩/门楣，在 RViz 里逐层看 scan，
+#   调 band_floor/band_ceil 直到「地面不进 low/body、真障碍进 low/body、悬空物只进 high」。
+#
+multilayer_scan_node:
+  ros__parameters:
+    # 接线
+    input_topic: /livox/lidar           # MID-360 PointCloud2；启用 linefit 后可改 /segmentation/obstacle
+    fused_scan_topic: /scan_3d          # 给反应式规划器（用 scan_topic:=/scan_3d 启动）
+    layer_scan_prefix: /perception/scan_layer_
+    frame_id: livox_frame
+    publish_layers: true                # RViz 验证用；上车提速可关掉省带宽
+
+    # 扫描几何（与现有 /scan 对齐，drop-in）
+    angle_min: -3.14159
+    angle_max: 3.14159
+    angle_increment: 0.0043
+    range_min: 0.1
+    range_max: 20.0
+    use_inf: true
+
+    # 高度带（low=低矮障碍 / body=车体高度 / high=悬空，默认不阻挡）—— RViz 可调起点
+    band_names:    ["low",  "body",  "high"]
+    band_floor:    [-0.08, -0.05,   0.10]
+    band_ceil:     [-0.05,  0.10,   0.50]
+    band_blocking: [true,   true,   false]
+
+    # 自车体过滤盒（丢弃 |x|<ego_box_x 且 |y|<ego_box_y 的点）
+    ego_box_x: 0.30
+    ego_box_y: 0.20

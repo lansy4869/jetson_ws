@@ -1,0 +1,9 @@
+source;share/slash_sysid/hook/pythonpath.ps1
+source;share/slash_sysid/hook/pythonpath.dsv
+source;share/slash_sysid/hook/pythonpath.sh
+source;share/slash_sysid/hook/ament_prefix_path.ps1
+source;share/slash_sysid/hook/ament_prefix_path.dsv
+source;share/slash_sysid/hook/ament_prefix_path.sh
+source;../../build/slash_sysid/share/slash_sysid/hook/pythonpath_develop.ps1
+source;../../build/slash_sysid/share/slash_sysid/hook/pythonpath_develop.dsv
+source;../../build/slash_sysid/share/slash_sysid/hook/pythonpath_develop.sh

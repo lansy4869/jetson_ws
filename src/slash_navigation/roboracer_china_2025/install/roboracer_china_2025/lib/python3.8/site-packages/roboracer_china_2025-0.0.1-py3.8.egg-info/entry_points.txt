@@ -1,0 +1,2 @@
+[console_scripts]
+battle_fast2_node = roboracer_china_2025.battle_fast2_node:main

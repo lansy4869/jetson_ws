@@ -1,0 +1,9 @@
+source;share/obstacle_tracker/hook/pythonpath.ps1
+source;share/obstacle_tracker/hook/pythonpath.dsv
+source;share/obstacle_tracker/hook/pythonpath.sh
+source;share/obstacle_tracker/hook/ament_prefix_path.ps1
+source;share/obstacle_tracker/hook/ament_prefix_path.dsv
+source;share/obstacle_tracker/hook/ament_prefix_path.sh
+source;../../build/obstacle_tracker/share/obstacle_tracker/hook/pythonpath_develop.ps1
+source;../../build/obstacle_tracker/share/obstacle_tracker/hook/pythonpath_develop.dsv
+source;../../build/obstacle_tracker/share/obstacle_tracker/hook/pythonpath_develop.sh

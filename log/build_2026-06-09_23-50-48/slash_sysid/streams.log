@@ -1,0 +1,35 @@
+[4.074s] Invoking command in '/home/jetson/slash_ws/build/slash_sysid': PYTHONPATH=/home/jetson/slash_ws/build/slash_sysid/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/jetson/slash_ws/build/slash_sysid/build
+[4.960s] running develop
+[5.454s] Removing /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash-sysid.egg-link (link to .)
+[5.823s] Invoked command in '/home/jetson/slash_ws/build/slash_sysid' returned '0': PYTHONPATH=/home/jetson/slash_ws/build/slash_sysid/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/jetson/slash_ws/build/slash_sysid/build
+[5.827s] Invoking command in '/home/jetson/slash_ws/src/slash_sysid': PYTHONPATH=/home/jetson/slash_ws/build/slash_sysid/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/slash_sysid build --build-base /home/jetson/slash_ws/build/slash_sysid/build install --record /home/jetson/slash_ws/build/slash_sysid/install.log --single-version-externally-managed install_data --force
+[6.875s] running egg_info
+[6.899s] writing ../../build/slash_sysid/slash_sysid.egg-info/PKG-INFO
+[6.900s] writing dependency_links to ../../build/slash_sysid/slash_sysid.egg-info/dependency_links.txt
+[6.901s] writing entry points to ../../build/slash_sysid/slash_sysid.egg-info/entry_points.txt
+[6.901s] writing requirements to ../../build/slash_sysid/slash_sysid.egg-info/requires.txt
+[6.901s] writing top-level names to ../../build/slash_sysid/slash_sysid.egg-info/top_level.txt
+[6.951s] reading manifest file '../../build/slash_sysid/slash_sysid.egg-info/SOURCES.txt'
+[6.953s] writing manifest file '../../build/slash_sysid/slash_sysid.egg-info/SOURCES.txt'
+[6.954s] running build
+[6.954s] running build_py
+[6.954s] running install
+[6.964s] running install_lib
+[6.987s] creating /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash_sysid
+[6.988s] copying /home/jetson/slash_ws/build/slash_sysid/build/lib/slash_sysid/circle_commander.py -> /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash_sysid
+[6.988s] copying /home/jetson/slash_ws/build/slash_sysid/build/lib/slash_sysid/chassis_sysid.py -> /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash_sysid
+[6.989s] copying /home/jetson/slash_ws/build/slash_sysid/build/lib/slash_sysid/__init__.py -> /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash_sysid
+[6.991s] byte-compiling /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash_sysid/circle_commander.py to circle_commander.cpython-38.pyc
+[6.993s] byte-compiling /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash_sysid/chassis_sysid.py to chassis_sysid.cpython-38.pyc
+[7.000s] byte-compiling /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash_sysid/__init__.py to __init__.cpython-38.pyc
+[7.000s] running install_data
+[7.000s] copying resource/slash_sysid -> /home/jetson/slash_ws/install/slash_sysid/share/ament_index/resource_index/packages
+[7.001s] copying package.xml -> /home/jetson/slash_ws/install/slash_sysid/share/slash_sysid
+[7.001s] copying launch/circle_test.launch.py -> /home/jetson/slash_ws/install/slash_sysid/share/slash_sysid/launch
+[7.001s] running install_egg_info
+[7.027s] Copying ../../build/slash_sysid/slash_sysid.egg-info to /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash_sysid-0.0.1-py3.8.egg-info
+[7.032s] running install_scripts
+[7.183s] Installing chassis_sysid script to /home/jetson/slash_ws/install/slash_sysid/lib/slash_sysid
+[7.184s] Installing circle_commander script to /home/jetson/slash_ws/install/slash_sysid/lib/slash_sysid
+[7.184s] writing list of installed files to '/home/jetson/slash_ws/build/slash_sysid/install.log'
+[7.364s] Invoked command in '/home/jetson/slash_ws/src/slash_sysid' returned '0': PYTHONPATH=/home/jetson/slash_ws/build/slash_sysid/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/slash_sysid build --build-base /home/jetson/slash_ws/build/slash_sysid/build install --record /home/jetson/slash_ws/build/slash_sysid/install.log --single-version-externally-managed install_data --force

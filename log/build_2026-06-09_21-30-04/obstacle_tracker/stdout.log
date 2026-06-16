@@ -1,0 +1,40 @@
+running egg_info
+creating ../../../build/obstacle_tracker/obstacle_tracker.egg-info
+writing ../../../build/obstacle_tracker/obstacle_tracker.egg-info/PKG-INFO
+writing dependency_links to ../../../build/obstacle_tracker/obstacle_tracker.egg-info/dependency_links.txt
+writing entry points to ../../../build/obstacle_tracker/obstacle_tracker.egg-info/entry_points.txt
+writing requirements to ../../../build/obstacle_tracker/obstacle_tracker.egg-info/requires.txt
+writing top-level names to ../../../build/obstacle_tracker/obstacle_tracker.egg-info/top_level.txt
+writing manifest file '../../../build/obstacle_tracker/obstacle_tracker.egg-info/SOURCES.txt'
+reading manifest file '../../../build/obstacle_tracker/obstacle_tracker.egg-info/SOURCES.txt'
+writing manifest file '../../../build/obstacle_tracker/obstacle_tracker.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/jetson/slash_ws/build/obstacle_tracker/build
+creating /home/jetson/slash_ws/build/obstacle_tracker/build/lib
+creating /home/jetson/slash_ws/build/obstacle_tracker/build/lib/obstacle_tracker
+copying obstacle_tracker/obstacle_tracker_node.py -> /home/jetson/slash_ws/build/obstacle_tracker/build/lib/obstacle_tracker
+copying obstacle_tracker/__init__.py -> /home/jetson/slash_ws/build/obstacle_tracker/build/lib/obstacle_tracker
+running install
+running install_lib
+creating /home/jetson/slash_ws/install/obstacle_tracker/lib/python3.8/site-packages/obstacle_tracker
+copying /home/jetson/slash_ws/build/obstacle_tracker/build/lib/obstacle_tracker/obstacle_tracker_node.py -> /home/jetson/slash_ws/install/obstacle_tracker/lib/python3.8/site-packages/obstacle_tracker
+copying /home/jetson/slash_ws/build/obstacle_tracker/build/lib/obstacle_tracker/__init__.py -> /home/jetson/slash_ws/install/obstacle_tracker/lib/python3.8/site-packages/obstacle_tracker
+byte-compiling /home/jetson/slash_ws/install/obstacle_tracker/lib/python3.8/site-packages/obstacle_tracker/obstacle_tracker_node.py to obstacle_tracker_node.cpython-38.pyc
+byte-compiling /home/jetson/slash_ws/install/obstacle_tracker/lib/python3.8/site-packages/obstacle_tracker/__init__.py to __init__.cpython-38.pyc
+running install_data
+creating /home/jetson/slash_ws/install/obstacle_tracker/share/ament_index
+creating /home/jetson/slash_ws/install/obstacle_tracker/share/ament_index/resource_index
+creating /home/jetson/slash_ws/install/obstacle_tracker/share/ament_index/resource_index/packages
+copying resource/obstacle_tracker -> /home/jetson/slash_ws/install/obstacle_tracker/share/ament_index/resource_index/packages
+copying package.xml -> /home/jetson/slash_ws/install/obstacle_tracker/share/obstacle_tracker
+creating /home/jetson/slash_ws/install/obstacle_tracker/share/obstacle_tracker/launch
+copying launch/race_w4_demo.launch.py -> /home/jetson/slash_ws/install/obstacle_tracker/share/obstacle_tracker/launch
+copying launch/obstacle_tracker.launch.py -> /home/jetson/slash_ws/install/obstacle_tracker/share/obstacle_tracker/launch
+creating /home/jetson/slash_ws/install/obstacle_tracker/share/obstacle_tracker/config
+copying config/obstacle_tracker.yaml -> /home/jetson/slash_ws/install/obstacle_tracker/share/obstacle_tracker/config
+running install_egg_info
+Copying ../../../build/obstacle_tracker/obstacle_tracker.egg-info to /home/jetson/slash_ws/install/obstacle_tracker/lib/python3.8/site-packages/obstacle_tracker-0.0.1-py3.8.egg-info
+running install_scripts
+Installing obstacle_tracker_node script to /home/jetson/slash_ws/install/obstacle_tracker/lib/obstacle_tracker
+writing list of installed files to '/home/jetson/slash_ws/build/obstacle_tracker/install.log'

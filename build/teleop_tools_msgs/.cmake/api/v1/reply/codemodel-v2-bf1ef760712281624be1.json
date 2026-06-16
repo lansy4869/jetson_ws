@@ -1,0 +1,213 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15
+					]
+				},
+				{
+					"build" : "teleop_tools_msgs__py",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "/home/jetson/slash_ws/build/teleop_tools_msgs/teleop_tools_msgs__py",
+					"targetIndexes" : 
+					[
+						2
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "teleop_tools_msgs",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "teleop_tools_msgs::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-teleop_tools_msgs-87fb216f71987ba28468.json",
+					"name" : "teleop_tools_msgs",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "teleop_tools_msgs__cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-teleop_tools_msgs__cpp-495e0464b365f4b9c9bb.json",
+					"name" : "teleop_tools_msgs__cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "teleop_tools_msgs__py::@9e91fbd60610c0465ccd",
+					"jsonFile" : "target-teleop_tools_msgs__py-b811dd133e254c1ae63a.json",
+					"name" : "teleop_tools_msgs__py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "teleop_tools_msgs__python::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-teleop_tools_msgs__python-27ee3f54f1e1b0505cea.json",
+					"name" : "teleop_tools_msgs__python",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "teleop_tools_msgs__rosidl_generator_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-teleop_tools_msgs__rosidl_generator_c-ba6f945b4939306f6f13.json",
+					"name" : "teleop_tools_msgs__rosidl_generator_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "teleop_tools_msgs__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-teleop_tools_msgs__rosidl_typesupport_c-39bd7f6bd5fe3a721c2b.json",
+					"name" : "teleop_tools_msgs__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "teleop_tools_msgs__rosidl_typesupport_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-teleop_tools_msgs__rosidl_typesupport_c__pyext-5e681cd0c571747082ef.json",
+					"name" : "teleop_tools_msgs__rosidl_typesupport_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "teleop_tools_msgs__rosidl_typesupport_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-teleop_tools_msgs__rosidl_typesupport_cpp-044ac98386338acc6230.json",
+					"name" : "teleop_tools_msgs__rosidl_typesupport_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "teleop_tools_msgs__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-teleop_tools_msgs__rosidl_typesupport_fastrtps_c-2d7502e102430e72ce08.json",
+					"name" : "teleop_tools_msgs__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "teleop_tools_msgs__rosidl_typesupport_fastrtps_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-teleop_tools_msgs__rosidl_typesupport_fastrtps_c__pyext-0318601d9cfa11fbe496.json",
+					"name" : "teleop_tools_msgs__rosidl_typesupport_fastrtps_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "teleop_tools_msgs__rosidl_typesupport_fastrtps_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-teleop_tools_msgs__rosidl_typesupport_fastrtps_cpp-1487f160788c91eac929.json",
+					"name" : "teleop_tools_msgs__rosidl_typesupport_fastrtps_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "teleop_tools_msgs__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-teleop_tools_msgs__rosidl_typesupport_introspection_c-cd2074f8a792e70a77e8.json",
+					"name" : "teleop_tools_msgs__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "teleop_tools_msgs__rosidl_typesupport_introspection_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-teleop_tools_msgs__rosidl_typesupport_introspection_c__pyext-467fa6d49182e684ab96.json",
+					"name" : "teleop_tools_msgs__rosidl_typesupport_introspection_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "teleop_tools_msgs__rosidl_typesupport_introspection_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-teleop_tools_msgs__rosidl_typesupport_introspection_cpp-4eeff8560b8e8e5d5e6e.json",
+					"name" : "teleop_tools_msgs__rosidl_typesupport_introspection_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "teleop_tools_msgs_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-teleop_tools_msgs_uninstall-a98afe1bc1fb2e383164.json",
+					"name" : "teleop_tools_msgs_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-0a0c3d6f4c2a47ad593c.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/jetson/slash_ws/build/teleop_tools_msgs",
+		"source" : "/home/jetson/slash_ws/src/slash_hardware/f1tenth_system/teleop_tools/teleop_tools_msgs"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}

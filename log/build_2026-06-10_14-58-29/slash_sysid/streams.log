@@ -1,0 +1,21 @@
+[4.906s] Invoking command in '/home/jetson/slash_ws/build/slash_sysid': PYTHONPATH=/home/jetson/slash_ws/build/slash_sysid/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/jetson/slash_ws/build/slash_sysid/build --no-deps symlink_data --force
+[6.307s] running develop
+[7.035s] running egg_info
+[7.093s] writing slash_sysid.egg-info/PKG-INFO
+[7.093s] writing dependency_links to slash_sysid.egg-info/dependency_links.txt
+[7.094s] writing entry points to slash_sysid.egg-info/entry_points.txt
+[7.095s] writing requirements to slash_sysid.egg-info/requires.txt
+[7.095s] writing top-level names to slash_sysid.egg-info/top_level.txt
+[7.180s] reading manifest file 'slash_sysid.egg-info/SOURCES.txt'
+[7.181s] writing manifest file 'slash_sysid.egg-info/SOURCES.txt'
+[7.318s] running build_ext
+[7.324s] Creating /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash-sysid.egg-link (link to .)
+[7.324s] Installing chassis_sysid script to /home/jetson/slash_ws/install/slash_sysid/lib/slash_sysid
+[7.338s] Installing circle_commander script to /home/jetson/slash_ws/install/slash_sysid/lib/slash_sysid
+[7.340s] 
+[7.340s] Installed /home/jetson/slash_ws/build/slash_sysid
+[7.341s] running symlink_data
+[7.342s] symbolically linking /home/jetson/slash_ws/build/slash_sysid/resource/slash_sysid -> /home/jetson/slash_ws/install/slash_sysid/share/ament_index/resource_index/packages
+[7.343s] symbolically linking /home/jetson/slash_ws/build/slash_sysid/package.xml -> /home/jetson/slash_ws/install/slash_sysid/share/slash_sysid
+[7.344s] symbolically linking /home/jetson/slash_ws/build/slash_sysid/launch/circle_test.launch.py -> /home/jetson/slash_ws/install/slash_sysid/share/slash_sysid/launch
+[7.660s] Invoked command in '/home/jetson/slash_ws/build/slash_sysid' returned '0': PYTHONPATH=/home/jetson/slash_ws/build/slash_sysid/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/jetson/slash_ws/build/slash_sysid/build --no-deps symlink_data --force

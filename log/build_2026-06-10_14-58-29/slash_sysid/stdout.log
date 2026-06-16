@@ -1,0 +1,19 @@
+running develop
+running egg_info
+writing slash_sysid.egg-info/PKG-INFO
+writing dependency_links to slash_sysid.egg-info/dependency_links.txt
+writing entry points to slash_sysid.egg-info/entry_points.txt
+writing requirements to slash_sysid.egg-info/requires.txt
+writing top-level names to slash_sysid.egg-info/top_level.txt
+reading manifest file 'slash_sysid.egg-info/SOURCES.txt'
+writing manifest file 'slash_sysid.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash-sysid.egg-link (link to .)
+Installing chassis_sysid script to /home/jetson/slash_ws/install/slash_sysid/lib/slash_sysid
+Installing circle_commander script to /home/jetson/slash_ws/install/slash_sysid/lib/slash_sysid
+
+Installed /home/jetson/slash_ws/build/slash_sysid
+running symlink_data
+symbolically linking /home/jetson/slash_ws/build/slash_sysid/resource/slash_sysid -> /home/jetson/slash_ws/install/slash_sysid/share/ament_index/resource_index/packages
+symbolically linking /home/jetson/slash_ws/build/slash_sysid/package.xml -> /home/jetson/slash_ws/install/slash_sysid/share/slash_sysid
+symbolically linking /home/jetson/slash_ws/build/slash_sysid/launch/circle_test.launch.py -> /home/jetson/slash_ws/install/slash_sysid/share/slash_sysid/launch

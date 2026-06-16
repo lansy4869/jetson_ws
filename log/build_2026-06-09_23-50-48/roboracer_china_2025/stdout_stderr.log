@@ -1,0 +1,43 @@
+/home/jetson/.local/lib/python3.8/site-packages/setuptools/dist.py:771: UserWarning: Usage of dash-separated 'script-dir' will not be supported in future versions. Please use the underscore name 'script_dir' instead
+  warnings.warn(
+running develop
+Removing /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer-china-2025.egg-link (link to .)
+/home/jetson/.local/lib/python3.8/site-packages/setuptools/dist.py:771: UserWarning: Usage of dash-separated 'script-dir' will not be supported in future versions. Please use the underscore name 'script_dir' instead
+  warnings.warn(
+running egg_info
+writing ../../../build/roboracer_china_2025/roboracer_china_2025.egg-info/PKG-INFO
+writing dependency_links to ../../../build/roboracer_china_2025/roboracer_china_2025.egg-info/dependency_links.txt
+writing entry points to ../../../build/roboracer_china_2025/roboracer_china_2025.egg-info/entry_points.txt
+writing requirements to ../../../build/roboracer_china_2025/roboracer_china_2025.egg-info/requires.txt
+writing top-level names to ../../../build/roboracer_china_2025/roboracer_china_2025.egg-info/top_level.txt
+reading manifest file '../../../build/roboracer_china_2025/roboracer_china_2025.egg-info/SOURCES.txt'
+writing manifest file '../../../build/roboracer_china_2025/roboracer_china_2025.egg-info/SOURCES.txt'
+running build
+running build_py
+running install
+running install_lib
+creating /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer_china_2025
+copying /home/jetson/slash_ws/build/roboracer_china_2025/build/lib/roboracer_china_2025/battle_fast2_node.py -> /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer_china_2025
+copying /home/jetson/slash_ws/build/roboracer_china_2025/build/lib/roboracer_china_2025/battle_fast2_node（另一个复件）.py -> /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer_china_2025
+copying /home/jetson/slash_ws/build/roboracer_china_2025/build/lib/roboracer_china_2025/battle_node_new.py -> /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer_china_2025
+copying /home/jetson/slash_ws/build/roboracer_china_2025/build/lib/roboracer_china_2025/battle_fast2_node（复件）.py -> /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer_china_2025
+copying /home/jetson/slash_ws/build/roboracer_china_2025/build/lib/roboracer_china_2025/AliLQRrosbag_offline_plots.py -> /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer_china_2025
+copying /home/jetson/slash_ws/build/roboracer_china_2025/build/lib/roboracer_china_2025/__init__.py -> /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer_china_2025
+copying /home/jetson/slash_ws/build/roboracer_china_2025/build/lib/roboracer_china_2025/battle_node.py -> /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer_china_2025
+byte-compiling /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer_china_2025/battle_fast2_node.py to battle_fast2_node.cpython-38.pyc
+byte-compiling /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer_china_2025/battle_fast2_node（另一个复件）.py to battle_fast2_node（另一个复件）.cpython-38.pyc
+byte-compiling /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer_china_2025/battle_node_new.py to battle_node_new.cpython-38.pyc
+byte-compiling /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer_china_2025/battle_fast2_node（复件）.py to battle_fast2_node（复件）.cpython-38.pyc
+byte-compiling /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer_china_2025/AliLQRrosbag_offline_plots.py to AliLQRrosbag_offline_plots.cpython-38.pyc
+byte-compiling /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer_china_2025/__init__.py to __init__.cpython-38.pyc
+byte-compiling /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer_china_2025/battle_node.py to battle_node.cpython-38.pyc
+running install_data
+copying resource/roboracer_china_2025 -> /home/jetson/slash_ws/install/roboracer_china_2025/share/ament_index/resource_index/packages
+copying package.xml -> /home/jetson/slash_ws/install/roboracer_china_2025/share/roboracer_china_2025
+copying launch/battle_fast2.launch.py -> /home/jetson/slash_ws/install/roboracer_china_2025/share/roboracer_china_2025/launch
+copying launch/race_reactive_bringup.launch.py -> /home/jetson/slash_ws/install/roboracer_china_2025/share/roboracer_china_2025/launch
+running install_egg_info
+Copying ../../../build/roboracer_china_2025/roboracer_china_2025.egg-info to /home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages/roboracer_china_2025-0.0.1-py3.8.egg-info
+running install_scripts
+Installing battle_fast2_node script to /home/jetson/slash_ws/install/roboracer_china_2025/lib/roboracer_china_2025
+writing list of installed files to '/home/jetson/slash_ws/build/roboracer_china_2025/install.log'

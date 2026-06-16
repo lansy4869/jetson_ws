@@ -1,0 +1,31 @@
+running develop
+Removing /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash-sysid.egg-link (link to .)
+running egg_info
+writing ../../build/slash_sysid/slash_sysid.egg-info/PKG-INFO
+writing dependency_links to ../../build/slash_sysid/slash_sysid.egg-info/dependency_links.txt
+writing entry points to ../../build/slash_sysid/slash_sysid.egg-info/entry_points.txt
+writing requirements to ../../build/slash_sysid/slash_sysid.egg-info/requires.txt
+writing top-level names to ../../build/slash_sysid/slash_sysid.egg-info/top_level.txt
+reading manifest file '../../build/slash_sysid/slash_sysid.egg-info/SOURCES.txt'
+writing manifest file '../../build/slash_sysid/slash_sysid.egg-info/SOURCES.txt'
+running build
+running build_py
+running install
+running install_lib
+creating /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash_sysid
+copying /home/jetson/slash_ws/build/slash_sysid/build/lib/slash_sysid/circle_commander.py -> /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash_sysid
+copying /home/jetson/slash_ws/build/slash_sysid/build/lib/slash_sysid/chassis_sysid.py -> /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash_sysid
+copying /home/jetson/slash_ws/build/slash_sysid/build/lib/slash_sysid/__init__.py -> /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash_sysid
+byte-compiling /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash_sysid/circle_commander.py to circle_commander.cpython-38.pyc
+byte-compiling /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash_sysid/chassis_sysid.py to chassis_sysid.cpython-38.pyc
+byte-compiling /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash_sysid/__init__.py to __init__.cpython-38.pyc
+running install_data
+copying resource/slash_sysid -> /home/jetson/slash_ws/install/slash_sysid/share/ament_index/resource_index/packages
+copying package.xml -> /home/jetson/slash_ws/install/slash_sysid/share/slash_sysid
+copying launch/circle_test.launch.py -> /home/jetson/slash_ws/install/slash_sysid/share/slash_sysid/launch
+running install_egg_info
+Copying ../../build/slash_sysid/slash_sysid.egg-info to /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash_sysid-0.0.1-py3.8.egg-info
+running install_scripts
+Installing chassis_sysid script to /home/jetson/slash_ws/install/slash_sysid/lib/slash_sysid
+Installing circle_commander script to /home/jetson/slash_ws/install/slash_sysid/lib/slash_sysid
+writing list of installed files to '/home/jetson/slash_ws/build/slash_sysid/install.log'

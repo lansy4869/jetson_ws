@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: multilayer-scan
+Version: 0.0.1
+Summary: 3D 多层感知：MID-360 点云按高度带投影成多条 scan 并融合（毕设创新点1）
+Maintainer: jetson
+Maintainer-email: jetson@todo.todo
+License: Apache-2.0

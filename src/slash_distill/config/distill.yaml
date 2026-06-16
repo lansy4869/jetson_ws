@@ -1,0 +1,66 @@
+# 蒸馏数据/训练/观测配置（W5-W8）。
+# 离线脚本（collect_demos / train_bc / eval_closed_loop / dagger / run_ablations）默认读它。
+
+# ---- 观测（obs.py，部署=训练同构）----
+obs:
+  n_beams: 108           # lidar 重采样定长（每层）
+  n_layers_sim: 1        # 仿真：单层（gym 2D scan）
+  n_layers_car: 3        # 实车：low/body/high
+  fov_rad: 4.7           # 学生 lidar 视场（取前向扇区；仿真=gym 270°）
+  range_max: 20.0        # lidar 归一化用
+  use_opponent: true     # 是否拼接 opponent_state[10]
+  frame_stack: 1         # 帧堆叠数（无状态 CNN；>1 时把历史帧当通道）
+
+# ---- 动作归一化（与 sysid_params 对齐）----
+action:
+  steer_max: 0.34        # rad
+  v_max: 2.0             # m/s
+
+# ---- 仿真采集（W5）----
+collect:
+  maps: []               # 空 = 用 gym 自带 vegas/berlin/skirk；用户放图后填路径（不含 .yaml）
+  map_ext: ".png"
+  n_episodes: 200
+  max_steps: 2000
+  control_hz: 50         # 决策频率（gym timestep=0.01 → 每 2 个物理步出 1 个动作）
+  num_agents: 1          # 1=单车；2=带对手（产 opponent_state 真值）
+  domain_rand:
+    enable: true
+    mu_range: [0.8, 1.1]         # 路面摩擦随机
+    lidar_noise_std: 0.01        # lidar 噪声（m）
+    start_jitter_m: 0.3          # 起点扰动
+  out: "data/demos.npz"
+
+# ---- BC 训练（W6）----
+train:
+  epochs: 100
+  batch_size: 256
+  lr: 0.001
+  weight_decay: 0.0
+  val_frac: 0.1
+  device: "cuda"          # 无 GPU 自动回退 cpu
+  ckpt_dir: "ckpt"
+  seed: 0
+
+# ---- 学生网络（models/student_cnn.py）----
+model:
+  conv_channels: [32, 64, 64]
+  kernel_sizes: [7, 5, 3]
+  strides: [3, 2, 2]
+  mlp_hidden: [256, 128]
+  dropout: 0.0
+
+# ---- DAgger（W7）----
+dagger:
+  iters: 5
+  rollouts_per_iter: 20
+  beta_decay: 0.7         # 第 i 轮专家接管概率 beta = beta_decay**i
+  epochs_per_iter: 30
+
+# ---- 闭环评估（W6/W8）----
+eval:
+  n_episodes: 10
+  max_steps: 3000
+  use_shield: true        # 输出过 g-g-v
+  use_fallback: true      # 学生低置信/异常 → 反应式兜底
+  fallback_speed_jump: 1.5 # |学生v - 反应式v| 超过此值视为可疑 → 兜底

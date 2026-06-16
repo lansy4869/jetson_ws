@@ -1,0 +1,405 @@
+在你的 bt_navigator 配置中，以下节点是建议开启的，以确保机器人能够正常导航和执行任务：
+必须开启的节点：
+
+    路径规划和执行
+        nav2_compute_path_to_pose_action_bt_node：计算到目标位置的路径。
+        nav2_follow_path_action_bt_node：执行计算出的路径。
+        nav2_truncate_path_action_bt_node：在必要时缩短路径。
+
+    恢复行为
+        nav2_recovery_node_bt_node：处理机器人卡住时的恢复动作。
+        nav2_back_up_action_bt_node：允许机器人在遇到障碍物时后退。
+
+    导航条件
+        nav2_is_stuck_condition_bt_node：检查机器人是否卡住。
+        nav2_goal_reached_condition_bt_node：验证目标是否已到达。
+        nav2_goal_updated_condition_bt_node：响应导航目标的更新。
+
+    控制器和速率管理
+        nav2_rate_controller_bt_node：管理控制命令的发送频率。
+        nav2_distance_controller_bt_node：根据距离控制机器人的移动。
+        nav2_speed_controller_bt_node：调节机器人的速度。
+
+    定位和地图管理
+        nav2_clear_costmap_service_bt_node：清除代价地图，以防止将障碍物视为有效。
+        nav2_reinitialize_global_localization_service_bt_node：在需要时重新初始化定位。
+
+    执行条件
+        nav2_transform_available_condition_bt_node：检查必要的变换是否可用。
+        nav2_time_expired_condition_bt_node：确保时间限制得到遵守。
+        nav2_distance_traveled_condition_bt_node：监控行驶的距离以触发动作。
+
+可选开启的节点：
+
+    根据具体需求，可以考虑开启以下节点：
+        nav2_spin_action_bt_node：如果需要机器人旋转的行为。
+        nav2_wait_action_bt_node：在需要机器人暂停时使用。
+        nav2_is_battery_low_condition_bt_node：用于电池管理的重要节点。
+
+确保根据机器人能力和操作环境的不同，调整开启的节点！
+
+
+看起来你在机器人系统中遇到了一些问题，尤其是与AMCL（自适应蒙特卡洛定位）和导航组件相关。以下是日志信息的分析和潜在的故障排除步骤：
+识别到的问题
+
+    消息过滤器丢弃消息：
+        对于livox_frame的重复丢弃消息表示AMCL无法处理来自该帧的消息。这可能是由于：
+            消息的时间戳不正确。
+            帧之间缺少转换（transform）。
+            消息到达得太晚。
+
+    导航错误：
+        bt_navigator中的错误消息“DecoratorNode或ControlNode的一个子节点为nullptr”表明可能存在行为树配置问题。这可能发生在：
+            所需节点未正确初始化。
+            导航目标的动作服务器未设置或未响应。
+
+    信号处理程序：
+        日志显示多个组件处理终止信号（SIGINT）。如果你手动中断了进程，这种情况是正常的，但确保关闭过程是干净的，且没有组件处于不一致的状态。
+
+故障排除步骤
+
+    检查转换的可用性：
+        使用ros2 run tf2_tools view_frames可视化TF树。确保livox_frame、map和base_link（或相关帧）之间的所有必要转换都存在。
+
+    消息时间戳：
+        确保发送到livox_frame的消息的时间戳正确。AMCL节点需要接收到比它最后处理的消息更新的消息。
+
+    检查行为树配置：
+        审查你的行为树设置，确保所有节点都正确定义和初始化。检查动作服务器是否正确运行并可用。
+
+    日志记录和调试：
+        增加AMCL和导航组件的日志详细程度，以获取更详细的错误信息。
+        检查是否有节点配置错误或未能初始化。
+
+    姿态数据：
+        验证发送的姿态数据（在你的示例中来自lidar_odom）是否一致且有效。位置和方向值应准确表示机器人的状态。
+
+    Rviz配置：
+        确保Rviz配置为可视化正确的帧和数据类型。有时，视觉化问题也可能指示底层数据存在问题。
+
+按照这些步骤，你应该能够识别错误的来源，并对系统进行必要的调整。如果问题仍然存在，提供更具体的配置细节可能有助于进一步诊断问题。
+ 
+ 
+ 
+ 
+ 
+ 
+ 我现在有一辆主板为Jetson orin nx16gb的ubuntu20.04的ros2foxy小车，从头告诉我要怎么部署
+ 
+ 
+ 
+ ros2 launch f1tenth_stack bringup_launch.py 
+ ros2 launch fast_lio mapping.launch.py
+ 
+ 转fishbot工作空间
+source install/setup.bash 
+ ros2 launch fishbot_navigation2 navigation2.launch.py use_sim_time:=False
+ 
+ 
+ 
+ 
+ 
+ ros2 run twist_to_ackermann twist_to_ackermann_node
+ros2 topic echo --full-length /drive ackermann_msgs/msg/AckermannDrive
+
+# 100Hz频率发送速度0.2，转向角0的消息
+ros2 topic pub /drive ackermann_msgs/msg/AckermannDrive "{steering_angle: 0.0, steering_angle_velocity: 0.0, speed: 0.2, acceleration: 0.0, jerk: 0.0}" --rate 100
+
+
+
+
+
+配置地图：
+ros2 run nav2_map_server map_saver_cli -f /home/jetson/maps/my_map
+
+
+
+
+git部分：
+创建新分支：git branch branchName
+切换到新分支：git checkout branchName
+然后，上面两个命令也可以合成为一个命令：
+git checkout -b branchName
+
+ros2 launch slam_toolbox online_async_launch.py params_file:=/home/jetson/slash_ws/src/slash_hardware/f1tenth_system/f1tenth_stack/config/f1tenth_online_async.yaml
+
+ros2 launch slam_toolbox online_async_launch.py params_file:=/home/jetson/slash_ws/src/slash_hardware/f1tenth_system/f1tenth_stack/config/f1tenth_online_async.yaml
+
+
+ros2 launch slam_toolbox online_async_launch.py 
+配置地图：
+ros2 run nav2_map_server map_saver_cli -f /home/jetson/maps/my_map
+
+更新地图：
+ros2 run nav2_map_server map_server --ros-args -p yaml_filename:="/home/jetson/mpc_python_ws/my_map_new.yaml"
+
+ros2 launch localization_server localization.launch.py
+
+
+
+
+节点优先等级：
+网络网口;
+sudo ip route add default via 172.28.224.1 dev wlan0 metric 10
+
+雷达网口:
+sudo ip route add default via 192.168.1.1 dev eth0 metric 11
+
+查看更改效果:
+route -n
+
+mpc启动：
+colcon build
+source install/setup.bash 
+ros2 run mpc_python mpc_python 
+
+ros2 run mpc_python sim_test 
+
+
+
+ros1指令：catkin_make
+source devel/setup.bash
+roslaunch f1tenth_simulator simulator.launch
+
+
+
+############################################################################################################################
+
+ros2 launch f1tenth_stack bringup_launch.py 
+
+ros2 launch livox_ros_driver2 msg_MID360_launch.py 
+
+ros2 launch fast_lio mapping.launch.py
+ 
+
+python3 /home/jetson/slash_ws/src/slash_controller/simple_mpc/scripts/mpc_node.py
+
+ros2 bag record -o chassis_test   /ackermann_cmd   /commands/motor/speed   /commands/servo/position   /odom   /sensors/imu   /sensors/core   /sensors/servo_position_command
+
+
+ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 map lidar_odom
+ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 lidar_odom base_link
+
+
+
+cd ~/mppi_ws/src/mppi_controller/mppi_controller
+python3 MPPI_Kalman.py
+
+################################################################################################################################################3
+
+
+
+ros2 launch f1tenth_gym_ros gym_bridge_launch.py
+ 
+ ros2 launch pure_pursuit pure_pursuit_launch.py
+ ros2 launch particle_filter localize_launch.py
+
+ros2 launch pointcloud_to_laserscan pointcloud_to_laserscan_launch.py
+
+
+ros2 run nav2_amcl amcl
+
+
+sudo apt install -y \
+  ros-foxy-ament-lint-auto \
+  ros-foxy-ament-cmake-cppcheck \
+  ros-foxy-ament-cmake-cpplint \ 
+  ros-foxy-rosidl-default-generators
+
+
+ros2 launch f1tenth_gym_ros gym_bridge_launch.py
+
+ros2 launch livox_ros_driver2 rviz_MID360_launch.py 
+ros2 run pointcloud_to_laserscan pointcloud_to_laserscan_node \
+    --ros-args \
+    -r cloud_in:=/livox/lidar \
+    -r scan:=/scan \
+    -p target_frame:=livox_frame \
+    -p range_min:=0.1 \
+    -p range_max:=20.0 \
+    -p transform_tolerance:=0.5
+
+ros2 launch roboracer_china_2025 battle_fast2.launch.py 
+
+
+
+
+
+
+
+
+
+
+
+1614  colcon build
+ 1615  source install/setup.bash
+ 1616  cd ~/f1tenth_mppi/src/mppi_controller
+ 1617  chmod +x build.sh
+ 1618  ./build.sh
+ 1619  chmod +x build.sh
+ 1620  ./build.sh
+ 1621  g++ -c -O3 -fPIC     -I"$TORCH_BASE_INCLUDE"     -I"$TORCH_CSRC_API_INCLUDE" \  # 确保添加这一行
+ 1622  python setup.py develop
+ 1623  cd ~/f1tenth_mppi
+ 1624  colcon build --symlink-install --packages-select mppi_controller
+ 1625  source install/setup.bash
+ 1626  ros2 pkg create mppi_controller --build-type ament_python --dependecies rclpy
+ 1627  colcon build
+ 1628  cd src
+ 1629  git clone https://github.com/pbarry670/f1tenth-mppi.git
+ 1630  cd f1tenth-mppi
+ 1631  cd src
+ 1632  ros2 pkg create mppi_controller --build-type ament_python --dependencies rclpy sensor_msgs ackermann_msgs
+ 1633  cp -r ~/f1tenth_ws/src/f1tenth-mppi/* ~/f1tenth_ws/src/mppi_controller/mppi_controller/
+ 1634  cd ~/f1tenth_ws/src/mppi_controller/mppi_controller
+ 1635  cp ~/f1tenth_mppi/src/f1tenth-mppi/*.py ~/f1tenth_mppi/src/mppi_controller/mppi_controller/
+ 1636  cp ~/f1tenth_mppi/src/f1tenth-mppi/*.cu ~/f1tenth_mppi/src/f1tenth-mppi/*.cpp ~/f1tenth_mppi/src/mppi_controller/ 2>/dev/null || true
+ 1637  cd ~/f1tenth_mppi
+ 1638  source install/setup.bash
+ 1639  ros2 run mppi_controller mppi_kalman --help
+ 1640  colcon buld
+ 1641  colcon build
+ 1642  source install/setup.bash
+ 1643  ros2 run mppi_controller mppi_kalman
+ 1644  colcon build
+ 1645  colcon buld
+ 1646  colcon build
+ 1647  source install/setup.bash
+ 1648  colcon build
+ 1649  export CUDA_HOME=/usr/local/cuda
+ 1650  export PATH=$CUDA_HOME/bin:$PATH
+ 1651  export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+ 1652  # 永久设置（添加到.bashrc）
+echo 'export CUDA_HOME=/usr/local/cuda' >> ~/.bashrc
+echo 'export PATH=$CUDA_HOME/bin:$PATH' >> ~/.bashrc
+echo 'export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH' >> ~/.bashrc
+source ~/.bashrc
+cp ~/f1tenth_mppi/src/f1tenth-mppi_backup/*.py ~/f1tenth_mppi/src/mppi_controller/mppi_controller/
+cp ~/f1tenth_mppi/src/f1tenth-mppi_backup/*.cu ~/f1tenth_mppi/src/mppi_controller/ 2>/dev/null || true
+cp ~/f1tenth_mppi/src/f1tenth-mppi_backup/*.cpp ~/f1tenth_mppi/src/mppi_controller/ 2>/dev/null || true
+export CUDA_HOME=/usr/local/cuda
+export PATH=$CUDA_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+cd ~/f1tenth_mppi
+rm -rf build install log
+colcon build --packages-select mppi_controller --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release --event-handlers console_direct+
+source ~/f1tenth_mppi/install/setup.bash
+colcon build
+cat ~/f1tenth_mppi/src/mppi_controller/setup.py | head -30
+find ~/f1tenth_mppi -name "setup.py" -type f
+cd ~/f1tenth_mppi/src/mppi_controller
+rm -f setup.py
+if [ -f mppi_controller/setup.py ]; then     mv mppi_controller/setup.py .;     echo "已将setup.py移动到正确位置"; fi
+ls -la
+rm -rf build install log
+colcon build --packages-select mppi_controller
+cat ~/f1tenth_mppi/src/mppi_controller/setup.py
+python3 -m py_compile ~/f1tenth_mppi/src/mppi_controller/setup.py
+head -5 ~/f1tenth_mppi/src/mppi_controller/setup.py
+cd ..
+rm -rf build install log
+colcon build
+cd ~/f1tenth_mppi/src/mppi_controller
+rm -f setup.py
+cat > setup.py << 'PYTHON_EOF'
+#!/usr/bin/env python3
+from setuptools import setup, find_packages
+import os
+from glob import glob
+ package_name = 'mppi_controller'
+ setup(
+    name=package_name,
+    version='1.0.0',
+    packages=find_packages(),
+    data_files=[
+       ('share/ament_index/resource_index/packages',
+           ['resource/' + package_name]),
+        ('share/' + package_name, ['package.xml']),
+    ],
+    install_requires=['setuptools'],
+    zip_safe=False,
+   maintainer='jetson',
+   maintainer_email='572542743@qq.com',
+    description='MPPI Controller for F1Tenth Autonomous Racecar',
+    license='Apache-2.0',
+    tests_require=['pytest'],
+    entry_points={
+        'console_scripts': [
+           'mppi_kalman = mppi_controller.MPPI_Kalman:main',
+        ],
+    },
+ )
+PYTHON_EOF
+cd ~/f1tenth_mppi
+rm -rf build install log
+colcon build
+source install/setup.bash
+ros2 run mppi_controller mppi_kalman --help
+ros2 run mppi_controller mppi_kalman 
+
+ 1723  cd ~/f1tenth_mppi/src/mppi_controller
+ 1724  ls -la
+ 1725  # 检查 mppi_controller 子目录（Python包目录）
+ 1726  ls -la mppi_controller/
+ 1727  # 确保有 __init__.py 文件
+ 1728  touch mppi_controller/__init__.py
+ 1729  # 检查 MPPI_Kalman.py 是否存在
+ 1730  ls -la mppi_controller/MPPI_Kalman.py
+ 1731  # 测试Python是否能导入
+ 1732  cd ~/f1tenth_mppi/src/mppi_controller
+ 1733  python3 -c "import sys; sys.path.insert(0, 'mppi_controller'); from mppi_controller import MPPI_Kalman; print('导入成功')"
+ 1734  cd ..
+ 1735  colcon build
+ 1736  source install/setup.bash
+ 1737  ros2 run mppi_controller mppi_kalman --ros-args --log-level info
+ 1738  cd src
+ 1739  ros2 run mppi_controller mppi_kalman --ros-args --log-level info
+ 1740  cd ..
+ 1741  source install/setup.bash
+ 1742  ros2 run mppi_controller mppi_kalman --ros-args --log-level info
+ 1743  ros2 run mppi_controller mppi_kalman
+ 1744  cd ~/f1tenth_mppi
+ 1745  rm -rf build install log
+ 1746  colcon build --packages-select mppi_controller --symlink-install --event-handlers console_direct+
+ 1747  source install/setup.bash
+ 1748  cat ~/f1tenth_mppi/src/mppi_controller/setup.py
+ 1749  # 确保它包含以下关键部分
+ 1750  cat > ~/f1tenth_mppi/src/mppi_controller/setup.py << 'EOF'
+ 1751  #!/usr/bin/env python3
+ 1752  from setuptools import setup, find_packages
+ 1753  package_name = 'mppi_controller'
+ 1754  setup(
+ 1755      name=package_name,
+ 1756      version='1.0.0',
+ 1757      packages=find_packages(),
+ 1758      data_files=[
+ 1759          ('share/ament_index/resource_index/packages',
+ 1760              ['resource/' + package_name]),
+ 1761          ('share/' + package_name, ['package.xml']),
+ 1762      ],
+ 1763      install_requires=['setuptools'],
+ 1764      zip_safe=False,
+ 1765      maintainer='jetson',
+ 1766      maintainer_email='572542743@qq.com',
+ 1767      description='MPPI Controller for F1Tenth Autonomous Racecar',
+ 1768      license='Apache-2.0',
+ 1769      entry_points={
+ 1770          'console_scripts': [
+ 1771              'mppi_kalman = mppi_controller.MPPI_Kalman:main',
+
+
+
+
+
+
+
+
+
+
+
+我用 Python 作为控制框架，核心是基于自行车模型的有限时域 MPC。
+这套 MPC 不是标准 QP 求解器，而是对控制量做离散网格搜索，滚动预测后根据轨迹误差、控制平滑项和风险项选最优控制。
+这是为了实现简单、调试快，适合原型验证；如果后续追求更强实时性，可以替换成 CasADi、OSQP 或 acados 这类求解框架。
+
+
+

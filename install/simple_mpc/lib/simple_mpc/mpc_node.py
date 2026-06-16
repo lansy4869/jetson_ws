@@ -1,0 +1,1 @@
+/home/jetson/slash_ws/src/slash_controller/simple_mpc/scripts/mpc_node.py

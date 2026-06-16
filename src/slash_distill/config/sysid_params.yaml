@@ -1,0 +1,35 @@
+# sysid 接地参数（W5）：把 f110_gym 从「文献默认（轴距 0.33m、未标定）」改成「本车实测」。
+#
+# 来源：
+#   纵向 K/tau/Td ........ chassis_sysid 复现（周总结.md）：K=0.9139, tau=0.255s, Td=0
+#   ax_accel/ax_brake .... 实测 +6.35 / -6.66 m/s^2
+#   wheelbase ............ vesc.yaml 实测 0.25 m（替换 gym 默认 lf+lr=0.33）
+#   steering_limit ....... 实测 servo 行程 ±0.34 rad
+#   ay_max ............... ⚠ 仍为假设 mu*g=9.81（W2 未补绕圆 bag）；绕圆实测后替换
+#   v_max ................ 全局限速 2.0 m/s（与 ggv_shield.yaml 一致）
+#
+# 与 src/slash_safety/config/ggv_shield.yaml 保持同一套数字，避免 sim 与车上漂移。
+
+# ---- 本车实测可行域（g-g-v 护盾 + 接地仿真共用）----
+wheelbase: 0.25
+steering_limit_rad: 0.34
+ax_accel_max: 6.35
+ax_brake_max: 6.66          # 正幅值
+ay_max: 9.81               # ASSUMED（mu*g），绕圆 bag 实测后替换
+ay_source: ASSUMED          # MEASURED / ASSUMED（写进论文 sim-to-real 章节）
+ay_safety_factor: 0.6       # 首跑保守，逐步 -> 1.0
+v_max: 2.0
+v_min: 0.0
+
+# ---- 纵向一阶+延迟模型（命令侧接地：u_cmd -> 实际车速）----
+long_gain_K: 0.9139         # 稳态增益（指令速度乘 K 后进 sim）
+long_tau_s: 0.255           # 一阶时间常数
+long_delay_s: 0.0           # 纯延迟（Td）；W2 复现为 0
+
+# ---- gym 单车体几何/质量（其余沿用 f110_gym 默认，仅轴距与极限接地）----
+# 注意：lf/lr 之和 = wheelbase；按重心居中分配（无 CG 实测时的合理默认）。
+mu_ground: 1.0             # 接地用的路面摩擦（≈ ay_max/g）；ay_max 为假设时此项也为假设
+gym_defaults:              # 「默认对照」消融用（文献硬编码）
+  lf: 0.15875
+  lr: 0.17145             # lf+lr = 0.3302 ≈ 文档抱怨的 0.33
+  mu: 1.0489

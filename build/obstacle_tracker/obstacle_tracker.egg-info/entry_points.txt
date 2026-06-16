@@ -1,0 +1,2 @@
+[console_scripts]
+obstacle_tracker_node = obstacle_tracker.obstacle_tracker_node:main

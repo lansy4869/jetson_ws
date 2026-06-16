@@ -1,0 +1,38 @@
+[0.171s] Invoking command in '/home/jetson/slash_ws/build/ackermann_mux': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/ackermann_mux -- -j8 -l8
+[1.066s] [100%] Built target ackermann_mux
+[1.857s] Invoked command in '/home/jetson/slash_ws/build/ackermann_mux' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/ackermann_mux -- -j8 -l8
+[1.860s] Invoking command in '/home/jetson/slash_ws/build/ackermann_mux': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/ackermann_mux
+[1.944s] -- Install configuration: ""
+[1.944s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/lib/ackermann_mux/ackermann_mux
+[1.974s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/launch
+[1.974s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/launch/ackermann_mux_launch.py
+[1.975s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/config
+[1.975s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/config/ackermann_mux_topics.yaml
+[1.978s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/config/ackermann_mux_locks.yaml
+[1.994s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/config/joystick.yaml
+[1.995s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/include
+[1.995s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/include/ackermann_mux
+[1.996s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/include/ackermann_mux/ackermann_mux.hpp
+[1.998s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/include/ackermann_mux/topic_handle.hpp
+[2.001s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/include/ackermann_mux/utils.hpp
+[2.001s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/include/ackermann_mux/ackermann_mux_diagnostics_status.hpp
+[2.001s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/include/ackermann_mux/ackermann_mux_diagnostics.hpp
+[2.002s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/include/ackermann_mux/params_helpers.hpp
+[2.002s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ament_index/resource_index/package_run_dependencies/ackermann_mux
+[2.002s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ament_index/resource_index/parent_prefix_path/ackermann_mux
+[2.003s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/environment/ament_prefix_path.sh
+[2.004s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/environment/ament_prefix_path.dsv
+[2.004s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/environment/path.sh
+[2.005s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/environment/path.dsv
+[2.006s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/local_setup.bash
+[2.007s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/local_setup.sh
+[2.007s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/local_setup.zsh
+[2.008s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/local_setup.dsv
+[2.009s] -- Installing: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/package.dsv
+[2.010s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ament_index/resource_index/packages/ackermann_mux
+[2.011s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/cmake/ament_cmake_export_include_directories-extras.cmake
+[2.013s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/cmake/ament_cmake_export_dependencies-extras.cmake
+[2.013s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/cmake/ackermann_muxConfig.cmake
+[2.015s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/cmake/ackermann_muxConfig-version.cmake
+[2.016s] -- Up-to-date: /home/jetson/slash_ws/install/ackermann_mux/share/ackermann_mux/package.xml
+[2.081s] Invoked command in '/home/jetson/slash_ws/build/ackermann_mux' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/ackermann_mux

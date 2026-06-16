@@ -1,0 +1,40 @@
+running egg_info
+creating ../../build/slash_safety/slash_safety.egg-info
+writing ../../build/slash_safety/slash_safety.egg-info/PKG-INFO
+writing dependency_links to ../../build/slash_safety/slash_safety.egg-info/dependency_links.txt
+writing entry points to ../../build/slash_safety/slash_safety.egg-info/entry_points.txt
+writing requirements to ../../build/slash_safety/slash_safety.egg-info/requires.txt
+writing top-level names to ../../build/slash_safety/slash_safety.egg-info/top_level.txt
+writing manifest file '../../build/slash_safety/slash_safety.egg-info/SOURCES.txt'
+reading manifest file '../../build/slash_safety/slash_safety.egg-info/SOURCES.txt'
+writing manifest file '../../build/slash_safety/slash_safety.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/jetson/slash_ws/build/slash_safety/build
+creating /home/jetson/slash_ws/build/slash_safety/build/lib
+creating /home/jetson/slash_ws/build/slash_safety/build/lib/slash_safety
+copying slash_safety/ggv_shield_node.py -> /home/jetson/slash_ws/build/slash_safety/build/lib/slash_safety
+copying slash_safety/__init__.py -> /home/jetson/slash_ws/build/slash_safety/build/lib/slash_safety
+running install
+running install_lib
+creating /home/jetson/slash_ws/install/slash_safety/lib/python3.8/site-packages/slash_safety
+copying /home/jetson/slash_ws/build/slash_safety/build/lib/slash_safety/ggv_shield_node.py -> /home/jetson/slash_ws/install/slash_safety/lib/python3.8/site-packages/slash_safety
+copying /home/jetson/slash_ws/build/slash_safety/build/lib/slash_safety/__init__.py -> /home/jetson/slash_ws/install/slash_safety/lib/python3.8/site-packages/slash_safety
+byte-compiling /home/jetson/slash_ws/install/slash_safety/lib/python3.8/site-packages/slash_safety/ggv_shield_node.py to ggv_shield_node.cpython-38.pyc
+byte-compiling /home/jetson/slash_ws/install/slash_safety/lib/python3.8/site-packages/slash_safety/__init__.py to __init__.cpython-38.pyc
+running install_data
+creating /home/jetson/slash_ws/install/slash_safety/share/ament_index
+creating /home/jetson/slash_ws/install/slash_safety/share/ament_index/resource_index
+creating /home/jetson/slash_ws/install/slash_safety/share/ament_index/resource_index/packages
+copying resource/slash_safety -> /home/jetson/slash_ws/install/slash_safety/share/ament_index/resource_index/packages
+copying package.xml -> /home/jetson/slash_ws/install/slash_safety/share/slash_safety
+creating /home/jetson/slash_ws/install/slash_safety/share/slash_safety/launch
+copying launch/race_with_shield.launch.py -> /home/jetson/slash_ws/install/slash_safety/share/slash_safety/launch
+copying launch/ggv_shield.launch.py -> /home/jetson/slash_ws/install/slash_safety/share/slash_safety/launch
+creating /home/jetson/slash_ws/install/slash_safety/share/slash_safety/config
+copying config/ggv_shield.yaml -> /home/jetson/slash_ws/install/slash_safety/share/slash_safety/config
+running install_egg_info
+Copying ../../build/slash_safety/slash_safety.egg-info to /home/jetson/slash_ws/install/slash_safety/lib/python3.8/site-packages/slash_safety-0.0.1-py3.8.egg-info
+running install_scripts
+Installing ggv_shield_node script to /home/jetson/slash_ws/install/slash_safety/lib/slash_safety
+writing list of installed files to '/home/jetson/slash_ws/build/slash_safety/install.log'

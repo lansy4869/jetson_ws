@@ -1,0 +1,149 @@
+终端1：
+cd /home/jetson/slash_ws
+source /opt/ros/foxy/setup.bash
+source install/setup.bash
+ros2 launch roboracer_china_2025 race_reactive_bringup.launch.py run_planner:=false
+
+终端2：
+cd /home/jetson/slash_ws
+source install/setup.bash
+ros2 launch slash_safety race_with_shield.launch.py
+
+然后开仿真
+
+其中可以快速调参数：
+ros2 launch slash_safety race_with_shield.launch.py \
+  speed_scale:=2.0 \
+  max_speed:=5.0 \
+  max_steer:=0.42 \
+  shield_v_max:=5.0 \
+  shield_ay_safety_factor:=1.0 \
+  use_odom_speed_as_ref:=false
+  
+
+最激进：
+ros2 launch slash_safety race_with_shield.launch.py \
+  scan_topic:=/scan \
+  odom_topic:=/ego_racecar/odom \
+  speed_scale:=2.5 \
+  max_speed:=6.0 \
+  max_steer:=0.45 \
+  shield_v_max:=6.0 \
+  shield_steering_limit:=0.45 \
+  shield_ay_safety_factor:=2.5 \
+  use_odom_speed_as_ref:=false
+
+
+
+
+
+
+
+
+
+
+
+实车部分：
+实车不要开仿真，也不要用 `/ego_racecar/odom`。实车用 `/odom`。
+
+**终端 1：启动实车底座、雷达、VESC、手柄、mux**
+
+
+cd /home/jetson/slash_ws
+source /opt/ros/foxy/setup.bash
+source install/setup.bash
+
+ros2 launch roboracer_china_2025 race_reactive_bringup.launch.py run_planner:=false
+
+
+
+这个负责启动 Livox、点云转 `/scan`、VESC、`/odom`、`ackermann_mux`。`run_planner:=false` 很重要，避免它自己直接发 `/drive`。
+
+
+我写在一起了，不用单独启动底盘和雷达了
+
+
+
+
+
+
+
+
+
+
+
+**终端 2：启动 W2 护盾 + battle_fast2**
+
+先用保守实车参数：
+cd /home/jetson/slash_ws
+source /opt/ros/foxy/setup.bash
+source install/setup.bash
+
+ros2 launch slash_safety race_with_shield.launch.py \
+  scan_topic:=/scan \
+  odom_topic:=/odom \
+  speed_scale:=0.6 \
+  max_speed:=2.0 \
+  max_steer:=0.34 \
+  shield_v_max:=2.0 \
+  shield_steering_limit:=0.34 \
+  shield_ay_safety_factor:=0.6 \
+  use_odom_speed_as_ref:=true
+
+跑稳之后再加速，例如：
+
+ros2 launch slash_safety race_with_shield.launch.py \
+  scan_topic:=/scan \
+  odom_topic:=/odom \
+  speed_scale:=1.0 \
+  max_speed:=3.0 \
+  max_steer:=0.38 \
+  shield_v_max:=3.0 \
+  shield_steering_limit:=0.38 \
+  shield_ay_safety_factor:=0.8 \
+  use_odom_speed_as_ref:=true
+
+仿真的“最激进”那组参数不要直接上实车，尤其是 `shield_ay_safety_factor:=2.5` 和 `max_speed:=6.0`。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+如果你要跑 **3D 点云 W3**，终端 1 还是一样，然后终端 2 换成：
+
+ros2 launch multilayer_scan race_3d.launch.py \
+  input_topic:=/livox/lidar \
+  odom_topic:=/odom
+
+如果要跑 **W4 动态障碍版本**：
+
+ros2 launch obstacle_tracker race_w4_demo.launch.py \
+  input_topic:=/livox/lidar \
+  odom_topic:=/odom \
+  speed_scale:=0.6
+
+
+实车启动前建议先确认：
+
+ros2 topic hz /livox/lidar
+ros2 topic hz /scan
+ros2 topic echo --once /odom
+
+
+这三个都有数据，再开终端 2。
+
+
+
+
+

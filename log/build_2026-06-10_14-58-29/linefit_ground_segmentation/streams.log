@@ -1,0 +1,126 @@
+[0.991s] Invoking command in '/home/jetson/slash_ws/build/linefit_ground_segmentation': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake /home/jetson/slash_ws/src/slash_perception/linefit_ground_segementation_ros2/linefit_ground_segmentation -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/jetson/slash_ws/install/linefit_ground_segmentation
+[2.154s] -- Found ament_cmake_auto: 0.9.12 (/opt/ros/foxy/share/ament_cmake_auto/cmake)
+[2.154s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[2.155s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[2.155s] -- Eigen found (include: /usr/include/eigen3, version: 3.3.7)
+[2.155s] -- Found Boost: /usr/include (found suitable version "1.71.0", minimum required is "1.55.0") found components: system filesystem date_time iostreams regex 
+[2.170s] -- The imported target "vtkParseOGLExt" references the file
+[2.171s]    "/usr/bin/vtkParseOGLExt-7.1"
+[2.171s] but this file does not exist.  Possible reasons include:
+[2.171s] * The file was deleted, renamed, or moved to another location.
+[2.171s] * An install or uninstall procedure did not complete successfully.
+[2.171s] * The installation package was faulty and contained
+[2.171s]    "/usr/lib/cmake/vtk-7.1/VTKTargets.cmake"
+[2.171s] but not all the files it references.
+[2.171s] 
+[2.172s] -- The imported target "vtkRenderingPythonTkWidgets" references the file
+[2.172s]    "/usr/lib/aarch64-linux-gnu/libvtkRenderingPythonTkWidgets.so"
+[2.172s] but this file does not exist.  Possible reasons include:
+[2.172s] * The file was deleted, renamed, or moved to another location.
+[2.172s] * An install or uninstall procedure did not complete successfully.
+[2.172s] * The installation package was faulty and contained
+[2.172s]    "/usr/lib/cmake/vtk-7.1/VTKTargets.cmake"
+[2.172s] but not all the files it references.
+[2.172s] 
+[2.173s] -- The imported target "vtk" references the file
+[2.173s]    "/usr/bin/vtk"
+[2.173s] but this file does not exist.  Possible reasons include:
+[2.173s] * The file was deleted, renamed, or moved to another location.
+[2.173s] * An install or uninstall procedure did not complete successfully.
+[2.173s] * The installation package was faulty and contained
+[2.173s]    "/usr/lib/cmake/vtk-7.1/VTKTargets.cmake"
+[2.173s] but not all the files it references.
+[2.173s] 
+[2.174s] -- The imported target "pvtk" references the file
+[2.174s]    "/usr/bin/pvtk"
+[2.174s] but this file does not exist.  Possible reasons include:
+[2.174s] * The file was deleted, renamed, or moved to another location.
+[2.174s] * An install or uninstall procedure did not complete successfully.
+[2.174s] * The installation package was faulty and contained
+[2.174s]    "/usr/lib/cmake/vtk-7.1/VTKTargets.cmake"
+[2.174s] but not all the files it references.
+[2.174s] 
+[2.223s] -- OpenNI found (include: /usr/include/ni, lib: /usr/lib/libOpenNI.so)
+[2.229s] -- OpenNI2 found (include: /usr/include/openni2, lib: /usr/lib/libOpenNI2.so)
+[2.229s] ** WARNING ** io features related to pcap will be disabled
+[2.229s] ** WARNING ** io features related to png will be disabled
+[2.252s] ** WARNING ** io features related to libusb-1.0 will be disabled
+[2.292s] -- OpenNI found (include: /usr/include/ni, lib: /usr/lib/libOpenNI.so)
+[2.330s] -- OpenNI2 found (include: /usr/include/openni2, lib: /usr/lib/libOpenNI2.so)
+[2.353s] -- QHULL found (include: /usr/include, lib: optimized;/usr/lib/aarch64-linux-gnu/libqhull.so;debug;/usr/lib/aarch64-linux-gnu/libqhull.so)
+[2.393s] -- OpenNI found (include: /usr/include/ni, lib: /usr/lib/libOpenNI.so)
+[2.432s] -- looking for PCL_COMMON
+[2.433s] -- looking for PCL_KDTREE
+[2.433s] -- looking for PCL_OCTREE
+[2.434s] -- looking for PCL_SEARCH
+[2.435s] -- looking for PCL_SAMPLE_CONSENSUS
+[2.436s] -- looking for PCL_FILTERS
+[2.437s] -- looking for PCL_2D
+[2.437s] -- looking for PCL_GEOMETRY
+[2.438s] -- looking for PCL_IO
+[2.439s] -- looking for PCL_FEATURES
+[2.452s] -- looking for PCL_ML
+[2.455s] -- looking for PCL_SEGMENTATION
+[2.456s] -- looking for PCL_VISUALIZATION
+[2.461s] -- looking for PCL_SURFACE
+[2.465s] -- looking for PCL_REGISTRATION
+[2.467s] -- looking for PCL_KEYPOINTS
+[2.472s] -- looking for PCL_TRACKING
+[2.473s] -- looking for PCL_RECOGNITION
+[2.474s] -- looking for PCL_STEREO
+[2.477s] -- looking for PCL_APPS
+[2.478s] -- looking for PCL_IN_HAND_SCANNER
+[2.479s] -- looking for PCL_POINT_CLOUD_EDITOR
+[2.480s] -- looking for PCL_OUTOFCORE
+[2.481s] -- looking for PCL_PEOPLE
+[2.509s] -- Found Boost: /usr/include (found version "1.71.0")  
+[2.789s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[2.796s] -- Found rosidl_adapter: 1.3.1 (/opt/ros/foxy/share/rosidl_adapter/cmake)
+[3.153s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[3.784s] -- Found rmw_implementation_cmake: 1.0.4 (/opt/ros/foxy/share/rmw_implementation_cmake/cmake)
+[3.788s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[4.302s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/foxy/share/eigen3_cmake_module/cmake)
+[5.832s] -- Configuring done
+[5.921s] -- Generating done
+[5.944s] -- Build files have been written to: /home/jetson/slash_ws/build/linefit_ground_segmentation
+[6.735s] Invoked command in '/home/jetson/slash_ws/build/linefit_ground_segmentation' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake /home/jetson/slash_ws/src/slash_perception/linefit_ground_segementation_ros2/linefit_ground_segmentation -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/jetson/slash_ws/install/linefit_ground_segmentation
+[6.741s] Invoking command in '/home/jetson/slash_ws/build/linefit_ground_segmentation': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/linefit_ground_segmentation -- -j8 -l8
+[6.962s] [100%] Built target linefit_ground_segmentation
+[8.121s] Invoked command in '/home/jetson/slash_ws/build/linefit_ground_segmentation' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/linefit_ground_segmentation -- -j8 -l8
+[8.123s] Invoking command in '/home/jetson/slash_ws/build/linefit_ground_segmentation': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/linefit_ground_segmentation
+[8.200s] -- Install configuration: ""
+[8.202s] -- Execute custom install script
+[8.204s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/include/ground_segmentation/bin.h
+[8.323s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/include/ground_segmentation/ground_segmentation.h
+[8.384s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/include/ground_segmentation/segment.h
+[8.446s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/include/ground_segmentation/typedefs.h
+[8.484s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/include/ground_segmentation/viewer.h
+[8.534s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/environment/library_path.sh
+[8.583s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/environment/library_path.dsv
+[8.618s] -- Up-to-date symlink: /home/jetson/slash_ws/install/linefit_ground_segmentation/include/ground_segmentation/bin.h
+[8.618s] -- Up-to-date symlink: /home/jetson/slash_ws/install/linefit_ground_segmentation/include/ground_segmentation/ground_segmentation.h
+[8.618s] -- Up-to-date symlink: /home/jetson/slash_ws/install/linefit_ground_segmentation/include/ground_segmentation/segment.h
+[8.619s] -- Up-to-date symlink: /home/jetson/slash_ws/install/linefit_ground_segmentation/include/ground_segmentation/typedefs.h
+[8.619s] -- Up-to-date symlink: /home/jetson/slash_ws/install/linefit_ground_segmentation/include/ground_segmentation/viewer.h
+[8.620s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/ament_index/resource_index/package_run_dependencies/linefit_ground_segmentation
+[8.673s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/ament_index/resource_index/parent_prefix_path/linefit_ground_segmentation
+[8.752s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/environment/ament_prefix_path.sh
+[8.833s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/environment/ament_prefix_path.dsv
+[8.893s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/environment/path.sh
+[8.950s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/environment/path.dsv
+[8.995s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/local_setup.bash
+[9.020s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/local_setup.sh
+[9.044s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/local_setup.zsh
+[9.103s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/local_setup.dsv
+[9.131s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/package.dsv
+[9.185s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/ament_index/resource_index/packages/linefit_ground_segmentation
+[9.254s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/cmake/ament_cmake_export_targets-extras.cmake
+[9.316s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/cmake/ament_cmake_export_dependencies-extras.cmake
+[9.384s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/cmake/ament_cmake_export_include_directories-extras.cmake
+[9.445s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/cmake/linefit_ground_segmentationConfig.cmake
+[9.502s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/cmake/linefit_ground_segmentationConfig-version.cmake
+[9.541s] -- Symlinking: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/package.xml
+[9.600s] -- Up-to-date: /home/jetson/slash_ws/install/linefit_ground_segmentation/lib/liblinefit_ground_segmentation.so
+[9.600s] -- Up-to-date: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/cmake/linefit_ground_segmentationExport.cmake
+[9.600s] -- Installing: /home/jetson/slash_ws/install/linefit_ground_segmentation/share/linefit_ground_segmentation/cmake/linefit_ground_segmentationExport-noconfig.cmake
+[9.608s] Invoked command in '/home/jetson/slash_ws/build/linefit_ground_segmentation' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/sim_ws/install/f1tenth_gym_ros:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/linefit_ground_segmentation

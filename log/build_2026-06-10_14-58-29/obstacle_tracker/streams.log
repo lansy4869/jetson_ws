@@ -1,0 +1,22 @@
+[3.376s] Invoking command in '/home/jetson/slash_ws/build/obstacle_tracker': PYTHONPATH=/home/jetson/slash_ws/build/obstacle_tracker/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/obstacle_tracker/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/jetson/slash_ws/build/obstacle_tracker/build --no-deps symlink_data --force
+[4.788s] running develop
+[5.512s] running egg_info
+[5.539s] writing obstacle_tracker.egg-info/PKG-INFO
+[5.539s] writing dependency_links to obstacle_tracker.egg-info/dependency_links.txt
+[5.540s] writing entry points to obstacle_tracker.egg-info/entry_points.txt
+[5.541s] writing requirements to obstacle_tracker.egg-info/requires.txt
+[5.541s] writing top-level names to obstacle_tracker.egg-info/top_level.txt
+[5.610s] reading manifest file 'obstacle_tracker.egg-info/SOURCES.txt'
+[5.612s] writing manifest file 'obstacle_tracker.egg-info/SOURCES.txt'
+[5.762s] running build_ext
+[5.763s] Creating /home/jetson/slash_ws/install/obstacle_tracker/lib/python3.8/site-packages/obstacle-tracker.egg-link (link to .)
+[5.765s] Installing obstacle_tracker_node script to /home/jetson/slash_ws/install/obstacle_tracker/lib/obstacle_tracker
+[5.766s] 
+[5.766s] Installed /home/jetson/slash_ws/build/obstacle_tracker
+[5.766s] running symlink_data
+[5.767s] symbolically linking /home/jetson/slash_ws/build/obstacle_tracker/resource/obstacle_tracker -> /home/jetson/slash_ws/install/obstacle_tracker/share/ament_index/resource_index/packages
+[5.767s] symbolically linking /home/jetson/slash_ws/build/obstacle_tracker/package.xml -> /home/jetson/slash_ws/install/obstacle_tracker/share/obstacle_tracker
+[5.767s] symbolically linking /home/jetson/slash_ws/build/obstacle_tracker/launch/race_w4_demo.launch.py -> /home/jetson/slash_ws/install/obstacle_tracker/share/obstacle_tracker/launch
+[5.768s] symbolically linking /home/jetson/slash_ws/build/obstacle_tracker/launch/obstacle_tracker.launch.py -> /home/jetson/slash_ws/install/obstacle_tracker/share/obstacle_tracker/launch
+[5.768s] symbolically linking /home/jetson/slash_ws/build/obstacle_tracker/config/obstacle_tracker.yaml -> /home/jetson/slash_ws/install/obstacle_tracker/share/obstacle_tracker/config
+[6.097s] Invoked command in '/home/jetson/slash_ws/build/obstacle_tracker' returned '0': PYTHONPATH=/home/jetson/slash_ws/build/obstacle_tracker/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/obstacle_tracker/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/jetson/slash_ws/build/obstacle_tracker/build --no-deps symlink_data --force

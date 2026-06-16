@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>roboracer_china_2025</name>
+  <version>0.0.1</version>
+  <description>Battle fast2 reactive navigation node ported to ROS2 for F1TENTH.</description>
+
+  <maintainer email="jetson@todo.todo">jetson</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>ackermann_msgs</exec_depend>
+  <exec_depend>visualization_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>builtin_interfaces</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

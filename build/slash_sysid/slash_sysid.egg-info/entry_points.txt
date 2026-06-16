@@ -1,0 +1,3 @@
+[console_scripts]
+chassis_sysid = slash_sysid.chassis_sysid:main
+circle_commander = slash_sysid.circle_commander:main

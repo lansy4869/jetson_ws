@@ -1,0 +1,20 @@
+[4.024s] Invoking command in '/home/jetson/slash_ws/build/key_teleop': PYTHONPATH=/home/jetson/slash_ws/build/key_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/key_teleop/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/jetson/slash_ws/build/key_teleop/build --no-deps symlink_data --force
+[5.499s] running develop
+[6.293s] running egg_info
+[6.328s] writing key_teleop.egg-info/PKG-INFO
+[6.330s] writing dependency_links to key_teleop.egg-info/dependency_links.txt
+[6.332s] writing entry points to key_teleop.egg-info/entry_points.txt
+[6.333s] writing requirements to key_teleop.egg-info/requires.txt
+[6.334s] writing top-level names to key_teleop.egg-info/top_level.txt
+[6.410s] reading manifest file 'key_teleop.egg-info/SOURCES.txt'
+[6.413s] writing manifest file 'key_teleop.egg-info/SOURCES.txt'
+[6.528s] running build_ext
+[6.528s] Creating /home/jetson/slash_ws/install/key_teleop/lib/python3.8/site-packages/key-teleop.egg-link (link to .)
+[6.530s] Installing key_teleop script to /home/jetson/slash_ws/install/key_teleop/lib/key_teleop
+[6.531s] 
+[6.531s] Installed /home/jetson/slash_ws/build/key_teleop
+[6.531s] running symlink_data
+[6.531s] symbolically linking /home/jetson/slash_ws/build/key_teleop/package.xml -> /home/jetson/slash_ws/install/key_teleop/share/key_teleop
+[6.532s] symbolically linking /home/jetson/slash_ws/build/key_teleop/config/key_teleop.yaml -> /home/jetson/slash_ws/install/key_teleop/share/key_teleop/config
+[6.532s] symbolically linking /home/jetson/slash_ws/build/key_teleop/resource/key_teleop -> /home/jetson/slash_ws/install/key_teleop/share/ament_index/resource_index/packages
+[6.805s] Invoked command in '/home/jetson/slash_ws/build/key_teleop' returned '0': PYTHONPATH=/home/jetson/slash_ws/build/key_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/key_teleop/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/jetson/slash_ws/build/key_teleop/build --no-deps symlink_data --force

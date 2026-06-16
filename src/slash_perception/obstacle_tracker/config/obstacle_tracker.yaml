@@ -1,0 +1,36 @@
+# 障碍运动学跟踪/测速参数（创新点 2）
+#
+# 用纯运动学（多帧关联 + ego 补偿测速）替换原 battle_fast2 的 intensity 动态判据。
+# 单车即可验证：推一个纸箱/移动障碍，看 /perception/obstacle_markers 中该障碍变红(DYN)。
+#
+obstacle_tracker_node:
+  ros__parameters:
+    # 接线
+    scan_topic: /scan_3d                       # 默认吃多层融合 scan；纯 2D 可改 /scan
+    odom_topic: /odom                          # VESC 轮式里程计，用于 ego 运动补偿
+    dynamic_flag_topic: /perception/dynamic_obstacle
+    opponent_state_topic: /perception/opponent_state
+    marker_topic: /perception/obstacle_markers
+    frame_id: livox_frame
+    publish_markers: true
+
+    # 前向扇区与有效距离
+    front_fov_deg: 120.0
+    range_min: 0.15
+    range_max: 8.0
+
+    # 聚类（把 scan 分成紧凑障碍簇，剔除墙/大结构）
+    cluster_gap_m: 0.30
+    max_cluster_width_m: 1.2
+    min_cluster_points: 2
+
+    # 数据关联与跟踪
+    assoc_dist_m: 0.6
+    max_missed: 6
+    min_age_for_dynamic: 3
+    vel_ema_alpha: 0.5
+    dynamic_speed_thresh: 0.35                  # m/s，ego 补偿后速度阈值
+
+    # ego 运动补偿（车在动时静止障碍也会“看起来在动”，必须扣除）
+    use_ego_compensation: true
+    odom_timeout_s: 0.5

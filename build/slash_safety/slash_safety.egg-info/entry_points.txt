@@ -1,0 +1,2 @@
+[console_scripts]
+ggv_shield_node = slash_safety.ggv_shield_node:main

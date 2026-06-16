@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: obstacle-tracker
+Version: 0.0.1
+Summary: 障碍多帧运动学跟踪/测速：替换 intensity 动态判据，产出 opponent_state（创新点2）
+Maintainer: jetson
+Maintainer-email: jetson@todo.todo
+License: Apache-2.0

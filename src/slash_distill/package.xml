@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>slash_distill</name>
+  <version>0.0.1</version>
+  <description>W5-W8 特权蒸馏竞速：sysid 接地 f110_gym 仿真 + 中心线 pure-pursuit 特权专家 + BC/DAgger 无状态 1D-CNN 学生 + ONNX/TensorRT 部署节点 + g-g-v 护盾 + 反应式兜底 + 消融（毕设创新点4 与 §5 消融）</description>
+  <maintainer email="jetson@todo.todo">jetson</maintainer>
+  <license>Apache-2.0</license>
+
+  <!-- 部署节点依赖（离线训练用系统 python 直接跑，不进 colcon 依赖） -->
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>ackermann_msgs</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

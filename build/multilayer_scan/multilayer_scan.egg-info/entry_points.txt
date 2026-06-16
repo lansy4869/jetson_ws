@@ -1,0 +1,2 @@
+[console_scripts]
+multilayer_scan_node = multilayer_scan.multilayer_scan_node:main

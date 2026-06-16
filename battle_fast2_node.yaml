@@ -1,0 +1,13 @@
+/battle_fast2_node:
+  ros__parameters:
+    debug_scan_topic: /battle_fast2/front_scan
+    drive_topic: /drive
+    dynamic_flag_topic: /perception/dynamic_obstacle
+    marker_topic: /battle_fast2/arrow_marker
+    max_speed: 2.0
+    max_steer: 0.34
+    scan_topic: /scan
+    speed_scale: 0.6
+    use_external_dynamic: true
+    use_sim_time: false
+    verbose: false

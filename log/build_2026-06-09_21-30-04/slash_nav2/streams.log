@@ -1,0 +1,66 @@
+[0.080s] Invoking command in '/home/jetson/slash_ws/build/slash_nav2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake /home/jetson/slash_ws/src/slash_navigation/slash_nav2 -DCMAKE_INSTALL_PREFIX=/home/jetson/slash_ws/install/slash_nav2
+[0.506s] -- The C compiler identification is GNU 9.4.0
+[0.871s] -- The CXX compiler identification is GNU 9.4.0
+[0.884s] -- Check for working C compiler: /usr/bin/cc
+[1.465s] -- Check for working C compiler: /usr/bin/cc -- works
+[1.467s] -- Detecting C compiler ABI info
+[2.135s] -- Detecting C compiler ABI info - done
+[2.187s] -- Detecting C compile features
+[2.188s] -- Detecting C compile features - done
+[2.208s] -- Check for working CXX compiler: /usr/bin/c++
+[2.873s] -- Check for working CXX compiler: /usr/bin/c++ -- works
+[2.874s] -- Detecting CXX compiler ABI info
+[3.439s] -- Detecting CXX compiler ABI info - done
+[3.471s] -- Detecting CXX compile features
+[3.471s] -- Detecting CXX compile features - done
+[3.476s] -- Found ament_cmake_auto: 0.9.12 (/opt/ros/foxy/share/ament_cmake_auto/cmake)
+[3.694s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+[3.695s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[4.978s] -- Found ament_lint_auto: 0.9.8 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+[5.197s] -- Configuring done
+[5.208s] -- Generating done
+[5.215s] -- Build files have been written to: /home/jetson/slash_ws/build/slash_nav2
+[5.239s] Invoked command in '/home/jetson/slash_ws/build/slash_nav2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake /home/jetson/slash_ws/src/slash_navigation/slash_nav2 -DCMAKE_INSTALL_PREFIX=/home/jetson/slash_ws/install/slash_nav2
+[5.241s] Invoking command in '/home/jetson/slash_ws/build/slash_nav2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/slash_nav2 -- -j8 -l8
+[10.263s] Invoked command in '/home/jetson/slash_ws/build/slash_nav2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --build /home/jetson/slash_ws/build/slash_nav2 -- -j8 -l8
+[10.270s] Invoking command in '/home/jetson/slash_ws/build/slash_nav2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/slash_nav2
+[10.434s] -- Install configuration: ""
+[10.435s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/launch
+[10.435s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/launch/bringup_real.launch.py
+[10.435s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/config
+[10.435s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/config/nav2_params.yaml
+[10.435s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map
+[10.435s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map/RMUC.posegraph
+[10.435s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map/RMUL.yaml
+[10.435s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map/RMUC.pgm
+[10.436s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map/RMUL.pgm
+[10.436s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map/RMUC.data
+[10.436s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map/RMUL.data
+[10.436s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map/RMUL.posegraph
+[10.458s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/map/RMUC.yaml
+[10.458s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/PCD
+[10.458s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/PCD/RMUL.pcd
+[10.567s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/PCD/RMUC.pcd
+[10.609s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/rviz
+[10.609s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/rviz/pointlio.rviz
+[10.609s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/rviz/fastlio.rviz
+[10.609s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/rviz/nav2.rviz
+[10.610s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/urdf
+[10.610s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/urdf/sentry_robot_sim.xacro
+[10.610s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/urdf/sentry_robot_real.xacro
+[10.611s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/ament_index/resource_index/package_run_dependencies/slash_nav2
+[10.611s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/ament_index/resource_index/parent_prefix_path/slash_nav2
+[10.612s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/environment/ament_prefix_path.sh
+[10.612s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/environment/ament_prefix_path.dsv
+[10.613s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/environment/path.sh
+[10.613s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/environment/path.dsv
+[10.613s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/local_setup.bash
+[10.614s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/local_setup.sh
+[10.614s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/local_setup.zsh
+[10.614s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/local_setup.dsv
+[10.615s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/package.dsv
+[10.615s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/ament_index/resource_index/packages/slash_nav2
+[10.616s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/cmake/slash_nav2Config.cmake
+[10.616s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/cmake/slash_nav2Config-version.cmake
+[10.617s] -- Installing: /home/jetson/slash_ws/install/slash_nav2/share/slash_nav2/package.xml
+[10.628s] Invoked command in '/home/jetson/slash_ws/build/slash_nav2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/key_teleop:/opt/ros/foxy /usr/bin/cmake --install /home/jetson/slash_ws/build/slash_nav2

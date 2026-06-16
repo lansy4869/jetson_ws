@@ -1,0 +1,6 @@
+source;share/roboracer_china_2025/hook/pythonpath.ps1
+source;share/roboracer_china_2025/hook/pythonpath.dsv
+source;share/roboracer_china_2025/hook/pythonpath.sh
+source;share/roboracer_china_2025/hook/ament_prefix_path.ps1
+source;share/roboracer_china_2025/hook/ament_prefix_path.dsv
+source;share/roboracer_china_2025/hook/ament_prefix_path.sh

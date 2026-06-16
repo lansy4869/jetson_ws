@@ -1,0 +1,33 @@
+# g-g-v 安全护盾参数（默认值 = sysid 实测，来自 chassis_sysid 的 identified_params.json）
+#
+# 标定来源与状态：
+#   ax_accel_max / ax_brake_max ........ 实测（chassis_response_test 纵向辨识）
+#   wheelbase .......................... 实测（vesc.yaml = 0.25m）
+#   steering_limit_rad ................. 实测 servo 行程对应 ±0.34 rad
+#   ay_max ............................. ⚠ 仍为假设 mu*g=9.81（横向极限）；采绕圆 bag 后用 slash_sysid 实测值替换
+#   ay_safety_factor ................... 首跑保守取 0.6，验证稳定后逐步放开到 1.0
+#
+ggv_shield_node:
+  ros__parameters:
+    # --- 接线 ---
+    drive_in_topic: /drive_raw      # 上游规划器输出（planner 用 drive_topic:=/drive_raw 发到这里）
+    drive_out_topic: /drive         # 发给 ackermann_mux 的 navigation 口（优先级 10）
+    odom_topic: /odom               # VESC 轮式里程计，取当前车速
+    debug_topic: /ggv_shield/v_cap  # 调试：当前过弯限速
+
+    # --- 车辆几何与实测极限 ---
+    wheelbase: 0.25                 # m（实测）
+    ay_max: 9.81                    # m/s^2（⚠假设，待绕圆 bag 实测替换）
+    ay_safety_factor: 0.6           # 首跑保守；逐步 -> 1.0
+    ax_accel_max: 6.35              # m/s^2（实测）
+    ax_brake_max: 6.66              # m/s^2（实测，正幅值）
+    steering_limit_rad: 0.34        # rad（实测 servo 行程）
+    v_max: 2.0                      # m/s 全局限速
+    v_min: 0.0                      # m/s（不倒车）
+
+    # --- 运行与失效安全 ---
+    control_rate_hz: 50.0
+    input_timeout_s: 0.3            # 上游超时 -> 平滑刹停
+    odom_timeout_s: 0.5
+    use_odom_speed_as_ref: true     # dv 以实测车速为基准
+    publish_debug: true
