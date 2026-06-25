@@ -4,6 +4,12 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 import launch
 
+# 注意：本 launch 只启动 Livox MID-360 驱动，发布 /livox/lidar（PointCloud2）。
+# 历史版本曾在此内嵌 pointcloud_to_laserscan 直接发布 /scan，但上层 W1 底座
+# (race_reactive_bringup.launch.py) 会按“分割后障碍点云 -> /scan”链路单独启动
+# pointcloud_to_laserscan，二者同时发布会造成重复 /scan、节点名冲突与数据竞争。
+# 因此 /scan 的产生统一交给上层感知 launch，驱动 launch 不再插手。
+
 ################### user configure parameters for ros2 start ###################
 xfer_format   = 0    # 0-Pointcloud2(PointXYZRTL), 1-customized pointcloud format
 multi_topic   = 0    # 0-All LiDARs share the same topic, 1-One LiDAR one topic
@@ -41,40 +47,6 @@ def generate_launch_description():
         parameters=livox_ros2_params
         )
 
-    pointcloud_to_laserscan = Node(
-        package='pointcloud_to_laserscan',
-        executable='pointcloud_to_laserscan_node',
-        name='pointcloud_to_laserscan',
-        output='screen',
-        remappings=[
-            ('cloud_in', '/livox/lidar'),
-            ('scan', '/scan'),
-        ],
-        parameters=[{
-            'target_frame': frame_id,
-            'transform_tolerance': 0.01,
-            'min_height': -1.0,
-            'max_height': 0.2,
-            'angle_min': -3.14159,
-            'angle_max': 3.14159,
-            'angle_increment': 0.0043,
-            'scan_time': 1.0 / publish_freq,
-            'range_min': 0.1,
-            'range_max': 20.0,
-            'use_inf': True,
-            'inf_epsilon': 1.0,
-        }]
-    )
-
     return LaunchDescription([
         livox_driver,
-        pointcloud_to_laserscan,
-        # launch.actions.RegisterEventHandler(
-        #     event_handler=launch.event_handlers.OnProcessExit(
-        #         target_action=livox_rviz,
-        #         on_exit=[
-        #             launch.actions.EmitEvent(event=launch.events.Shutdown()),
-        #         ]
-        #     )
-        # )
     ])

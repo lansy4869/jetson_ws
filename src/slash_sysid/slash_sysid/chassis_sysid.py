@@ -251,8 +251,12 @@ def identify_lateral(path, dt, imu_units="auto", v_min_corner=0.5):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--bags", default=str(Path(__file__).parent / "bags"))
-    ap.add_argument("--out", default=str(Path(__file__).parent / "out"))
+    # 默认从当前工作目录找 bag（实车 bag 录在工作区根目录 ./chassis_response_test、
+    # ./chassis_test），而非包源码下的 bags（那里通常没有数据，会导致 ros2 run 直接失败）。
+    ap.add_argument("--bags", default=".",
+                    help="rosbag 根目录（默认当前工作目录，内含 chassis_response_test 等）")
+    ap.add_argument("--out", default=str(Path.cwd() / "slash_sysid_out"),
+                    help="辨识结果输出目录（默认 ./slash_sysid_out）")
     ap.add_argument("--mu", type=float, default=1.0,
                     help="假设的轮胎-地面摩擦系数（无绕圆 bag 时横向按 mu 参数化）")
     ap.add_argument("--vmax", type=float, default=2.0, help="配置里的最大车速 m/s")

@@ -7,6 +7,9 @@
   <maintainer email="jetson@todo.todo">jetson</maintainer>
   <license>Apache-2.0</license>
 
+  <!-- ament_python 构建工具 -->
+  <buildtool_depend>ament_python</buildtool_depend>
+
   <!-- 部署节点依赖（离线训练用系统 python 直接跑，不进 colcon 依赖） -->
   <exec_depend>rclpy</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
@@ -14,6 +17,15 @@
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>ackermann_msgs</exec_depend>
   <exec_depend>python3-numpy</exec_depend>
+
+  <!-- launch 部署链依赖：race_student.launch.py 串联下列自研包与 launch 运行时 -->
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>multilayer_scan</exec_depend>
+  <exec_depend>obstacle_tracker</exec_depend>
+  <exec_depend>slash_safety</exec_depend>
+  <exec_depend>roboracer_china_2025</exec_depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

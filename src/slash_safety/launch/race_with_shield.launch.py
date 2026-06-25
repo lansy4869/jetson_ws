@@ -25,21 +25,25 @@ def generate_launch_description():
         DeclareLaunchArgument('odom_topic', default_value='/odom'),
         DeclareLaunchArgument('raw_drive_topic', default_value='/drive_raw'),
         DeclareLaunchArgument('out_drive_topic', default_value='/drive'),
-        DeclareLaunchArgument('speed_scale', default_value='1.5'),
-        DeclareLaunchArgument('max_speed', default_value='4.0'),
-        DeclareLaunchArgument('max_steer', default_value='0.42'),
+        # 默认值与 ggv_shield.yaml / battle_fast2.launch.py 保守档对齐：
+        # speed_scale=0.6, max_speed/v_max=2.0, max_steer/steering_limit=0.34,
+        # ay_safety_factor=0.6, use_odom_speed_as_ref=true。
+        # 需要赛道提速时用显式 launch 参数覆盖，避免“日常安全壳”默认跑到实测边界外。
+        DeclareLaunchArgument('speed_scale', default_value='0.6'),
+        DeclareLaunchArgument('max_speed', default_value='2.0'),
+        DeclareLaunchArgument('max_steer', default_value='0.34'),
         DeclareLaunchArgument('shield_wheelbase', default_value='0.25'),
         DeclareLaunchArgument('shield_ay_max', default_value='9.81'),
-        DeclareLaunchArgument('shield_v_max', default_value='4.0'),
+        DeclareLaunchArgument('shield_v_max', default_value='2.0'),
         DeclareLaunchArgument('shield_v_min', default_value='0.0'),
-        DeclareLaunchArgument('shield_steering_limit', default_value='0.42'),
-        DeclareLaunchArgument('shield_ay_safety_factor', default_value='1.0'),
+        DeclareLaunchArgument('shield_steering_limit', default_value='0.34'),
+        DeclareLaunchArgument('shield_ay_safety_factor', default_value='0.6'),
         DeclareLaunchArgument('shield_ax_accel_max', default_value='6.35'),
         DeclareLaunchArgument('shield_ax_brake_max', default_value='6.66'),
         DeclareLaunchArgument('shield_control_rate_hz', default_value='50.0'),
         DeclareLaunchArgument('shield_input_timeout_s', default_value='0.3'),
         DeclareLaunchArgument('shield_odom_timeout_s', default_value='0.5'),
-        DeclareLaunchArgument('use_odom_speed_as_ref', default_value='false'),
+        DeclareLaunchArgument('use_odom_speed_as_ref', default_value='true'),
 
         # 1) 反应式规划器：把指令发到 /drive_raw（而非直接 /drive）
         IncludeLaunchDescription(
