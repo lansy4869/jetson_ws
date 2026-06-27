@@ -1,0 +1,18 @@
+[2.885s] Invoking command in '/home/jetson/slash_ws/build/slash_sysid': PYTHONPATH=/home/jetson/slash_ws/build/slash_sysid/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/jetson/slash_ws/build/slash_sysid/build --no-deps symlink_data
+[3.585s] running develop
+[4.019s] running egg_info
+[4.040s] writing slash_sysid.egg-info/PKG-INFO
+[4.043s] writing dependency_links to slash_sysid.egg-info/dependency_links.txt
+[4.043s] writing entry points to slash_sysid.egg-info/entry_points.txt
+[4.043s] writing requirements to slash_sysid.egg-info/requires.txt
+[4.043s] writing top-level names to slash_sysid.egg-info/top_level.txt
+[4.090s] reading manifest file 'slash_sysid.egg-info/SOURCES.txt'
+[4.093s] writing manifest file 'slash_sysid.egg-info/SOURCES.txt'
+[4.185s] running build_ext
+[4.185s] Creating /home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages/slash-sysid.egg-link (link to .)
+[4.187s] Installing chassis_sysid script to /home/jetson/slash_ws/install/slash_sysid/lib/slash_sysid
+[4.188s] Installing circle_commander script to /home/jetson/slash_ws/install/slash_sysid/lib/slash_sysid
+[4.188s] 
+[4.188s] Installed /home/jetson/slash_ws/build/slash_sysid
+[4.188s] running symlink_data
+[4.360s] Invoked command in '/home/jetson/slash_ws/build/slash_sysid' returned '0': PYTHONPATH=/home/jetson/slash_ws/build/slash_sysid/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/jetson/slash_ws/build/slash_sysid/build --no-deps symlink_data

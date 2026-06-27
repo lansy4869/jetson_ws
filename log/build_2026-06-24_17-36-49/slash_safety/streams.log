@@ -1,0 +1,17 @@
+[2.892s] Invoking command in '/home/jetson/slash_ws/build/slash_safety': PYTHONPATH=/home/jetson/slash_ws/build/slash_safety/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/slash_safety/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/jetson/slash_ws/build/slash_safety/build --no-deps symlink_data
+[3.592s] running develop
+[4.059s] running egg_info
+[4.080s] writing slash_safety.egg-info/PKG-INFO
+[4.080s] writing dependency_links to slash_safety.egg-info/dependency_links.txt
+[4.080s] writing entry points to slash_safety.egg-info/entry_points.txt
+[4.081s] writing requirements to slash_safety.egg-info/requires.txt
+[4.082s] writing top-level names to slash_safety.egg-info/top_level.txt
+[4.141s] reading manifest file 'slash_safety.egg-info/SOURCES.txt'
+[4.144s] writing manifest file 'slash_safety.egg-info/SOURCES.txt'
+[4.242s] running build_ext
+[4.242s] Creating /home/jetson/slash_ws/install/slash_safety/lib/python3.8/site-packages/slash-safety.egg-link (link to .)
+[4.244s] Installing ggv_shield_node script to /home/jetson/slash_ws/install/slash_safety/lib/slash_safety
+[4.244s] 
+[4.245s] Installed /home/jetson/slash_ws/build/slash_safety
+[4.245s] running symlink_data
+[4.436s] Invoked command in '/home/jetson/slash_ws/build/slash_safety' returned '0': PYTHONPATH=/home/jetson/slash_ws/build/slash_safety/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/slash_safety/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/jetson/slash_ws/build/slash_safety/build --no-deps symlink_data

@@ -1,0 +1,9 @@
+source;share/slash_distill/hook/pythonpath.ps1
+source;share/slash_distill/hook/pythonpath.dsv
+source;share/slash_distill/hook/pythonpath.sh
+source;share/slash_distill/hook/ament_prefix_path.ps1
+source;share/slash_distill/hook/ament_prefix_path.dsv
+source;share/slash_distill/hook/ament_prefix_path.sh
+source;../../build/slash_distill/share/slash_distill/hook/pythonpath_develop.ps1
+source;../../build/slash_distill/share/slash_distill/hook/pythonpath_develop.dsv
+source;../../build/slash_distill/share/slash_distill/hook/pythonpath_develop.sh

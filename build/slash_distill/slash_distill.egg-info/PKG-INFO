@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: slash-distill
+Version: 0.0.1
+Summary: W5-W8 特权蒸馏竞速：sysid 接地仿真 + 特权专家 + BC/DAgger 学生 + 部署 + 消融（创新点4 与 §5 消融）
+Maintainer: jetson
+Maintainer-email: jetson@todo.todo
+License: Apache-2.0

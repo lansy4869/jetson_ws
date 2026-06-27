@@ -1,0 +1,104 @@
+[0.000000] (-) TimerEvent: {}
+[0.000201] (-) JobUnselected: {'identifier': 'ackermann_mux'}
+[0.000456] (-) JobUnselected: {'identifier': 'costmap_converter'}
+[0.000713] (-) JobUnselected: {'identifier': 'costmap_converter_msgs'}
+[0.001156] (-) JobUnselected: {'identifier': 'f1tenth_stack'}
+[0.001452] (-) JobUnselected: {'identifier': 'fast_lio'}
+[0.001807] (-) JobUnselected: {'identifier': 'joy_teleop'}
+[0.001906] (-) JobUnselected: {'identifier': 'key_teleop'}
+[0.001967] (-) JobUnselected: {'identifier': 'linefit_ground_segmentation'}
+[0.002020] (-) JobUnselected: {'identifier': 'linefit_ground_segmentation_ros'}
+[0.002069] (-) JobUnselected: {'identifier': 'livox_ros_driver2'}
+[0.002118] (-) JobUnselected: {'identifier': 'mouse_teleop'}
+[0.002161] (-) JobUnselected: {'identifier': 'multilayer_scan'}
+[0.002298] (-) JobUnselected: {'identifier': 'obstacle_tracker'}
+[0.002366] (-) JobUnselected: {'identifier': 'pointcloud_to_laserscan'}
+[0.002419] (-) JobUnselected: {'identifier': 'roboracer_china_2025'}
+[0.002471] (-) JobUnselected: {'identifier': 'simple_mpc'}
+[0.002517] (-) JobUnselected: {'identifier': 'slash_nav2'}
+[0.002564] (-) JobUnselected: {'identifier': 'slash_safety'}
+[0.002617] (-) JobUnselected: {'identifier': 'slash_sysid'}
+[0.002669] (-) JobUnselected: {'identifier': 'teb_local_planner'}
+[0.002717] (-) JobUnselected: {'identifier': 'teb_msgs'}
+[0.002763] (-) JobUnselected: {'identifier': 'teleop_tools'}
+[0.002809] (-) JobUnselected: {'identifier': 'teleop_tools_msgs'}
+[0.002858] (-) JobUnselected: {'identifier': 'twist_to_ackermann'}
+[0.002906] (-) JobUnselected: {'identifier': 'vesc'}
+[0.003008] (-) JobUnselected: {'identifier': 'vesc_ackermann'}
+[0.003080] (-) JobUnselected: {'identifier': 'vesc_driver'}
+[0.003133] (-) JobUnselected: {'identifier': 'vesc_msgs'}
+[0.003176] (slash_distill) JobQueued: {'identifier': 'slash_distill', 'dependencies': OrderedDict()}
+[0.003217] (slash_distill) JobStarted: {'identifier': 'slash_distill'}
+[0.099437] (-) TimerEvent: {}
+[0.199871] (-) TimerEvent: {}
+[0.300218] (-) TimerEvent: {}
+[0.400573] (-) TimerEvent: {}
+[0.500940] (-) TimerEvent: {}
+[0.601335] (-) TimerEvent: {}
+[0.701754] (-) TimerEvent: {}
+[0.802226] (-) TimerEvent: {}
+[0.902651] (-) TimerEvent: {}
+[1.003084] (-) TimerEvent: {}
+[1.103469] (-) TimerEvent: {}
+[1.203888] (-) TimerEvent: {}
+[1.304382] (-) TimerEvent: {}
+[1.404797] (-) TimerEvent: {}
+[1.505159] (-) TimerEvent: {}
+[1.605481] (-) TimerEvent: {}
+[1.705830] (-) TimerEvent: {}
+[1.806194] (-) TimerEvent: {}
+[1.908219] (-) TimerEvent: {}
+[2.008737] (-) TimerEvent: {}
+[2.109176] (-) TimerEvent: {}
+[2.144141] (slash_distill) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'develop', '--editable', '--build-directory', '/home/jetson/slash_ws/build/slash_distill/build', '--no-deps', 'symlink_data'], 'cwd': '/home/jetson/slash_ws/build/slash_distill', 'env': {'GJS_DEBUG_TOPICS': 'JS ERROR;JS LOG', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'VSCODE_CWD': '/home/jetson', 'VSCODE_ESM_ENTRYPOINT': 'vs/workbench/api/node/extensionHostProcess', 'AI_AGENT': 'claude-code_2-1-179_agent', 'USER': 'jetson', 'CLAUDE_CODE_ENTRYPOINT': 'claude-vscode', 'VSCODE_NLS_CONFIG': '{"userLocale":"zh-cn","osLocale":"zh-cn","resolvedLanguage":"zh-cn","defaultMessagesFile":"/usr/share/code/resources/app/out/nls.messages.json","languagePack":{"translationsConfigFile":"/home/jetson/.config/Code/clp/a20412af81a5d48f32dfde1261a4c487.zh-cn/tcf.json","messagesFile":"/home/jetson/.config/Code/clp/a20412af81a5d48f32dfde1261a4c487.zh-cn/6a44c352bd24569c417e530095901b649960f9f8/nls.messages.json","corruptMarkerFile":"/home/jetson/.config/Code/clp/a20412af81a5d48f32dfde1261a4c487.zh-cn/corrupted.info"},"locale":"zh-cn","availableLanguages":{"*":"zh-cn"},"_languagePackId":"a20412af81a5d48f32dfde1261a4c487.zh-cn","_languagePackSupport":true,"_translationsConfigFile":"/home/jetson/.config/Code/clp/a20412af81a5d48f32dfde1261a4c487.zh-cn/tcf.json","_cacheRoot":"/home/jetson/.config/Code/clp/a20412af81a5d48f32dfde1261a4c487.zh-cn","_resolvedLanguagePackCoreLocation":"/home/jetson/.config/Code/clp/a20412af81a5d48f32dfde1261a4c487.zh-cn/6a44c352bd24569c417e530095901b649960f9f8","_corruptedFile":"/home/jetson/.config/Code/clp/a20412af81a5d48f32dfde1261a4c487.zh-cn/corrupted.info"}', 'GIT_EDITOR': 'true', 'VSCODE_HANDLES_UNCAUGHT_ERRORS': 'true', 'SSH_AGENT_PID': '2272', 'XDG_SESSION_TYPE': 'x11', 'CLAUDE_AGENT_SDK_VERSION': '0.3.179', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/usr/local/cuda/lib64:/usr/local/cuda/lib64:/usr/local/cuda/lib64:/usr/local/cuda/lib64:/home/jetson/slash_ws/install/vesc_driver/lib:/home/jetson/slash_ws/install/vesc_ackermann/lib:/home/jetson/slash_ws/install/vesc_msgs/lib:/home/jetson/slash_ws/install/teleop_tools_msgs/lib:/home/jetson/slash_ws/install/teb_local_planner/lib:/home/jetson/slash_ws/install/teb_msgs/lib:/home/jetson/slash_ws/install/pointcloud_to_laserscan/lib:/home/jetson/slash_ws/install/fast_lio/lib:/home/jetson/slash_ws/install/livox_ros_driver2/lib:/home/jetson/slash_ws/install/linefit_ground_segmentation/lib:/home/jetson/slash_ws/install/costmap_converter/lib:/home/jetson/slash_ws/install/costmap_converter_msgs/lib:/usr/lib/aarch64-linux-gnu/gazebo-11/plugins:/opt/ros/foxy/opt/yaml_cpp_vendor/lib:/opt/ros/foxy/opt/rviz_ogre_vendor/lib:/opt/ros/foxy/lib/aarch64-linux-gnu:/opt/ros/foxy/lib:/usr/local/cuda-11.4/lib64:', 'QT4_IM_MODULE': 'fcitx', 'HOME': '/home/jetson', 'CHROME_DESKTOP': 'code.desktop', 'CONDA_SHLVL': '0', 'GIT_CONFIG_COUNT': '1', 'OLDPWD': '/home/jetson/slash_ws', 'DESKTOP_SESSION': 'ubuntu', 'NVM_BIN': '/home/jetson/.nvm/versions/node/v22.22.2/bin', 'NVM_INC': '/home/jetson/.nvm/versions/node/v22.22.2/include/node', 'VSCODE_IPC_HOOK': '/run/user/1000/vscode-ed92d0d2-1.12-main.sock', 'JETSON_L4T': '35.6.0', 'ANTHROPIC_DEFAULT_SONNET_MODEL': 'glm-5.2[1m]', 'GIO_LAUNCHED_DESKTOP_FILE': '/usr/share/applications/code.desktop', 'APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL': '1', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'JETSON_MODEL': 'NVIDIA Orin NX Developer Kit', 'CLAUDE_CODE_CHILD_SESSION': '1', 'COPILOT_OTEL_FILE_EXPORTER_PATH': '/dev/null', 'MANAGERPID': '1504', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', '_CONDA_ROOT': '/home/jetson/miniforge3', 'GIO_LAUNCHED_DESKTOP_FILE_PID': '147522', 'NVM_DIR': '/home/jetson/.nvm', 'VSCODE_CRASH_REPORTER_PROCESS_TYPE': 'extensionHost', 'IM_CONFIG_PHASE': '1', 'VSCODE_L10N_BUNDLE_LOCATION': 'file:///home/jetson/.vscode/extensions/ms-ceintl.vscode-language-pack-zh-hans-1.123.2026060618/translations/extensions/vscode.markdown-language-features.i18n.json', 'COLCON_PREFIX_PATH': '/home/jetson/slash_ws/install', 'API_TIMEOUT_MS': '1000000', 'APPLICATION_INSIGHTS_NO_STATSBEAT': 'true', 'ROS_DISTRO': 'foxy', 'GTK_IM_MODULE': 'fcitx', 'LOGNAME': 'jetson', 'JETSON_MODULE': 'NVIDIA Jetson Orin NX (16GB ram)', 'JETSON_SERIAL_NUMBER': '1422723024809', 'JOURNAL_STREAM': '8:58391', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'JETSON_CODENAME': 'P3768', 'XDG_SESSION_CLASS': 'user', 'APPLICATIONINSIGHTS_CONFIGURATION_CONTENT': '{}', 'USERNAME': 'jetson', 'ANTHROPIC_BASE_URL': 'https://open.bigmodel.cn/api/anthropic', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'FC_FONTATIONS': '1', 'ROS_LOCALHOST_ONLY': '0', 'WINDOWPATH': '2', 'GIT_CONFIG_VALUE_0': 'explicit', 'ANTHROPIC_DEFAULT_OPUS_MODEL': 'glm-5.2[1m]', 'MCP_CONNECTION_NONBLOCKING': 'true', 'PATH': '/home/jetson/.local/bin:/usr/local/cuda/bin:/usr/local/cuda/bin:/usr/local/cuda/bin:/usr/local/cuda/bin:/usr/local/cuda-11.4/bin:/home/jetson/.local/bin:/home/jetson/.nvm/versions/node/v22.22.2/bin:/usr/local/cuda/bin:/usr/local/cuda/bin:/usr/local/cuda/bin:/usr/local/cuda/bin:/home/jetson/slash_ws/install/costmap_converter/bin:/opt/ros/foxy/bin:/home/jetson/miniforge3/condabin:/usr/local/cuda-11.4/bin:/home/jetson/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jetson/.npm/_npx/2f024689b4d0d3b0/node_modules/@z_ai/coding-helper/zai-coding-plugins/plugins/glm-plan-usage/bin:/home/jetson/.npm/_npx/2f024689b4d0d3b0/node_modules/@z_ai/coding-helper/zai-coding-plugins/plugins/glm-plan-bug/bin', 'SESSION_MANAGER': 'local/ubuntu:@/tmp/.ICE-unix/2398,unix/ubuntu:/tmp/.ICE-unix/2398', 'INVOCATION_ID': '52e36c59e1604ad181396bffbcdc7ae4', 'COREPACK_ENABLE_AUTO_PIN': '0', 'XDG_MENU_PREFIX': 'gnome-', 'XDG_RUNTIME_DIR': '/run/user/1000', 'GDK_BACKEND': 'x11', 'CLAUDE_EFFORT': 'max', 'MAMBA_ROOT_PREFIX': '/home/jetson/miniforge3', 'DISPLAY': ':0', 'NoDefaultCurrentDirectoryInExePath': '1', 'LANG': 'zh_CN.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'ANTHROPIC_DEFAULT_HAIKU_MODEL': 'glm-4.5-air', 'XMODIFIERS': '@im=fcitx', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'JETSON_SOC': 'tegra23x', 'COPILOT_OTEL_ENABLED': 'true', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/home/jetson/slash_ws/install/f1tenth_stack:/home/jetson/slash_ws/install/vesc:/home/jetson/slash_ws/install/vesc_driver:/home/jetson/slash_ws/install/vesc_ackermann:/home/jetson/slash_ws/install/vesc_msgs:/home/jetson/slash_ws/install/twist_to_ackermann:/home/jetson/slash_ws/install/teleop_tools:/home/jetson/slash_ws/install/joy_teleop:/home/jetson/slash_ws/install/teleop_tools_msgs:/home/jetson/slash_ws/install/teb_local_planner:/home/jetson/slash_ws/install/teb_msgs:/home/jetson/slash_ws/install/slash_sysid:/home/jetson/slash_ws/install/slash_safety:/home/jetson/slash_ws/install/slash_nav2:/home/jetson/slash_ws/install/simple_mpc:/home/jetson/slash_ws/install/roboracer_china_2025:/home/jetson/slash_ws/install/pointcloud_to_laserscan:/home/jetson/slash_ws/install/obstacle_tracker:/home/jetson/slash_ws/install/multilayer_scan:/home/jetson/slash_ws/install/mouse_teleop:/home/jetson/slash_ws/install/fast_lio:/home/jetson/slash_ws/install/livox_ros_driver2:/home/jetson/slash_ws/install/linefit_ground_segmentation_ros:/home/jetson/slash_ws/install/linefit_ground_segmentation:/home/jetson/slash_ws/install/key_teleop:/home/jetson/slash_ws/install/costmap_converter:/home/jetson/slash_ws/install/costmap_converter_msgs:/home/jetson/slash_ws/install/ackermann_mux:/opt/ros/foxy', 'CONDA_PYTHON_EXE': '/home/jetson/miniforge3/bin/python', 'SHELL': '/bin/bash', 'ANTHROPIC_AUTH_TOKEN': '0d882e581cf047009806ff73cb02ac5b.PhruUbjDxubSFl92', 'MXC_BIN_DIR': '/usr/share/code/resources/app/node_modules/@microsoft/mxc-sdk/bin', 'QT_ACCESSIBILITY': '1', 'ELECTRON_RUN_AS_NODE': '1', 'GDMSESSION': 'ubuntu', 'GIT_CONFIG_KEY_0': 'safe.bareRepository', 'CLAUDE_CODE_ENABLE_SDK_FILE_CHECKPOINTING': 'true', 'CLAUDE_CODE_SESSION_ID': '78d769fa-615c-4693-bbbf-4444090e25e3', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'CLAUDECODE': '1', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GJS_DEBUG_OUTPUT': 'stderr', 'OpenCV_DIR': '/usr/include/opencv4', '_CONDA_EXE': '/home/jetson/miniforge3/bin/conda', 'MAMBA_EXE': '/home/jetson/miniforge3/bin/mamba', 'QT_IM_MODULE': 'fcitx', 'JETSON_CUDA_ARCH_BIN': '8.7', 'PWD': '/home/jetson/slash_ws/build/slash_distill', 'CUDA_HOME': '/usr/local/cuda', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'CONDA_EXE': '/home/jetson/miniforge3/bin/conda', 'VSCODE_CODE_CACHE_PATH': '/home/jetson/.config/Code/CachedData/6a44c352bd24569c417e530095901b649960f9f8', 'CLUTTER_IM_MODULE': 'fcitx', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'CLAUDE_CODE_EXECPATH': '/home/jetson/.vscode/extensions/anthropic.claude-code-2.1.179-linux-arm64/resources/native-binary/claude', 'CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC': '1', 'PYTHONPATH': '/home/jetson/slash_ws/build/slash_distill/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jetson/slash_ws/install/slash_distill/lib/python3.8/site-packages:/home/jetson/slash_ws/install/f1tenth_stack/lib/python3.8/site-packages:/home/jetson/slash_ws/install/vesc_msgs/lib/python3.8/site-packages:/home/jetson/slash_ws/install/twist_to_ackermann/lib/python3.8/site-packages:/home/jetson/slash_ws/install/joy_teleop/lib/python3.8/site-packages:/home/jetson/slash_ws/install/teleop_tools_msgs/lib/python3.8/site-packages:/home/jetson/slash_ws/install/teb_msgs/lib/python3.8/site-packages:/home/jetson/slash_ws/install/slash_sysid/lib/python3.8/site-packages:/home/jetson/slash_ws/install/slash_safety/lib/python3.8/site-packages:/home/jetson/slash_ws/install/roboracer_china_2025/lib/python3.8/site-packages:/home/jetson/slash_ws/install/obstacle_tracker/lib/python3.8/site-packages:/home/jetson/slash_ws/install/multilayer_scan/lib/python3.8/site-packages:/home/jetson/slash_ws/install/mouse_teleop/lib/python3.8/site-packages:/home/jetson/slash_ws/install/fast_lio/lib/python3.8/site-packages:/home/jetson/slash_ws/install/livox_ros_driver2/lib/python3.8/site-packages:/home/jetson/slash_ws/install/key_teleop/lib/python3.8/site-packages:/home/jetson/slash_ws/install/costmap_converter_msgs/lib/python3.8/site-packages:/opt/ros/foxy/lib/python3.8/site-packages', 'CLAUDE_CODE_ENABLE_TASKS': '0', 'COLCON': '1', 'JETSON_JETPACK': '5.1.4', 'CMAKE_PREFIX_PATH': '/home/jetson/slash_ws/install/vesc:/home/jetson/slash_ws/install/vesc_driver:/home/jetson/slash_ws/install/vesc_ackermann:/home/jetson/slash_ws/install/vesc_msgs:/home/jetson/slash_ws/install/teleop_tools:/home/jetson/slash_ws/install/teleop_tools_msgs:/home/jetson/slash_ws/install/teb_local_planner:/home/jetson/slash_ws/install/teb_msgs:/home/jetson/slash_ws/install/slash_nav2:/home/jetson/slash_ws/install/simple_mpc:/home/jetson/slash_ws/install/pointcloud_to_laserscan:/home/jetson/slash_ws/install/fast_lio:/home/jetson/slash_ws/install/livox_ros_driver2:/home/jetson/slash_ws/install/linefit_ground_segmentation_ros:/home/jetson/slash_ws/install/linefit_ground_segmentation:/home/jetson/slash_ws/install/costmap_converter:/home/jetson/slash_ws/install/costmap_converter_msgs:/home/jetson/slash_ws/install/ackermann_mux', 'VSCODE_PID': '147522', 'JETSON_P_NUMBER': 'p3767-0000', 'COPILOT_OTEL_EXPORTER_TYPE': 'file'}, 'shell': False}
+[2.209385] (-) TimerEvent: {}
+[2.312897] (-) TimerEvent: {}
+[2.413334] (-) TimerEvent: {}
+[2.513717] (-) TimerEvent: {}
+[2.614130] (-) TimerEvent: {}
+[2.714536] (-) TimerEvent: {}
+[2.810274] (slash_distill) StdoutLine: {'line': b'running develop\n'}
+[2.814598] (-) TimerEvent: {}
+[2.914856] (-) TimerEvent: {}
+[3.015272] (-) TimerEvent: {}
+[3.115697] (-) TimerEvent: {}
+[3.216074] (-) TimerEvent: {}
+[3.229316] (slash_distill) StdoutLine: {'line': b'running egg_info\n'}
+[3.229798] (slash_distill) StdoutLine: {'line': b'creating slash_distill.egg-info\n'}
+[3.250575] (slash_distill) StdoutLine: {'line': b'writing slash_distill.egg-info/PKG-INFO\n'}
+[3.251639] (slash_distill) StdoutLine: {'line': b'writing dependency_links to slash_distill.egg-info/dependency_links.txt\n'}
+[3.252151] (slash_distill) StdoutLine: {'line': b'writing entry points to slash_distill.egg-info/entry_points.txt\n'}
+[3.252379] (slash_distill) StdoutLine: {'line': b'writing requirements to slash_distill.egg-info/requires.txt\n'}
+[3.252583] (slash_distill) StdoutLine: {'line': b'writing top-level names to slash_distill.egg-info/top_level.txt\n'}
+[3.255965] (slash_distill) StdoutLine: {'line': b"writing manifest file 'slash_distill.egg-info/SOURCES.txt'\n"}
+[3.302307] (slash_distill) StdoutLine: {'line': b"reading manifest file 'slash_distill.egg-info/SOURCES.txt'\n"}
+[3.307725] (slash_distill) StdoutLine: {'line': b"writing manifest file 'slash_distill.egg-info/SOURCES.txt'\n"}
+[3.316176] (-) TimerEvent: {}
+[3.397188] (slash_distill) StdoutLine: {'line': b'running build_ext\n'}
+[3.397644] (slash_distill) StdoutLine: {'line': b'Creating /home/jetson/slash_ws/install/slash_distill/lib/python3.8/site-packages/slash-distill.egg-link (link to .)\n'}
+[3.398849] (slash_distill) StdoutLine: {'line': b'Installing collect_demos script to /home/jetson/slash_ws/install/slash_distill/lib/slash_distill\n'}
+[3.399376] (slash_distill) StdoutLine: {'line': b'Installing dagger script to /home/jetson/slash_ws/install/slash_distill/lib/slash_distill\n'}
+[3.399603] (slash_distill) StdoutLine: {'line': b'Installing eval_closed_loop script to /home/jetson/slash_ws/install/slash_distill/lib/slash_distill\n'}
+[3.399991] (slash_distill) StdoutLine: {'line': b'Installing export_onnx script to /home/jetson/slash_ws/install/slash_distill/lib/slash_distill\n'}
+[3.400168] (slash_distill) StdoutLine: {'line': b'Installing make_figures script to /home/jetson/slash_ws/install/slash_distill/lib/slash_distill\n'}
+[3.400308] (slash_distill) StdoutLine: {'line': b'Installing run_ablations script to /home/jetson/slash_ws/install/slash_distill/lib/slash_distill\n'}
+[3.400656] (slash_distill) StdoutLine: {'line': b'Installing student_policy_node script to /home/jetson/slash_ws/install/slash_distill/lib/slash_distill\n'}
+[3.400906] (slash_distill) StdoutLine: {'line': b'Installing train_bc script to /home/jetson/slash_ws/install/slash_distill/lib/slash_distill\n'}
+[3.401046] (slash_distill) StdoutLine: {'line': b'\n'}
+[3.401191] (slash_distill) StdoutLine: {'line': b'Installed /home/jetson/slash_ws/build/slash_distill\n'}
+[3.401318] (slash_distill) StdoutLine: {'line': b'running symlink_data\n'}
+[3.401666] (slash_distill) StdoutLine: {'line': b'creating /home/jetson/slash_ws/install/slash_distill/share/ament_index\n'}
+[3.402057] (slash_distill) StdoutLine: {'line': b'creating /home/jetson/slash_ws/install/slash_distill/share/ament_index/resource_index\n'}
+[3.402215] (slash_distill) StdoutLine: {'line': b'creating /home/jetson/slash_ws/install/slash_distill/share/ament_index/resource_index/packages\n'}
+[3.402346] (slash_distill) StdoutLine: {'line': b'symbolically linking /home/jetson/slash_ws/build/slash_distill/resource/slash_distill -> /home/jetson/slash_ws/install/slash_distill/share/ament_index/resource_index/packages\n'}
+[3.402475] (slash_distill) StdoutLine: {'line': b'symbolically linking /home/jetson/slash_ws/build/slash_distill/package.xml -> /home/jetson/slash_ws/install/slash_distill/share/slash_distill\n'}
+[3.402600] (slash_distill) StdoutLine: {'line': b'creating /home/jetson/slash_ws/install/slash_distill/share/slash_distill/launch\n'}
+[3.402714] (slash_distill) StdoutLine: {'line': b'symbolically linking /home/jetson/slash_ws/build/slash_distill/launch/race_student.launch.py -> /home/jetson/slash_ws/install/slash_distill/share/slash_distill/launch\n'}
+[3.402829] (slash_distill) StdoutLine: {'line': b'creating /home/jetson/slash_ws/install/slash_distill/share/slash_distill/config\n'}
+[3.402946] (slash_distill) StdoutLine: {'line': b'symbolically linking /home/jetson/slash_ws/build/slash_distill/config/sysid_params.yaml -> /home/jetson/slash_ws/install/slash_distill/share/slash_distill/config\n'}
+[3.403066] (slash_distill) StdoutLine: {'line': b'symbolically linking /home/jetson/slash_ws/build/slash_distill/config/distill.yaml -> /home/jetson/slash_ws/install/slash_distill/share/slash_distill/config\n'}
+[3.416318] (-) TimerEvent: {}
+[3.516685] (-) TimerEvent: {}
+[3.577930] (slash_distill) CommandEnded: {'returncode': 0}
+[3.611580] (slash_distill) JobEnded: {'identifier': 'slash_distill', 'rc': 0}
+[3.613040] (-) EventReactorShutdown: {}

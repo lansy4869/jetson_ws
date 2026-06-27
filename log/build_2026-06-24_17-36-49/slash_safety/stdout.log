@@ -1,0 +1,15 @@
+running develop
+running egg_info
+writing slash_safety.egg-info/PKG-INFO
+writing dependency_links to slash_safety.egg-info/dependency_links.txt
+writing entry points to slash_safety.egg-info/entry_points.txt
+writing requirements to slash_safety.egg-info/requires.txt
+writing top-level names to slash_safety.egg-info/top_level.txt
+reading manifest file 'slash_safety.egg-info/SOURCES.txt'
+writing manifest file 'slash_safety.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/jetson/slash_ws/install/slash_safety/lib/python3.8/site-packages/slash-safety.egg-link (link to .)
+Installing ggv_shield_node script to /home/jetson/slash_ws/install/slash_safety/lib/slash_safety
+
+Installed /home/jetson/slash_ws/build/slash_safety
+running symlink_data

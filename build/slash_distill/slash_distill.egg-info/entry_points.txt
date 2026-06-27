@@ -1,0 +1,9 @@
+[console_scripts]
+collect_demos = slash_distill.collect_demos:main
+dagger = slash_distill.dagger:main
+eval_closed_loop = slash_distill.eval_closed_loop:main
+export_onnx = slash_distill.export_onnx:main
+make_figures = slash_distill.make_figures:main
+run_ablations = slash_distill.run_ablations:main
+student_policy_node = slash_distill.nodes.student_policy_node:main
+train_bc = slash_distill.train_bc:main
