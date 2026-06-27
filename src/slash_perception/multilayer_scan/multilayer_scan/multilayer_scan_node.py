@@ -115,16 +115,23 @@ class MultiLayerScanNode(Node):
         self.n_beams = int(round((self.angle_max - self.angle_min) / self.angle_inc))
         self.fill_val = float("inf") if self.use_inf else (self.range_max + 1.0)
 
+        # 输入订阅用 BEST_EFFORT，兼容任意 sensor publisher；
+        # 输出 scan 用 RELIABLE 发布——本机 CycloneDDS 对 BEST_EFFORT 新 publisher
+        # 投递不稳（订阅者收不到），RELIABLE publisher 能稳定投递给 BEST_EFFORT 订阅者。
         sensor_qos = QoSProfile(
             reliability=QoSReliabilityPolicy.BEST_EFFORT,
             history=QoSHistoryPolicy.KEEP_LAST, depth=5,
         )
-        self.fused_pub = self.create_publisher(LaserScan, self.fused_topic, sensor_qos)
+        pub_qos = QoSProfile(
+            reliability=QoSReliabilityPolicy.RELIABLE,
+            history=QoSHistoryPolicy.KEEP_LAST, depth=5,
+        )
+        self.fused_pub = self.create_publisher(LaserScan, self.fused_topic, pub_qos)
         self.layer_pubs = {}
         if self.publish_layers:
             for name in self.b_names:
                 self.layer_pubs[name] = self.create_publisher(
-                    LaserScan, self.layer_prefix + name, sensor_qos)
+                    LaserScan, self.layer_prefix + name, pub_qos)
         self.sub = self.create_subscription(
             PointCloud2, str(g("input_topic")), self._on_cloud, sensor_qos)
 

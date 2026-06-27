@@ -29,5 +29,5 @@ ggv_shield_node:
     control_rate_hz: 50.0
     input_timeout_s: 0.3            # 上游超时 -> 平滑刹停
     odom_timeout_s: 0.5
-    use_odom_speed_as_ref: true     # dv 以实测车速为基准
+    use_odom_speed_as_ref: false    # dv 以上次输出为基准（实测车速在低 ERPM 电机死区时为 0，会导致 ramp 卡死）
     publish_debug: true

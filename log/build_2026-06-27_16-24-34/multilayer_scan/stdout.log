@@ -1,0 +1,15 @@
+running develop
+running egg_info
+writing multilayer_scan.egg-info/PKG-INFO
+writing dependency_links to multilayer_scan.egg-info/dependency_links.txt
+writing entry points to multilayer_scan.egg-info/entry_points.txt
+writing requirements to multilayer_scan.egg-info/requires.txt
+writing top-level names to multilayer_scan.egg-info/top_level.txt
+reading manifest file 'multilayer_scan.egg-info/SOURCES.txt'
+writing manifest file 'multilayer_scan.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/jetson/slash_ws/install/multilayer_scan/lib/python3.8/site-packages/multilayer-scan.egg-link (link to .)
+Installing multilayer_scan_node script to /home/jetson/slash_ws/install/multilayer_scan/lib/multilayer_scan
+
+Installed /home/jetson/slash_ws/build/multilayer_scan
+running symlink_data

@@ -11,7 +11,7 @@ joy_teleop:
     default:
       type: topic
       interface_type: ackermann_msgs/msg/AckermannDriveStamped
-      topic_name: teleop
+      topic_name: /dev/null
       axis_mappings:
         drive-speed:
           axis: 1

@@ -94,17 +94,21 @@ class GgvShieldNode(Node):
         self.last_steer = 0.0
         self.have_input_once = False
 
-        # QoS：控制指令用 RELIABLE depth=1；里程计 BEST_EFFORT
+        # QoS：控制指令与里程计均用 RELIABLE。
+        # /odom 由 vesc_to_odom 以 RELIABLE 发布；安全节点必须 RELIABLE 订阅——
+        # CycloneDDS 下 BEST_EFFORT reader 在 publisher 匹配后才恢复发布时会丢投递
+        # （表现为：graph 里订阅已匹配，但回调永不触发）。
         ctrl_qos = QoSProfile(
             reliability=QoSReliabilityPolicy.RELIABLE,
             history=QoSHistoryPolicy.KEEP_LAST,
             depth=1,
             durability=QoSDurabilityPolicy.VOLATILE,
         )
-        sensor_qos = QoSProfile(
-            reliability=QoSReliabilityPolicy.BEST_EFFORT,
+        odom_qos = QoSProfile(
+            reliability=QoSReliabilityPolicy.RELIABLE,
             history=QoSHistoryPolicy.KEEP_LAST,
             depth=10,
+            durability=QoSDurabilityPolicy.VOLATILE,
         )
 
         self.drive_pub = self.create_publisher(AckermannDriveStamped, self.drive_out_topic, ctrl_qos)
@@ -113,7 +117,7 @@ class GgvShieldNode(Node):
             AckermannDriveStamped, self.drive_in_topic, self._on_drive_in, ctrl_qos
         )
         self.odom_sub = self.create_subscription(
-            Odometry, self.odom_topic, self._on_odom, sensor_qos
+            Odometry, self.odom_topic, self._on_odom, odom_qos
         )
         self.watchdog = self.create_timer(1.0 / self.control_rate, self._watchdog)
 
@@ -127,6 +131,13 @@ class GgvShieldNode(Node):
     def _now(self):
         return self.get_clock().now().nanoseconds * 1e-9
 
+    def _has_fresh_odom(self, now=None):
+        now = self._now() if now is None else now
+        return (
+            self.last_odom_t is not None
+            and (now - self.last_odom_t) <= self.odom_timeout
+        )
+
     def _curvature_speed_cap(self, steer):
         """过弯限速：v <= sqrt(ay_eff / kappa)，kappa = tan(|delta|)/L。"""
         kappa = abs(math.tan(steer)) / max(self.L, 1e-6)
@@ -139,10 +150,7 @@ class GgvShieldNode(Node):
     def _rate_limit_speed(self, v_des, dt):
         """纵向变化率限制：dv 落在 [-ax_brake*dt, +ax_accel*dt]。"""
         now = self._now()
-        has_fresh_odom = (
-            self.last_odom_t is not None
-            and (now - self.last_odom_t) <= self.odom_timeout
-        )
+        has_fresh_odom = self._has_fresh_odom(now)
         ref = self.measured_speed if self.use_odom_ref and has_fresh_odom else self.last_out_speed
         dv = v_des - ref
         dv = max(-self.ax_brake * dt, min(self.ax_accel * dt, dv))
@@ -177,10 +185,17 @@ class GgvShieldNode(Node):
 
     def _on_drive_in(self, msg):
         now = self._now()
-        dt = 1.0 / self.control_rate if self.last_pub_t is None else max(1e-3, min(0.2, now - self.last_pub_t))
-        steer, v_out, v_cap = self._shield(msg.drive.steering_angle, msg.drive.speed, dt)
         self.last_input_t = now
         self.have_input_once = True
+        if not self._has_fresh_odom(now):
+            self._publish(0.0, 0.0, stamp_header=msg.header)
+            self.get_logger().warn(
+                f"[ggv_shield] 里程计 {self.odom_topic} 超时/缺失，保持停车",
+                throttle_duration_sec=2.0,
+            )
+            return
+        dt = 1.0 / self.control_rate if self.last_pub_t is None else max(1e-3, min(0.2, now - self.last_pub_t))
+        steer, v_out, v_cap = self._shield(msg.drive.steering_angle, msg.drive.speed, dt)
         self._publish(steer, v_out, stamp_header=msg.header)
         if self.debug_pub is not None:
             self.debug_pub.publish(Float32(data=float(v_cap)))

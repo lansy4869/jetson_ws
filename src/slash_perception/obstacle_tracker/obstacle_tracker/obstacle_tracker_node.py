@@ -122,6 +122,10 @@ class ObstacleTrackerNode(Node):
 
         sensor_qos = QoSProfile(reliability=QoSReliabilityPolicy.BEST_EFFORT,
                                 history=QoSHistoryPolicy.KEEP_LAST, depth=5)
+        # /odom 由 vesc_to_odom 以 RELIABLE 发布；BEST_EFFORT 订阅在 CycloneDDS 下
+        # 会在 publisher 匹配后才发数据时丢投递，故 ego 里程计必须 RELIABLE 订阅。
+        odom_qos = QoSProfile(reliability=QoSReliabilityPolicy.RELIABLE,
+                              history=QoSHistoryPolicy.KEEP_LAST, depth=10)
 
         self.dyn_pub = self.create_publisher(Bool, str(g("dynamic_flag_topic")), 10)
         self.opp_pub = self.create_publisher(Float32MultiArray, str(g("opponent_state_topic")), 10)
@@ -131,7 +135,7 @@ class ObstacleTrackerNode(Node):
             LaserScan, str(g("scan_topic")), self._on_scan, sensor_qos)
         if self.use_ego:
             self.odom_sub = self.create_subscription(
-                Odometry, str(g("odom_topic")), self._on_odom, sensor_qos)
+                Odometry, str(g("odom_topic")), self._on_odom, odom_qos)
 
         self.get_logger().info(
             f"[obstacle_tracker] scan={g('scan_topic')} odom={g('odom_topic') if self.use_ego else 'OFF'} "

@@ -33,7 +33,7 @@ vesc_to_odom_node:
     base_frame: base_link
     # publish odom to base link tf
     publish_tf: true
-    use_servo_cmd_to_calc_angular_velocity: true
+    use_servo_cmd_to_calc_angular_velocity: false  # VESC 未回发 servo 反馈时，用 /sensors/core 直发 /odom(wz=0)，打破 /odom bootstrap 死锁
     # car wheelbase is about 25cm
     wheelbase: .25
 

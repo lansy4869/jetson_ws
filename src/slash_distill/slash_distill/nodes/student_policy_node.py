@@ -28,6 +28,12 @@ from ..common.reactive import ReactiveController
 from ..models.student_cnn import denormalize_action
 
 
+def _normalize_scan_topics(value):
+    if isinstance(value, str):
+        return [value]
+    return [str(topic) for topic in value]
+
+
 class _Inference:
     """统一推理后端：onnx(onnxruntime) / torch / none。none 时由节点走反应式。"""
 
@@ -116,7 +122,7 @@ class StudentPolicyNode(Node):
             self.declare_parameter(n, d)
         g = lambda n: self.get_parameter(n).value
 
-        self.scan_topics = list(g("scan_topics"))
+        self.scan_topics = _normalize_scan_topics(g("scan_topics"))
         self.odom_topic = str(g("odom_topic"))
         self.opp_topic = str(g("opponent_topic"))
         self.drive_out = str(g("drive_out_topic"))
@@ -145,11 +151,15 @@ class StudentPolicyNode(Node):
 
         qos = QoSProfile(reliability=QoSReliabilityPolicy.BEST_EFFORT,
                          history=QoSHistoryPolicy.KEEP_LAST, depth=5)
+        # /scan_3d、opponent_state 是 BEST_EFFORT；/odom 由 vesc_to_odom 以 RELIABLE 发布，
+        # 必须 RELIABLE 订阅（BEST_EFFORT 在 CycloneDDS 下会丢投递）。
+        odom_qos = QoSProfile(reliability=QoSReliabilityPolicy.RELIABLE,
+                              history=QoSHistoryPolicy.KEEP_LAST, depth=10)
         ctrl_qos = QoSProfile(reliability=QoSReliabilityPolicy.RELIABLE,
                               history=QoSHistoryPolicy.KEEP_LAST, depth=1)
         for i, t in enumerate(self.scan_topics):
             self.create_subscription(LaserScan, t, self._make_scan_cb(i), qos)
-        self.create_subscription(Odometry, self.odom_topic, self._on_odom, qos)
+        self.create_subscription(Odometry, self.odom_topic, self._on_odom, odom_qos)
         self.create_subscription(Float32MultiArray, self.opp_topic, self._on_opp, qos)
         self.drive_pub = self.create_publisher(AckermannDriveStamped, self.drive_out, ctrl_qos)
         self.timer = self.create_timer(1.0 / self.rate, self._tick)

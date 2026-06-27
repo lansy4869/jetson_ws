@@ -54,6 +54,8 @@
 /home/jetson/slash_ws/install/livox_ros_driver2/share/livox_ros_driver2/config/MID360_config.json
 /home/jetson/slash_ws/install/livox_ros_driver2/share/livox_ros_driver2/config/display_point_cloud.rviz
 /home/jetson/slash_ws/install/livox_ros_driver2/share/livox_ros_driver2/config/mixed_HAP_MID360_config.json
+/home/jetson/slash_ws/install/livox_ros_driver2/share/livox_ros_driver2/launch/__pycache__/msg_MID360_launch.cpython-38.pyc
+/home/jetson/slash_ws/install/livox_ros_driver2/share/livox_ros_driver2/launch/__pycache__/rviz_MID360_launch.cpython-38.pyc
 /home/jetson/slash_ws/install/livox_ros_driver2/share/livox_ros_driver2/launch/msg_HAP_launch.py
 /home/jetson/slash_ws/install/livox_ros_driver2/share/livox_ros_driver2/launch/msg_MID360_launch.py
 /home/jetson/slash_ws/install/livox_ros_driver2/share/livox_ros_driver2/launch/rviz_HAP_launch.py
