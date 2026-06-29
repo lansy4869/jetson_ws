@@ -21,6 +21,13 @@ def generate_launch_description():
         DeclareLaunchArgument('reachability_vehicle_width', default_value='0.32'),
         DeclareLaunchArgument('reachability_base_margin', default_value='0.16'),
         DeclareLaunchArgument('reachability_system_delay', default_value='0.16'),
+        DeclareLaunchArgument('reachability_risk_speed_gain', default_value='0.55'),
+        DeclareLaunchArgument('reachability_risk_weight', default_value='3.0'),
+        DeclareLaunchArgument('reachability_confidence_weight', default_value='1.0'),
+        DeclareLaunchArgument('reachability_dynamic_risk_weight', default_value='0.65'),
+        DeclareLaunchArgument('reachability_dynamic_closing_speed_threshold', default_value='0.5'),
+        DeclareLaunchArgument('reachability_dynamic_risk_range', default_value='8.0'),
+        DeclareLaunchArgument('reachability_dynamic_max_delta_time', default_value='0.5'),
 
         Node(
             package='roboracer_china_2025',
@@ -48,6 +55,20 @@ def generate_launch_description():
                     LaunchConfiguration('reachability_base_margin'), value_type=float),
                 'reachability_system_delay': ParameterValue(
                     LaunchConfiguration('reachability_system_delay'), value_type=float),
+                'reachability_risk_speed_gain': ParameterValue(
+                    LaunchConfiguration('reachability_risk_speed_gain'), value_type=float),
+                'reachability_risk_weight': ParameterValue(
+                    LaunchConfiguration('reachability_risk_weight'), value_type=float),
+                'reachability_confidence_weight': ParameterValue(
+                    LaunchConfiguration('reachability_confidence_weight'), value_type=float),
+                'reachability_dynamic_risk_weight': ParameterValue(
+                    LaunchConfiguration('reachability_dynamic_risk_weight'), value_type=float),
+                'reachability_dynamic_closing_speed_threshold': ParameterValue(
+                    LaunchConfiguration('reachability_dynamic_closing_speed_threshold'), value_type=float),
+                'reachability_dynamic_risk_range': ParameterValue(
+                    LaunchConfiguration('reachability_dynamic_risk_range'), value_type=float),
+                'reachability_dynamic_max_delta_time': ParameterValue(
+                    LaunchConfiguration('reachability_dynamic_max_delta_time'), value_type=float),
             }],
         ),
     ])

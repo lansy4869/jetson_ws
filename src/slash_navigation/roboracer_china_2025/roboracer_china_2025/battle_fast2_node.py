@@ -55,6 +55,13 @@ class BattleVehicleNode(Node):
         self.declare_parameter('reachability_max_lateral_accel', 4.5)
         self.declare_parameter('reachability_unknown_weight', 2.0)
         self.declare_parameter('reachability_range_max', 12.0)
+        self.declare_parameter('reachability_risk_speed_gain', 0.55)
+        self.declare_parameter('reachability_risk_weight', 3.0)
+        self.declare_parameter('reachability_confidence_weight', 1.0)
+        self.declare_parameter('reachability_dynamic_risk_weight', 0.65)
+        self.declare_parameter('reachability_dynamic_closing_speed_threshold', 0.5)
+        self.declare_parameter('reachability_dynamic_risk_range', 8.0)
+        self.declare_parameter('reachability_dynamic_max_delta_time', 0.5)
 
         scan_topic = self.get_parameter('scan_topic').value
         drive_topic = self.get_parameter('drive_topic').value
@@ -78,6 +85,17 @@ class BattleVehicleNode(Node):
             max_lateral_accel=float(self.get_parameter('reachability_max_lateral_accel').value),
             unknown_weight=float(self.get_parameter('reachability_unknown_weight').value),
             range_max=float(self.get_parameter('reachability_range_max').value),
+            risk_speed_gain=float(self.get_parameter('reachability_risk_speed_gain').value),
+            risk_weight=float(self.get_parameter('reachability_risk_weight').value),
+            confidence_weight=float(self.get_parameter('reachability_confidence_weight').value),
+            dynamic_risk_weight=float(self.get_parameter('reachability_dynamic_risk_weight').value),
+            dynamic_closing_speed_threshold=float(
+                self.get_parameter('reachability_dynamic_closing_speed_threshold').value
+            ),
+            dynamic_risk_range=float(self.get_parameter('reachability_dynamic_risk_range').value),
+            dynamic_max_delta_time=float(
+                self.get_parameter('reachability_dynamic_max_delta_time').value
+            ),
         )
 
         self.get_logger().info(f"Battle Node Started. Topics: scan={scan_topic}, drive={drive_topic}")
@@ -99,6 +117,8 @@ class BattleVehicleNode(Node):
         self.chaoche = False
         self.last_reachability_steer = 0.0
         self.last_reachability_speed = 0.0
+        self.previous_reachability_ranges = None
+        self.previous_reachability_stamp = None
 
         # === ROS 2 通信配置 ===
         qos_profile = QoSProfile(
@@ -298,10 +318,27 @@ class BattleVehicleNode(Node):
         else:
             return False 
 
+    def scan_stamp_seconds(self, data):
+        stamp_seconds = float(data.header.stamp.sec) + float(data.header.stamp.nanosec) * 1e-9
+        if stamp_seconds > 0.0:
+            return stamp_seconds
+        return float(self.get_clock().now().nanoseconds) * 1e-9
+
+    def reachability_delta_time(self, data):
+        stamp_seconds = self.scan_stamp_seconds(data)
+        delta_time = None
+        if self.previous_reachability_stamp is not None:
+            candidate_dt = stamp_seconds - self.previous_reachability_stamp
+            if 1e-3 < candidate_dt <= self.reachability_config.dynamic_max_delta_time:
+                delta_time = candidate_dt
+        return stamp_seconds, delta_time
+
     def try_reachability_control(self, data, raw_ranges, frame_id):
         if not self.use_reachability_core:
             return False
 
+        stamp_seconds, delta_time = self.reachability_delta_time(data)
+        previous_ranges = self.previous_reachability_ranges
         try:
             result = select_reachable_gap(
                 ranges=raw_ranges,
@@ -310,13 +347,20 @@ class BattleVehicleNode(Node):
                 current_speed=float(self.last_reachability_speed),
                 last_steer=float(self.last_reachability_steer),
                 config=self.reachability_config,
+                previous_ranges=previous_ranges,
+                delta_time=delta_time,
             )
         except Exception as exc:
             self.get_logger().error(f"Reachability core failed: {exc}")
+            self.previous_reachability_ranges = list(raw_ranges)
+            self.previous_reachability_stamp = stamp_seconds
             if self.reachability_fallback_to_original:
                 return False
             self.publish_reachability_drive(data, 0.0, 0.0, frame_id)
             return True
+
+        self.previous_reachability_ranges = list(raw_ranges)
+        self.previous_reachability_stamp = stamp_seconds
 
         if not result.valid:
             self.get_logger().warn(f"Reachability core invalid: {result.reason}")
@@ -329,13 +373,18 @@ class BattleVehicleNode(Node):
         self.last_reachability_steer = result.steer
         self.last_reachability_speed = result.speed
         self.get_logger().debug(
-            "reachability steer=%.3f speed=%.3f free=%.2f clearance=%.2f unknown=%.2f score=%.2f"
+            "reachability steer=%.3f speed=%.3f free=%.2f clearance=%.2f unknown=%.2f "
+            "risk=%.2f confidence=%.2f dynamic=%.2f dt=%s score=%.2f"
             % (
                 result.steer,
                 result.speed,
                 result.free_distance,
                 result.min_clearance,
                 result.unknown_ratio,
+                result.risk,
+                result.confidence,
+                result.dynamic_obstacle_risk,
+                "%.3f" % delta_time if delta_time is not None else "none",
                 result.score,
             )
         )
