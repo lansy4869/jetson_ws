@@ -15,6 +15,12 @@ def generate_launch_description():
         DeclareLaunchArgument('publish_marker', default_value='true'),
         DeclareLaunchArgument('publish_debug_scan', default_value='false'),
         DeclareLaunchArgument('marker_frame', default_value=''),
+        DeclareLaunchArgument('use_reachability_core', default_value='true'),
+        DeclareLaunchArgument('reachability_fallback_to_original', default_value='true'),
+        DeclareLaunchArgument('reachability_max_speed', default_value='2.5'),
+        DeclareLaunchArgument('reachability_vehicle_width', default_value='0.32'),
+        DeclareLaunchArgument('reachability_base_margin', default_value='0.16'),
+        DeclareLaunchArgument('reachability_system_delay', default_value='0.16'),
 
         Node(
             package='roboracer_china_2025',
@@ -30,6 +36,18 @@ def generate_launch_description():
                 'publish_marker': ParameterValue(LaunchConfiguration('publish_marker'), value_type=bool),
                 'publish_debug_scan': ParameterValue(LaunchConfiguration('publish_debug_scan'), value_type=bool),
                 'marker_frame': LaunchConfiguration('marker_frame'),
+                'use_reachability_core': ParameterValue(
+                    LaunchConfiguration('use_reachability_core'), value_type=bool),
+                'reachability_fallback_to_original': ParameterValue(
+                    LaunchConfiguration('reachability_fallback_to_original'), value_type=bool),
+                'reachability_max_speed': ParameterValue(
+                    LaunchConfiguration('reachability_max_speed'), value_type=float),
+                'reachability_vehicle_width': ParameterValue(
+                    LaunchConfiguration('reachability_vehicle_width'), value_type=float),
+                'reachability_base_margin': ParameterValue(
+                    LaunchConfiguration('reachability_base_margin'), value_type=float),
+                'reachability_system_delay': ParameterValue(
+                    LaunchConfiguration('reachability_system_delay'), value_type=float),
             }],
         ),
     ])
