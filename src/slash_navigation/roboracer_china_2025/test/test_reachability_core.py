@@ -6,6 +6,7 @@ from roboracer_china_2025.reachability_core import (
     ReachabilityConfig,
     select_reachable_gap,
 )
+from roboracer_china_2025.local_corridor_core import CorridorEstimate
 
 
 def make_scan(default_range=6.0, angle_min=-math.pi / 2, angle_max=math.pi / 2, count=181):
@@ -173,3 +174,35 @@ def test_dynamic_risk_can_shift_choice_away_from_approaching_side():
     assert dynamic_result.valid
     assert static_result.steer > math.radians(4.0)
     assert dynamic_result.steer < -math.radians(4.0)
+
+
+def test_corridor_center_offset_biases_safe_candidate_toward_local_center():
+    angles, ranges = make_scan(default_range=8.0)
+    corridor = CorridorEstimate(
+        observability_mode="two_boundary",
+        visible_boundary="both",
+        track_tangent=0.0,
+        center_offset=0.75,
+        estimated_width=3.0,
+        confidence=1.0,
+    )
+    config = ReachabilityConfig(
+        max_speed=3.0,
+        horizon=2.5,
+        corridor_center_weight=3.0,
+        corridor_progress_weight=2.0,
+    )
+
+    result = select_reachable_gap(
+        ranges=ranges,
+        angle_min=float(angles[0]),
+        angle_increment=float(angles[1] - angles[0]),
+        current_speed=1.0,
+        last_steer=0.0,
+        corridor=corridor,
+        config=config,
+    )
+
+    assert result.valid
+    assert result.steer > math.radians(4.0)
+    assert result.speed > 1.0

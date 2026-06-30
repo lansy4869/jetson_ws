@@ -8,6 +8,7 @@ import math
 import numpy as np
 from sensor_msgs.msg import LaserScan
 from ackermann_msgs.msg import AckermannDriveStamped
+from nav_msgs.msg import Odometry
 from visualization_msgs.msg import Marker
 from geometry_msgs.msg import Point
 from builtin_interfaces.msg import Duration
@@ -15,8 +16,10 @@ import copy
 
 try:
     from .reachability_core import ReachabilityConfig, select_reachable_gap
+    from .local_corridor_core import CorridorConfig, estimate_local_corridor
 except ImportError:
     from reachability_core import ReachabilityConfig, select_reachable_gap
+    from local_corridor_core import CorridorConfig, estimate_local_corridor
 
 # === 保持原代码的常量定义不变 ===
 DIR_DETECT_THRESHOLD = 2.5 # 方向探测距离,用于方向判断
@@ -38,10 +41,12 @@ class BattleVehicleNode(Node):
         # 默认值保持你代码里的原样，但现在可以在 launch 文件里改了
         self.declare_parameter('scan_topic', '/scan')
         self.declare_parameter('drive_topic', '/drive')
+        self.declare_parameter('odom_topic', '/odom')
         self.declare_parameter('marker_topic', '/arrow_marker_02')
         self.declare_parameter('debug_scan_topic', '/front_scan_02')
         self.declare_parameter('use_reachability_core', True)
         self.declare_parameter('reachability_fallback_to_original', True)
+        self.declare_parameter('use_local_corridor', True)
         self.declare_parameter('reachability_max_speed', 2.5)
         self.declare_parameter('reachability_min_speed', 0.35)
         self.declare_parameter('reachability_wheelbase', 0.33)
@@ -62,15 +67,28 @@ class BattleVehicleNode(Node):
         self.declare_parameter('reachability_dynamic_closing_speed_threshold', 0.5)
         self.declare_parameter('reachability_dynamic_risk_range', 8.0)
         self.declare_parameter('reachability_dynamic_max_delta_time', 0.5)
+        self.declare_parameter('reachability_corridor_progress_weight', 1.4)
+        self.declare_parameter('reachability_corridor_center_weight', 1.2)
+        self.declare_parameter('reachability_corridor_heading_weight', 0.45)
+        self.declare_parameter('reachability_corridor_confidence_speed_gain', 0.35)
+        self.declare_parameter('reachability_corridor_single_boundary_speed_scale', 0.85)
+        self.declare_parameter('reachability_corridor_unobservable_speed_scale', 0.55)
+        self.declare_parameter('corridor_track_width_prior', 3.0)
+        self.declare_parameter('corridor_min_track_width', 1.2)
+        self.declare_parameter('corridor_max_track_width', 6.0)
+        self.declare_parameter('corridor_boundary_max_range', 8.0)
+        self.declare_parameter('corridor_memory_decay', 0.65)
 
         scan_topic = self.get_parameter('scan_topic').value
         drive_topic = self.get_parameter('drive_topic').value
+        odom_topic = self.get_parameter('odom_topic').value
         marker_topic = self.get_parameter('marker_topic').value
         debug_scan_topic = self.get_parameter('debug_scan_topic').value
         self.use_reachability_core = bool(self.get_parameter('use_reachability_core').value)
         self.reachability_fallback_to_original = bool(
             self.get_parameter('reachability_fallback_to_original').value
         )
+        self.use_local_corridor = bool(self.get_parameter('use_local_corridor').value)
         self.reachability_config = ReachabilityConfig(
             max_speed=float(self.get_parameter('reachability_max_speed').value),
             min_speed=float(self.get_parameter('reachability_min_speed').value),
@@ -96,9 +114,37 @@ class BattleVehicleNode(Node):
             dynamic_max_delta_time=float(
                 self.get_parameter('reachability_dynamic_max_delta_time').value
             ),
+            corridor_progress_weight=float(
+                self.get_parameter('reachability_corridor_progress_weight').value
+            ),
+            corridor_center_weight=float(
+                self.get_parameter('reachability_corridor_center_weight').value
+            ),
+            corridor_heading_weight=float(
+                self.get_parameter('reachability_corridor_heading_weight').value
+            ),
+            corridor_confidence_speed_gain=float(
+                self.get_parameter('reachability_corridor_confidence_speed_gain').value
+            ),
+            corridor_single_boundary_speed_scale=float(
+                self.get_parameter('reachability_corridor_single_boundary_speed_scale').value
+            ),
+            corridor_unobservable_speed_scale=float(
+                self.get_parameter('reachability_corridor_unobservable_speed_scale').value
+            ),
+        )
+        self.corridor_config = CorridorConfig(
+            track_width_prior=float(self.get_parameter('corridor_track_width_prior').value),
+            min_track_width=float(self.get_parameter('corridor_min_track_width').value),
+            max_track_width=float(self.get_parameter('corridor_max_track_width').value),
+            boundary_max_range=float(self.get_parameter('corridor_boundary_max_range').value),
+            range_max=float(self.get_parameter('reachability_range_max').value),
+            memory_decay=float(self.get_parameter('corridor_memory_decay').value),
         )
 
-        self.get_logger().info(f"Battle Node Started. Topics: scan={scan_topic}, drive={drive_topic}")
+        self.get_logger().info(
+            f"Battle Node Started. Topics: scan={scan_topic}, drive={drive_topic}, odom={odom_topic}"
+        )
 
         # === 将原代码的 global 变量初始化为类成员变量 ===
         self.last_angle = 0
@@ -119,6 +165,9 @@ class BattleVehicleNode(Node):
         self.last_reachability_speed = 0.0
         self.previous_reachability_ranges = None
         self.previous_reachability_stamp = None
+        self.have_odom = False
+        self.odom_speed = 0.0
+        self.previous_corridor = None
 
         # === ROS 2 通信配置 ===
         qos_profile = QoSProfile(
@@ -133,6 +182,12 @@ class BattleVehicleNode(Node):
             scan_topic, 
             self.middle_line_callback, 
             qos_profile)
+
+        self.odom_sub = self.create_subscription(
+            Odometry,
+            odom_topic,
+            self.odom_callback,
+            20)
         
         # 发布控制 (使用参数 drive_topic)
         self.drive_pub = self.create_publisher(
@@ -151,8 +206,8 @@ class BattleVehicleNode(Node):
             1)
         if self.use_reachability_core:
             self.get_logger().info(
-                "Reachability core enabled. fallback_to_original=%s"
-                % self.reachability_fallback_to_original
+                "Reachability core enabled. fallback_to_original=%s local_corridor=%s"
+                % (self.reachability_fallback_to_original, self.use_local_corridor)
             )
 
     # === 原样保留的辅助函数 (微调 publish_arrow_marker 适配 Frame ID) ===
@@ -324,6 +379,17 @@ class BattleVehicleNode(Node):
             return stamp_seconds
         return float(self.get_clock().now().nanoseconds) * 1e-9
 
+    def odom_callback(self, msg: Odometry):
+        self.have_odom = True
+        vx = float(msg.twist.twist.linear.x)
+        vy = float(msg.twist.twist.linear.y)
+        self.odom_speed = float(math.hypot(vx, vy))
+
+    def current_measured_speed(self):
+        if self.have_odom:
+            return float(abs(self.odom_speed))
+        return float(abs(self.last_reachability_speed))
+
     def reachability_delta_time(self, data):
         stamp_seconds = self.scan_stamp_seconds(data)
         delta_time = None
@@ -339,16 +405,31 @@ class BattleVehicleNode(Node):
 
         stamp_seconds, delta_time = self.reachability_delta_time(data)
         previous_ranges = self.previous_reachability_ranges
+        corridor = None
+        if self.use_local_corridor:
+            try:
+                corridor = estimate_local_corridor(
+                    ranges=raw_ranges,
+                    angle_min=float(data.angle_min),
+                    angle_increment=float(data.angle_increment),
+                    previous=self.previous_corridor,
+                    config=self.corridor_config,
+                )
+                self.previous_corridor = corridor
+            except Exception as exc:
+                self.get_logger().warn(f"Local corridor estimation failed: {exc}")
+
         try:
             result = select_reachable_gap(
                 ranges=raw_ranges,
                 angle_min=float(data.angle_min),
                 angle_increment=float(data.angle_increment),
-                current_speed=float(self.last_reachability_speed),
+                current_speed=self.current_measured_speed(),
                 last_steer=float(self.last_reachability_steer),
                 config=self.reachability_config,
                 previous_ranges=previous_ranges,
                 delta_time=delta_time,
+                corridor=corridor,
             )
         except Exception as exc:
             self.get_logger().error(f"Reachability core failed: {exc}")
@@ -374,7 +455,8 @@ class BattleVehicleNode(Node):
         self.last_reachability_speed = result.speed
         self.get_logger().debug(
             "reachability steer=%.3f speed=%.3f free=%.2f clearance=%.2f unknown=%.2f "
-            "risk=%.2f confidence=%.2f dynamic=%.2f dt=%s score=%.2f"
+            "risk=%.2f confidence=%.2f dynamic=%.2f dt=%s measured_speed=%.2f "
+            "corridor=%s c_conf=%.2f c_offset=%.2f score=%.2f"
             % (
                 result.steer,
                 result.speed,
@@ -385,6 +467,10 @@ class BattleVehicleNode(Node):
                 result.confidence,
                 result.dynamic_obstacle_risk,
                 "%.3f" % delta_time if delta_time is not None else "none",
+                self.current_measured_speed(),
+                getattr(corridor, "observability_mode", "disabled"),
+                float(getattr(corridor, "confidence", 0.0)),
+                float(getattr(corridor, "center_offset", 0.0)),
                 result.score,
             )
         )

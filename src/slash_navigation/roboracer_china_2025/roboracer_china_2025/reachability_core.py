@@ -51,6 +51,12 @@ class ReachabilityConfig:
     dynamic_max_delta_time: float = 0.5
     clearance_confidence_distance: float = 0.5
     confidence_floor: float = 0.05
+    corridor_progress_weight: float = 1.4
+    corridor_center_weight: float = 1.2
+    corridor_heading_weight: float = 0.45
+    corridor_confidence_speed_gain: float = 0.35
+    corridor_single_boundary_speed_scale: float = 0.85
+    corridor_unobservable_speed_scale: float = 0.55
 
 
 @dataclass(frozen=True)
@@ -77,6 +83,7 @@ def select_reachable_gap(
     config: Optional[ReachabilityConfig] = None,
     previous_ranges: Optional[Iterable[float]] = None,
     delta_time: Optional[float] = None,
+    corridor: Optional[object] = None,
 ) -> ReachabilityResult:
     """Select a steer/speed pair from reachable constant-curvature arcs."""
 
@@ -141,6 +148,7 @@ def select_reachable_gap(
             cfg=cfg,
         )
         speed = _risk_adjusted_speed(base_speed, risk, cfg)
+        speed = _corridor_adjusted_speed(speed, corridor, cfg)
         score = _candidate_score(
             steer=steer,
             speed=speed,
@@ -148,6 +156,8 @@ def select_reachable_gap(
             min_clearance=min_clearance,
             unknown_ratio=unknown_ratio,
             last_steer=last_steer,
+            path=path,
+            corridor=corridor,
             cfg=cfg,
         )
         score = score * (0.5 + 0.5 * confidence)
@@ -424,6 +434,24 @@ def _risk_adjusted_speed(speed: float, risk: float, cfg: ReachabilityConfig) -> 
     return float(np.clip(speed * factor, 0.0, cfg.max_speed))
 
 
+def _corridor_adjusted_speed(
+    speed: float,
+    corridor: Optional[object],
+    cfg: ReachabilityConfig,
+) -> float:
+    if corridor is None:
+        return speed
+
+    confidence = _corridor_confidence(corridor)
+    factor = 1.0 - cfg.corridor_confidence_speed_gain * (1.0 - confidence)
+    mode = getattr(corridor, "observability_mode", "")
+    if mode == "single_boundary":
+        factor *= cfg.corridor_single_boundary_speed_scale
+    elif mode == "unobservable":
+        factor *= cfg.corridor_unobservable_speed_scale
+    return float(np.clip(speed * factor, 0.0, cfg.max_speed))
+
+
 def _candidate_risk(
     free_distance: float,
     min_clearance: float,
@@ -492,10 +520,12 @@ def _candidate_score(
     min_clearance: float,
     unknown_ratio: float,
     last_steer: float,
+    path: np.ndarray,
+    corridor: Optional[object],
     cfg: ReachabilityConfig,
 ) -> float:
     bounded_clearance = max(min(min_clearance, cfg.range_max), -cfg.base_margin)
-    return (
+    base_score = (
         cfg.progress_weight * free_distance
         + cfg.speed_weight * speed
         + cfg.clearance_weight * bounded_clearance
@@ -504,3 +534,48 @@ def _candidate_score(
         - cfg.unknown_weight * unknown_ratio
         - cfg.center_bias_weight * abs(steer / max(cfg.max_steer, 1e-6))
     )
+    return base_score + _corridor_score(path, corridor, cfg)
+
+
+def _corridor_score(
+    path: np.ndarray,
+    corridor: Optional[object],
+    cfg: ReachabilityConfig,
+) -> float:
+    if corridor is None or path.size == 0:
+        return 0.0
+
+    confidence = _corridor_confidence(corridor)
+    if confidence <= 0.0:
+        return 0.0
+
+    x = float(path[-1, 1])
+    y = float(path[-1, 2])
+    yaw = float(path[-1, 3])
+    tangent = float(getattr(corridor, "track_tangent", 0.0))
+    center_offset = float(getattr(corridor, "center_offset", 0.0))
+    estimated_width = float(getattr(corridor, "estimated_width", cfg.vehicle_width * 3.0))
+
+    progress_along_tangent = x * math.cos(tangent) + y * math.sin(tangent)
+    target_y = center_offset + x * math.tan(tangent)
+    center_error = y - target_y
+    heading_error = _angle_diff(yaw, tangent)
+    width_scale = max(0.5 * estimated_width, cfg.vehicle_width, 1e-6)
+    normalized_center_error = abs(center_error) / width_scale
+
+    score = confidence * (
+        cfg.corridor_progress_weight * progress_along_tangent
+        - cfg.corridor_center_weight * normalized_center_error
+        - cfg.corridor_heading_weight * abs(heading_error)
+    )
+    if getattr(corridor, "observability_mode", "") == "unobservable":
+        score -= cfg.corridor_center_weight * (1.0 - confidence)
+    return float(score)
+
+
+def _corridor_confidence(corridor: object) -> float:
+    return float(np.clip(getattr(corridor, "confidence", 0.0), 0.0, 1.0))
+
+
+def _angle_diff(left: float, right: float) -> float:
+    return math.atan2(math.sin(left - right), math.cos(left - right))

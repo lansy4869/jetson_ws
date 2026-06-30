@@ -17,6 +17,7 @@ def generate_launch_description():
         DeclareLaunchArgument('marker_frame', default_value=''),
         DeclareLaunchArgument('use_reachability_core', default_value='true'),
         DeclareLaunchArgument('reachability_fallback_to_original', default_value='true'),
+        DeclareLaunchArgument('use_local_corridor', default_value='true'),
         DeclareLaunchArgument('reachability_max_speed', default_value='2.5'),
         DeclareLaunchArgument('reachability_vehicle_width', default_value='0.32'),
         DeclareLaunchArgument('reachability_base_margin', default_value='0.16'),
@@ -28,6 +29,17 @@ def generate_launch_description():
         DeclareLaunchArgument('reachability_dynamic_closing_speed_threshold', default_value='0.5'),
         DeclareLaunchArgument('reachability_dynamic_risk_range', default_value='8.0'),
         DeclareLaunchArgument('reachability_dynamic_max_delta_time', default_value='0.5'),
+        DeclareLaunchArgument('reachability_corridor_progress_weight', default_value='1.4'),
+        DeclareLaunchArgument('reachability_corridor_center_weight', default_value='1.2'),
+        DeclareLaunchArgument('reachability_corridor_heading_weight', default_value='0.45'),
+        DeclareLaunchArgument('reachability_corridor_confidence_speed_gain', default_value='0.35'),
+        DeclareLaunchArgument('reachability_corridor_single_boundary_speed_scale', default_value='0.85'),
+        DeclareLaunchArgument('reachability_corridor_unobservable_speed_scale', default_value='0.55'),
+        DeclareLaunchArgument('corridor_track_width_prior', default_value='3.0'),
+        DeclareLaunchArgument('corridor_min_track_width', default_value='1.2'),
+        DeclareLaunchArgument('corridor_max_track_width', default_value='6.0'),
+        DeclareLaunchArgument('corridor_boundary_max_range', default_value='8.0'),
+        DeclareLaunchArgument('corridor_memory_decay', default_value='0.65'),
 
         Node(
             package='roboracer_china_2025',
@@ -47,6 +59,8 @@ def generate_launch_description():
                     LaunchConfiguration('use_reachability_core'), value_type=bool),
                 'reachability_fallback_to_original': ParameterValue(
                     LaunchConfiguration('reachability_fallback_to_original'), value_type=bool),
+                'use_local_corridor': ParameterValue(
+                    LaunchConfiguration('use_local_corridor'), value_type=bool),
                 'reachability_max_speed': ParameterValue(
                     LaunchConfiguration('reachability_max_speed'), value_type=float),
                 'reachability_vehicle_width': ParameterValue(
@@ -69,6 +83,28 @@ def generate_launch_description():
                     LaunchConfiguration('reachability_dynamic_risk_range'), value_type=float),
                 'reachability_dynamic_max_delta_time': ParameterValue(
                     LaunchConfiguration('reachability_dynamic_max_delta_time'), value_type=float),
+                'reachability_corridor_progress_weight': ParameterValue(
+                    LaunchConfiguration('reachability_corridor_progress_weight'), value_type=float),
+                'reachability_corridor_center_weight': ParameterValue(
+                    LaunchConfiguration('reachability_corridor_center_weight'), value_type=float),
+                'reachability_corridor_heading_weight': ParameterValue(
+                    LaunchConfiguration('reachability_corridor_heading_weight'), value_type=float),
+                'reachability_corridor_confidence_speed_gain': ParameterValue(
+                    LaunchConfiguration('reachability_corridor_confidence_speed_gain'), value_type=float),
+                'reachability_corridor_single_boundary_speed_scale': ParameterValue(
+                    LaunchConfiguration('reachability_corridor_single_boundary_speed_scale'), value_type=float),
+                'reachability_corridor_unobservable_speed_scale': ParameterValue(
+                    LaunchConfiguration('reachability_corridor_unobservable_speed_scale'), value_type=float),
+                'corridor_track_width_prior': ParameterValue(
+                    LaunchConfiguration('corridor_track_width_prior'), value_type=float),
+                'corridor_min_track_width': ParameterValue(
+                    LaunchConfiguration('corridor_min_track_width'), value_type=float),
+                'corridor_max_track_width': ParameterValue(
+                    LaunchConfiguration('corridor_max_track_width'), value_type=float),
+                'corridor_boundary_max_range': ParameterValue(
+                    LaunchConfiguration('corridor_boundary_max_range'), value_type=float),
+                'corridor_memory_decay': ParameterValue(
+                    LaunchConfiguration('corridor_memory_decay'), value_type=float),
             }],
         ),
     ])
