@@ -17,6 +17,8 @@ roboracer_china_2025/battle_fast2_node（另一个复件）.py
 roboracer_china_2025/battle_fast2_node（复件）.py
 roboracer_china_2025/battle_node.py
 roboracer_china_2025/battle_node_new.py
+roboracer_china_2025/reachability_core.py
 test/test_copyright.py
 test/test_flake8.py
 test/test_pep257.py
+test/test_reachability_core.py

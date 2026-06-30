@@ -9,7 +9,7 @@ ground_segmentation:
 
     max_dist_to_line: 0.1       # maximum vertical distance of point to line to be considered ground.
 
-    sensor_height: 0.225        # sensor height above ground.
+    sensor_height: 0.2          # sensor height above ground.
     min_slope: 0.0              # minimum slope of a ground line.
     max_slope: 0.3              # maximum slope of a ground line.
     max_fit_error: 0.05         # maximum error of a point during line fit.
@@ -23,6 +23,6 @@ ground_segmentation:
     latch: false                # latch output topics or not
     visualize: false            # visualize segmentation result - USE ONLY FOR DEBUGGING
 
-    input_topic: "/livox/lidar/pointcloud"
+    input_topic: "/livox/lidar"
     obstacle_output_topic: "segmentation/obstacle"
     ground_output_topic: "segmentation/ground"

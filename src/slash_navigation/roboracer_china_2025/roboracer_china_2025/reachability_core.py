@@ -14,9 +14,9 @@ import numpy as np
 @dataclass(frozen=True)
 class ReachabilityConfig:
     wheelbase: float = 0.33
-    vehicle_width: float = 0.32
-    front_overhang: float = 0.36
-    rear_overhang: float = 0.12
+    vehicle_width: float = 0.29
+    front_overhang: float = 0.20
+    rear_overhang: float = 0.35
     max_steer: float = math.pi / 4.0
     steer_samples: int = 41
     horizon: float = 2.5

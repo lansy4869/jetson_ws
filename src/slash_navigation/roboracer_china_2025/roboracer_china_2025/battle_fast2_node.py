@@ -41,11 +41,13 @@ class BattleVehicleNode(Node):
         self.declare_parameter('marker_topic', '/arrow_marker_02')
         self.declare_parameter('debug_scan_topic', '/front_scan_02')
         self.declare_parameter('use_reachability_core', True)
-        self.declare_parameter('reachability_fallback_to_original', True)
+        self.declare_parameter('reachability_fallback_to_original', False)
         self.declare_parameter('reachability_max_speed', 2.5)
         self.declare_parameter('reachability_min_speed', 0.35)
         self.declare_parameter('reachability_wheelbase', 0.33)
-        self.declare_parameter('reachability_vehicle_width', 0.32)
+        self.declare_parameter('reachability_vehicle_width', 0.29)
+        self.declare_parameter('reachability_front_overhang', 0.20)
+        self.declare_parameter('reachability_rear_overhang', 0.35)
         self.declare_parameter('reachability_horizon', 2.5)
         self.declare_parameter('reachability_max_steer', math.pi / 4.0)
         self.declare_parameter('reachability_steer_samples', 41)
@@ -69,6 +71,8 @@ class BattleVehicleNode(Node):
             min_speed=float(self.get_parameter('reachability_min_speed').value),
             wheelbase=float(self.get_parameter('reachability_wheelbase').value),
             vehicle_width=float(self.get_parameter('reachability_vehicle_width').value),
+            front_overhang=float(self.get_parameter('reachability_front_overhang').value),
+            rear_overhang=float(self.get_parameter('reachability_rear_overhang').value),
             horizon=float(self.get_parameter('reachability_horizon').value),
             max_steer=float(self.get_parameter('reachability_max_steer').value),
             steer_samples=int(self.get_parameter('reachability_steer_samples').value),
