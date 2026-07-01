@@ -21,12 +21,12 @@
 
 该链路已经在实车上验证成功，应作为默认回退方案保留。
 
-当前工作区中已有两个未跟踪实验目录：
+设计时工作区中已有两个实验目录：
 
 - `src/slash_navigation/mpc_control`
 - `src/slash_navigation/frenet_planning`
 
-静态检查显示 `mpc_control` 依赖 `track_spline`、`csv_data`、`OsqpEigen`。`frenet_planning` 还涉及 `reactive_racing`。这些依赖在当前工作区中尚未补齐，因此第一阶段应优先集成较小的 `mpc_control` 链路。
+静态检查显示 `mpc_control` 依赖 `track_spline`、`csv_data`、`OsqpEigen`。`frenet_planning` 还涉及 `reactive_racing`。这些依赖在当前工作区中尚未补齐，因此第一阶段优先集成较小的 `mpc_control` 链路。第一阶段实现已将 `mpc_control` 纳入版本；`frenet_planning` 仍作为第二阶段候选。
 
 ## Recommended Architecture
 
