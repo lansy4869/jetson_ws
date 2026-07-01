@@ -124,6 +124,20 @@ ros2 launch roboracer_china_2025 battle_fast2.launch.py
 5. 非有限值验证：给 arbiter 注入 NaN 指令后，arbiter 输出停车。
 6. 实车低速验证：先把 `max_speed` 限制在低速，再逐步提高速度。
 
+实验入口命令：
+
+```bash
+ros2 launch roboracer_china_2025 global_mpc_battle_arbiter.launch.py waypoint_csv:=/absolute/path/to/track.csv
+```
+
+实车 topic 安全检查：
+
+```bash
+ros2 topic info /drive
+```
+
+期望结果：实验模式下只有 `drive_arbiter` 发布 `/drive`。`mpc_control` 应发布 `/mpc/drive_nominal`，`battle_fast2_node` 应发布 `/battle_fast2/drive_reactive`。
+
 ## Future Extension
 
 完整 `frenet_planning` 可以作为第二阶段接入：
