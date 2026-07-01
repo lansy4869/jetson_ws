@@ -27,6 +27,24 @@ class ArbiterConfig:
 
 
 @dataclass(frozen=True)
+class SafetyDiagnostics:
+    front_clearance: float
+    risk_min_margin: float
+    reactive_speed_limit: float
+
+
+@dataclass(frozen=True)
+class ShieldConfig:
+    enabled: bool
+    diag_timeout_s: float
+    yellow_margin_m: float
+    orange_margin_m: float
+    red_margin_m: float
+    black_clearance_m: float
+    orange_blend: float
+
+
+@dataclass(frozen=True)
 class ArbitrationDecision:
     source: str
     command: DriveCommand
@@ -61,6 +79,49 @@ def _is_command_finite(command: Optional[DriveCommand]) -> bool:
     return math.isfinite(command.steering_angle) and math.isfinite(command.speed)
 
 
+def _is_diagnostics_finite(
+    diagnostics: Optional[SafetyDiagnostics],
+) -> bool:
+    if diagnostics is None:
+        return False
+    return (
+        math.isfinite(diagnostics.front_clearance)
+        and math.isfinite(diagnostics.risk_min_margin)
+        and math.isfinite(diagnostics.reactive_speed_limit)
+    )
+
+
+def _shield_active(
+    now_s: float,
+    safety_health: Optional[SourceHealth],
+    shield_config: Optional[ShieldConfig],
+) -> bool:
+    if shield_config is None or not shield_config.enabled:
+        return False
+    if safety_health is None:
+        return False
+    return _is_fresh(now_s, safety_health, shield_config.diag_timeout_s)
+
+
+def _risk_state(
+    diagnostics: SafetyDiagnostics,
+    shield_config: ShieldConfig,
+) -> str:
+    if not _is_diagnostics_finite(diagnostics):
+        return "black"
+    if diagnostics.reactive_speed_limit < 0.0:
+        return "black"
+    if diagnostics.front_clearance <= shield_config.black_clearance_m:
+        return "black"
+    if diagnostics.risk_min_margin <= shield_config.red_margin_m:
+        return "red"
+    if diagnostics.risk_min_margin <= shield_config.orange_margin_m:
+        return "orange"
+    if diagnostics.risk_min_margin <= shield_config.yellow_margin_m:
+        return "yellow"
+    return "green"
+
+
 def _clamp(value: float, lower: float, upper: float) -> float:
     return min(max(value, lower), upper)
 
@@ -83,12 +144,90 @@ def arbitrate(
     reactive_health: SourceHealth,
     odom_health: SourceHealth,
     config: ArbiterConfig,
+    safety_diagnostics: Optional[SafetyDiagnostics] = None,
+    safety_health: Optional[SourceHealth] = None,
+    shield_config: Optional[ShieldConfig] = None,
 ) -> ArbitrationDecision:
     odom_reason = _fresh_reason(now_s, odom_health, config.odom_timeout_s, "odom")
     if odom_reason:
         return _stop(odom_reason)
 
     mpc_fresh = _is_fresh(now_s, mpc_health, config.command_timeout_s)
+    reactive_fresh = _is_fresh(now_s, reactive_health, config.command_timeout_s)
+
+    if _shield_active(now_s, safety_health, shield_config):
+        if not _is_diagnostics_finite(safety_diagnostics):
+            return _stop("shield diagnostics non-finite")
+
+        state = _risk_state(safety_diagnostics, shield_config)
+        if state == "black":
+            return _stop("shield black")
+
+        if state == "red":
+            if reactive_fresh and _is_command_finite(reactive_command):
+                return ArbitrationDecision(
+                    "shield_red",
+                    _clamp_command(reactive_command, config),
+                    "shield red reactive",
+                )
+            return _stop("shield red reactive unavailable")
+
+        if mpc_fresh and _is_command_finite(mpc_command):
+            if state == "green":
+                if mpc_command.speed > safety_diagnostics.reactive_speed_limit:
+                    limited = DriveCommand(
+                        mpc_command.steering_angle,
+                        safety_diagnostics.reactive_speed_limit,
+                    )
+                    return ArbitrationDecision(
+                        "shield_yellow",
+                        _clamp_command(limited, config),
+                        "shield green speed limited",
+                    )
+                return ArbitrationDecision(
+                    "mpc",
+                    _clamp_command(mpc_command, config),
+                    "shield green",
+                )
+
+            if state == "yellow":
+                limited = DriveCommand(
+                    mpc_command.steering_angle,
+                    min(mpc_command.speed, safety_diagnostics.reactive_speed_limit),
+                )
+                return ArbitrationDecision(
+                    "shield_yellow",
+                    _clamp_command(limited, config),
+                    "shield yellow speed limit",
+                )
+
+            if state == "orange":
+                if reactive_fresh and _is_command_finite(reactive_command):
+                    blend = _clamp(shield_config.orange_blend, 0.0, 1.0)
+                    blended = DriveCommand(
+                        (1.0 - blend) * mpc_command.steering_angle
+                        + blend * reactive_command.steering_angle,
+                        min(
+                            mpc_command.speed,
+                            reactive_command.speed,
+                            safety_diagnostics.reactive_speed_limit,
+                        ),
+                    )
+                    return ArbitrationDecision(
+                        "shield_orange",
+                        _clamp_command(blended, config),
+                        "shield orange blend",
+                    )
+                limited = DriveCommand(
+                    mpc_command.steering_angle,
+                    min(mpc_command.speed, safety_diagnostics.reactive_speed_limit),
+                )
+                return ArbitrationDecision(
+                    "shield_yellow",
+                    _clamp_command(limited, config),
+                    "shield orange degraded to speed limit",
+                )
+
     if mpc_fresh and _is_command_finite(mpc_command):
         return ArbitrationDecision(
             "mpc",
@@ -97,7 +236,6 @@ def arbitrate(
         )
 
     if config.prefer_reactive_on_mpc_timeout:
-        reactive_fresh = _is_fresh(now_s, reactive_health, config.command_timeout_s)
         if reactive_fresh and _is_command_finite(reactive_command):
             return ArbitrationDecision(
                 "reactive",
