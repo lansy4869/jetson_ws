@@ -9,7 +9,10 @@ setup(
     data_files=[
         ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        ('share/' + package_name + '/launch', ['launch/battle_fast2.launch.py']),
+        ('share/' + package_name + '/launch', [
+            'launch/battle_fast2.launch.py',
+            'launch/global_mpc_battle_arbiter.launch.py',
+        ]),
     ],
     install_requires=['setuptools'],
     zip_safe=True,

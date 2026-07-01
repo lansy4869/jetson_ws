@@ -28,3 +28,21 @@ def test_package_declares_nav_msgs_dependency():
     deps = {element.text for element in root.findall("exec_depend")}
 
     assert "nav_msgs" in deps
+
+
+def test_setup_installs_global_mpc_battle_launch():
+    text = (PACKAGE_ROOT / "setup.py").read_text(encoding="utf-8")
+
+    assert "launch/global_mpc_battle_arbiter.launch.py" in text
+
+
+def test_experimental_launch_uses_private_control_topics():
+    launch_text = (
+        PACKAGE_ROOT / "launch" / "global_mpc_battle_arbiter.launch.py"
+    ).read_text(encoding="utf-8")
+
+    assert '"/mpc/drive_nominal"' in launch_text
+    assert '"/battle_fast2/drive_reactive"' in launch_text
+    assert '"drive_arbiter"' in launch_text
+    assert '"battle_fast2_node"' in launch_text
+    assert '"mpc_control"' in launch_text
