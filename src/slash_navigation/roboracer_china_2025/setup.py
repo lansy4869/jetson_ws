@@ -20,6 +20,7 @@ setup(
     entry_points={
         'console_scripts': [
             'battle_fast2_node = roboracer_china_2025.battle_fast2_node:main',
+            'drive_arbiter = roboracer_china_2025.drive_arbiter_node:main',
         ],
     },
 )
