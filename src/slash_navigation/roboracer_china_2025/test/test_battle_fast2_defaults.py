@@ -54,3 +54,23 @@ def test_launch_defaults_to_pure_reachability_without_original_fallback():
         return
 
     raise AssertionError("reachability_fallback_to_original launch argument was not declared")
+
+
+def test_battle_fast2_publishes_reachability_shield_diagnostics():
+    source = (PACKAGE_ROOT / "roboracer_china_2025/battle_fast2_node.py").read_text(
+        encoding="utf-8"
+    )
+
+    assert "from std_msgs.msg import Float32" in source
+    assert "front_clearance_topic" in source
+    assert "risk_min_margin_topic" in source
+    assert "reactive_speed_limit_topic" in source
+    assert "front_clearance_pub" in source
+    assert "risk_min_margin_pub" in source
+    assert "reactive_speed_limit_pub" in source
+    assert "publish_reachability_diagnostics" in source
+
+
+def test_package_declares_std_msgs_dependency():
+    package_xml = (PACKAGE_ROOT / "package.xml").read_text(encoding="utf-8")
+    assert "<exec_depend>std_msgs</exec_depend>" in package_xml

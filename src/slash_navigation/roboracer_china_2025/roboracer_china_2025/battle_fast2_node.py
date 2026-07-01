@@ -11,6 +11,7 @@ from ackermann_msgs.msg import AckermannDriveStamped
 from visualization_msgs.msg import Marker
 from geometry_msgs.msg import Point
 from builtin_interfaces.msg import Duration
+from std_msgs.msg import Float32
 import copy
 
 try:
@@ -40,6 +41,9 @@ class BattleVehicleNode(Node):
         self.declare_parameter('drive_topic', '/drive')
         self.declare_parameter('marker_topic', '/arrow_marker_02')
         self.declare_parameter('debug_scan_topic', '/front_scan_02')
+        self.declare_parameter('front_clearance_topic', '/battle_fast2/front_clearance_m')
+        self.declare_parameter('risk_min_margin_topic', '/battle_fast2/risk_min_margin_m')
+        self.declare_parameter('reactive_speed_limit_topic', '/battle_fast2/reactive_speed_limit_mps')
         self.declare_parameter('use_reachability_core', True)
         self.declare_parameter('reachability_fallback_to_original', False)
         self.declare_parameter('reachability_max_speed', 2.5)
@@ -62,6 +66,9 @@ class BattleVehicleNode(Node):
         drive_topic = self.get_parameter('drive_topic').value
         marker_topic = self.get_parameter('marker_topic').value
         debug_scan_topic = self.get_parameter('debug_scan_topic').value
+        front_clearance_topic = self.get_parameter('front_clearance_topic').value
+        risk_min_margin_topic = self.get_parameter('risk_min_margin_topic').value
+        reactive_speed_limit_topic = self.get_parameter('reactive_speed_limit_topic').value
         self.use_reachability_core = bool(self.get_parameter('use_reachability_core').value)
         self.reachability_fallback_to_original = bool(
             self.get_parameter('reachability_fallback_to_original').value
@@ -133,6 +140,18 @@ class BattleVehicleNode(Node):
             Marker, 
             marker_topic, 
             1)
+        self.front_clearance_pub = self.create_publisher(
+            Float32,
+            front_clearance_topic,
+            10)
+        self.risk_min_margin_pub = self.create_publisher(
+            Float32,
+            risk_min_margin_topic,
+            10)
+        self.reactive_speed_limit_pub = self.create_publisher(
+            Float32,
+            reactive_speed_limit_topic,
+            10)
         if self.use_reachability_core:
             self.get_logger().info(
                 "Reachability core enabled. fallback_to_original=%s"
@@ -319,6 +338,7 @@ class BattleVehicleNode(Node):
             self.get_logger().error(f"Reachability core failed: {exc}")
             if self.reachability_fallback_to_original:
                 return False
+            self.publish_reachability_diagnostics(0.0, -1.0, 0.0)
             self.publish_reachability_drive(data, 0.0, 0.0, frame_id)
             return True
 
@@ -326,9 +346,15 @@ class BattleVehicleNode(Node):
             self.get_logger().warn(f"Reachability core invalid: {result.reason}")
             if self.reachability_fallback_to_original:
                 return False
+            self.publish_reachability_diagnostics(0.0, -1.0, 0.0)
             self.publish_reachability_drive(data, 0.0, 0.0, frame_id)
             return True
 
+        self.publish_reachability_diagnostics(
+            result.free_distance,
+            result.min_clearance,
+            result.speed,
+        )
         self.publish_reachability_drive(data, result.steer, result.speed, frame_id)
         self.last_reachability_steer = result.steer
         self.last_reachability_speed = result.speed
@@ -344,6 +370,31 @@ class BattleVehicleNode(Node):
             )
         )
         return True
+
+    def publish_reachability_diagnostics(self, front_clearance, risk_min_margin, reactive_speed_limit):
+        front_msg = Float32()
+        front_msg.data = (
+            float(front_clearance)
+            if math.isfinite(float(front_clearance))
+            else 0.0
+        )
+        self.front_clearance_pub.publish(front_msg)
+
+        margin_msg = Float32()
+        margin_msg.data = (
+            float(risk_min_margin)
+            if math.isfinite(float(risk_min_margin))
+            else -1.0
+        )
+        self.risk_min_margin_pub.publish(margin_msg)
+
+        speed_msg = Float32()
+        speed_msg.data = (
+            float(reactive_speed_limit)
+            if math.isfinite(float(reactive_speed_limit))
+            else 0.0
+        )
+        self.reactive_speed_limit_pub.publish(speed_msg)
 
     def publish_reachability_drive(self, data, steering_angle, speed, frame_id):
         drive_msg = AckermannDriveStamped()
