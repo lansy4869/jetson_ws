@@ -12,6 +12,9 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 MPC_NOMINAL_TOPIC = "/mpc/drive_nominal"
 BATTLE_REACTIVE_TOPIC = "/battle_fast2/drive_reactive"
+FRONT_CLEARANCE_TOPIC = "/battle_fast2/front_clearance_m"
+RISK_MIN_MARGIN_TOPIC = "/battle_fast2/risk_min_margin_m"
+REACTIVE_SPEED_LIMIT_TOPIC = "/battle_fast2/reactive_speed_limit_mps"
 
 
 def _write_mpc_overrides(context):
@@ -53,6 +56,13 @@ def _launch_setup(context, *args, **kwargs):
     max_steer = LaunchConfiguration("max_steer")
     command_timeout_s = LaunchConfiguration("command_timeout_s")
     odom_timeout_s = LaunchConfiguration("odom_timeout_s")
+    enable_safety_shield = LaunchConfiguration("enable_safety_shield")
+    shield_diag_timeout_s = LaunchConfiguration("shield_diag_timeout_s")
+    shield_yellow_margin_m = LaunchConfiguration("shield_yellow_margin_m")
+    shield_orange_margin_m = LaunchConfiguration("shield_orange_margin_m")
+    shield_red_margin_m = LaunchConfiguration("shield_red_margin_m")
+    shield_black_clearance_m = LaunchConfiguration("shield_black_clearance_m")
+    shield_orange_blend = LaunchConfiguration("shield_orange_blend")
 
     return [
         Node(
@@ -71,6 +81,9 @@ def _launch_setup(context, *args, **kwargs):
                 {
                     "scan_topic": scan_topic,
                     "drive_topic": BATTLE_REACTIVE_TOPIC,
+                    "front_clearance_topic": FRONT_CLEARANCE_TOPIC,
+                    "risk_min_margin_topic": RISK_MIN_MARGIN_TOPIC,
+                    "reactive_speed_limit_topic": REACTIVE_SPEED_LIMIT_TOPIC,
                     "reachability_max_speed": ParameterValue(max_speed, value_type=float),
                     "reachability_max_steer": ParameterValue(max_steer, value_type=float),
                 }
@@ -88,10 +101,41 @@ def _launch_setup(context, *args, **kwargs):
                     "odom_topic": odom_topic,
                     "drive_topic": drive_topic,
                     "global_frame": global_frame,
+                    "front_clearance_topic": FRONT_CLEARANCE_TOPIC,
+                    "risk_min_margin_topic": RISK_MIN_MARGIN_TOPIC,
+                    "reactive_speed_limit_topic": REACTIVE_SPEED_LIMIT_TOPIC,
                     "max_speed": ParameterValue(max_speed, value_type=float),
                     "max_steer": ParameterValue(max_steer, value_type=float),
                     "command_timeout_s": ParameterValue(command_timeout_s, value_type=float),
                     "odom_timeout_s": ParameterValue(odom_timeout_s, value_type=float),
+                    "enable_safety_shield": ParameterValue(
+                        enable_safety_shield,
+                        value_type=bool,
+                    ),
+                    "shield_diag_timeout_s": ParameterValue(
+                        shield_diag_timeout_s,
+                        value_type=float,
+                    ),
+                    "shield_yellow_margin_m": ParameterValue(
+                        shield_yellow_margin_m,
+                        value_type=float,
+                    ),
+                    "shield_orange_margin_m": ParameterValue(
+                        shield_orange_margin_m,
+                        value_type=float,
+                    ),
+                    "shield_red_margin_m": ParameterValue(
+                        shield_red_margin_m,
+                        value_type=float,
+                    ),
+                    "shield_black_clearance_m": ParameterValue(
+                        shield_black_clearance_m,
+                        value_type=float,
+                    ),
+                    "shield_orange_blend": ParameterValue(
+                        shield_orange_blend,
+                        value_type=float,
+                    ),
                 }
             ],
         ),
@@ -117,6 +161,13 @@ def generate_launch_description():
             DeclareLaunchArgument("max_steer", default_value="0.412"),
             DeclareLaunchArgument("command_timeout_s", default_value="0.2"),
             DeclareLaunchArgument("odom_timeout_s", default_value="0.3"),
+            DeclareLaunchArgument("enable_safety_shield", default_value="true"),
+            DeclareLaunchArgument("shield_diag_timeout_s", default_value="0.2"),
+            DeclareLaunchArgument("shield_yellow_margin_m", default_value="0.55"),
+            DeclareLaunchArgument("shield_orange_margin_m", default_value="0.35"),
+            DeclareLaunchArgument("shield_red_margin_m", default_value="0.18"),
+            DeclareLaunchArgument("shield_black_clearance_m", default_value="0.30"),
+            DeclareLaunchArgument("shield_orange_blend", default_value="0.55"),
             OpaqueFunction(function=_launch_setup),
         ]
     )
