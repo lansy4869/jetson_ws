@@ -1,0 +1,39 @@
+frenet_mpc_node:
+  ros__parameters:
+    odom_topic: /pf/pose/odom
+    local_trajectory_topic: /frenet/local_trajectory
+    drive_topic: /drive
+    predicted_path_topic: /frenet_mpc/predicted_path
+    ref_path_topic: /frenet_mpc/ref_path
+    global_frame: map
+    car_frame: base_link
+
+    horizon_TK: 12
+    DTK: 0.1
+
+    Q_x: 13.5
+    Q_y: 13.5
+    Q_v: 5.5
+    Q_yaw: 13.0
+    Qf_x: 13.5
+    Qf_y: 13.5
+    Qf_v: 5.5
+    Qf_yaw: 13.0
+    R_accel: 0.01
+    R_steer: 25.0
+    Rd_accel: 0.01
+    Rd_steer: 50.0
+
+    wheelbase: 0.42
+    max_steer: 0.4120
+    max_dsteer: 3.2
+    max_speed: 2.5
+    min_speed: 0.0
+    max_accel: 2.0
+
+    stale_timeout_s: 0.5
+    min_sampling_speed: 0.2
+    min_trajectory_points: 13
+
+    publish_predicted_path: true
+    publish_ref_path: true

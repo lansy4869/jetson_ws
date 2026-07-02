@@ -1,0 +1,10 @@
+ego_frenet_node:
+  ros__parameters:
+    centerline_csv: ""
+    odom_topic: "/pf/pose/odom"
+    ego_state_topic: "/frenet/ego_state"
+    global_frame: "map"
+    near_search_radius_m: 3.0
+    max_near_projection_distance_m: 2.0
+    max_global_projection_distance_m: 3.0
+    max_projection_yaw_error_rad: 1.5708

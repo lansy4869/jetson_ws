@@ -1,0 +1,26 @@
+frenet_local_planner_node:
+  ros__parameters:
+    centerline_csv: ""
+    ego_state_topic: /frenet/ego_state
+    reactive_advice_topic: /frenet/reactive_advice
+    planner_state_topic: /frenet/planner_state
+    local_trajectory_topic: /frenet/local_trajectory
+    local_path_topic: /frenet/local_path
+    global_frame: map
+
+    planner_rate_hz: 20.0
+    trajectory_points: 20
+    trajectory_ds: 0.25
+    overtake_offset_m: 0.45
+    center_tolerance_m: 0.10
+    lane_change_length_m: 2.0
+    stale_timeout_s: 0.5
+
+    normal_speed: 2.0
+    follow_speed: 0.8
+    overtake_speed: 1.5
+    emergency_speed: 0.0
+
+    overtake_confidence_min: 0.6
+    emergency_risk_threshold: 0.9
+    emergency_front_clearance_m: 0.30
