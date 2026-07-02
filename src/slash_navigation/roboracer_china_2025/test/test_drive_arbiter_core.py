@@ -6,6 +6,8 @@ from roboracer_china_2025.drive_arbiter_core import (
     SafetyDiagnostics,
     ShieldConfig,
     SourceHealth,
+    TrackConsistencyConfig,
+    TrackConsistencyDiagnostics,
     arbitrate,
 )
 
@@ -34,6 +36,37 @@ def shield_config():
         red_margin_m=0.18,
         black_clearance_m=0.30,
         orange_blend=0.5,
+    )
+
+
+def track_config():
+    return TrackConsistencyConfig(
+        enabled=True,
+        diag_timeout_s=0.2,
+        yellow_lateral_error_m=0.35,
+        orange_lateral_error_m=0.70,
+        red_lateral_error_m=1.20,
+        yellow_yaw_error_rad=0.35,
+        orange_yaw_error_rad=0.70,
+        red_yaw_error_rad=1.20,
+        yellow_speed_limit_mps=0.9,
+        orange_speed_limit_mps=0.6,
+    )
+
+
+def track_state(
+    valid=True,
+    reinitialized=False,
+    lateral_error_m=0.05,
+    yaw_error_rad=0.05,
+    speed_mps=1.0,
+):
+    return TrackConsistencyDiagnostics(
+        valid=valid,
+        reinitialized=reinitialized,
+        lateral_error_m=lateral_error_m,
+        yaw_error_rad=yaw_error_rad,
+        speed_mps=speed_mps,
     )
 
 
@@ -254,3 +287,112 @@ def test_non_finite_shield_diagnostics_stop():
 
     assert decision.source == "stop"
     assert "diagnostics" in decision.reason
+
+
+def test_track_yellow_limits_mpc_speed_when_reachability_is_green():
+    decision = arbitrate(
+        now_s=1.0,
+        mpc_command=DriveCommand(0.1, 1.4),
+        mpc_health=healthy(0.95),
+        reactive_command=DriveCommand(-0.3, 0.6),
+        reactive_health=healthy(0.95),
+        odom_health=healthy(0.95),
+        config=config(),
+        safety_diagnostics=SafetyDiagnostics(2.0, 0.8, 2.0),
+        safety_health=healthy(0.95),
+        shield_config=shield_config(),
+        track_diagnostics=track_state(lateral_error_m=0.5),
+        track_health=healthy(0.95),
+        track_config=track_config(),
+    )
+
+    assert decision.source == "track_yellow"
+    assert decision.command == DriveCommand(0.1, 0.9)
+    assert "track yellow" in decision.reason
+
+
+def test_track_orange_blends_with_reactive_and_conservative_speed():
+    decision = arbitrate(
+        now_s=1.0,
+        mpc_command=DriveCommand(0.2, 1.4),
+        mpc_health=healthy(0.95),
+        reactive_command=DriveCommand(-0.4, 0.8),
+        reactive_health=healthy(0.95),
+        odom_health=healthy(0.95),
+        config=config(),
+        safety_diagnostics=SafetyDiagnostics(2.0, 0.8, 2.0),
+        safety_health=healthy(0.95),
+        shield_config=shield_config(),
+        track_diagnostics=track_state(lateral_error_m=0.85),
+        track_health=healthy(0.95),
+        track_config=track_config(),
+    )
+
+    assert decision.source == "track_orange"
+    assert decision.command == DriveCommand(-0.1, 0.6)
+    assert "track orange" in decision.reason
+
+
+def test_track_red_stops_even_when_reactive_command_is_available():
+    decision = arbitrate(
+        now_s=1.0,
+        mpc_command=DriveCommand(0.2, 1.4),
+        mpc_health=healthy(0.95),
+        reactive_command=DriveCommand(-0.4, 0.8),
+        reactive_health=healthy(0.95),
+        odom_health=healthy(0.95),
+        config=config(),
+        safety_diagnostics=SafetyDiagnostics(2.0, 0.8, 2.0),
+        safety_health=healthy(0.95),
+        shield_config=shield_config(),
+        track_diagnostics=track_state(lateral_error_m=1.4),
+        track_health=healthy(0.95),
+        track_config=track_config(),
+    )
+
+    assert decision.source == "stop"
+    assert decision.command == DriveCommand(0.0, 0.0)
+    assert "track red" in decision.reason
+
+
+def test_invalid_frenet_projection_stops_when_track_diagnostics_are_fresh():
+    decision = arbitrate(
+        now_s=1.0,
+        mpc_command=DriveCommand(0.2, 1.4),
+        mpc_health=healthy(0.95),
+        reactive_command=DriveCommand(-0.4, 0.8),
+        reactive_health=healthy(0.95),
+        odom_health=healthy(0.95),
+        config=config(),
+        safety_diagnostics=SafetyDiagnostics(2.0, 0.8, 2.0),
+        safety_health=healthy(0.95),
+        shield_config=shield_config(),
+        track_diagnostics=track_state(valid=False),
+        track_health=healthy(0.95),
+        track_config=track_config(),
+    )
+
+    assert decision.source == "stop"
+    assert decision.command == DriveCommand(0.0, 0.0)
+    assert "track black" in decision.reason
+
+
+def test_stale_track_diagnostics_preserve_existing_shield_behavior():
+    decision = arbitrate(
+        now_s=1.0,
+        mpc_command=DriveCommand(0.1, 1.2),
+        mpc_health=healthy(0.95),
+        reactive_command=DriveCommand(-0.3, 0.5),
+        reactive_health=healthy(0.95),
+        odom_health=healthy(0.95),
+        config=config(),
+        safety_diagnostics=SafetyDiagnostics(2.0, 0.8, 1.5),
+        safety_health=healthy(0.95),
+        shield_config=shield_config(),
+        track_diagnostics=track_state(lateral_error_m=1.4),
+        track_health=healthy(0.0),
+        track_config=track_config(),
+    )
+
+    assert decision.source == "mpc"
+    assert decision.command == DriveCommand(0.1, 1.2)

@@ -45,6 +45,29 @@ class ShieldConfig:
 
 
 @dataclass(frozen=True)
+class TrackConsistencyDiagnostics:
+    valid: bool
+    reinitialized: bool
+    lateral_error_m: float
+    yaw_error_rad: float
+    speed_mps: float
+
+
+@dataclass(frozen=True)
+class TrackConsistencyConfig:
+    enabled: bool
+    diag_timeout_s: float
+    yellow_lateral_error_m: float
+    orange_lateral_error_m: float
+    red_lateral_error_m: float
+    yellow_yaw_error_rad: float
+    orange_yaw_error_rad: float
+    red_yaw_error_rad: float
+    yellow_speed_limit_mps: float
+    orange_speed_limit_mps: float
+
+
+@dataclass(frozen=True)
 class ArbitrationDecision:
     source: str
     command: DriveCommand
@@ -91,6 +114,18 @@ def _is_diagnostics_finite(
     )
 
 
+def _is_track_diagnostics_finite(
+    diagnostics: Optional[TrackConsistencyDiagnostics],
+) -> bool:
+    if diagnostics is None:
+        return False
+    return (
+        math.isfinite(diagnostics.lateral_error_m)
+        and math.isfinite(diagnostics.yaw_error_rad)
+        and math.isfinite(diagnostics.speed_mps)
+    )
+
+
 def _shield_active(
     now_s: float,
     safety_health: Optional[SourceHealth],
@@ -101,6 +136,18 @@ def _shield_active(
     if safety_health is None:
         return False
     return _is_fresh(now_s, safety_health, shield_config.diag_timeout_s)
+
+
+def _track_consistency_active(
+    now_s: float,
+    track_health: Optional[SourceHealth],
+    track_config: Optional[TrackConsistencyConfig],
+) -> bool:
+    if track_config is None or not track_config.enabled:
+        return False
+    if track_health is None:
+        return False
+    return _is_fresh(now_s, track_health, track_config.diag_timeout_s)
 
 
 def _risk_state(
@@ -118,6 +165,36 @@ def _risk_state(
     if diagnostics.risk_min_margin <= shield_config.orange_margin_m:
         return "orange"
     if diagnostics.risk_min_margin <= shield_config.yellow_margin_m:
+        return "yellow"
+    return "green"
+
+
+def _track_consistency_state(
+    diagnostics: TrackConsistencyDiagnostics,
+    track_config: TrackConsistencyConfig,
+) -> str:
+    if not _is_track_diagnostics_finite(diagnostics):
+        return "black"
+    if not diagnostics.valid:
+        return "black"
+
+    lateral_error = abs(diagnostics.lateral_error_m)
+    yaw_error = abs(diagnostics.yaw_error_rad)
+    if (
+        lateral_error >= track_config.red_lateral_error_m
+        or yaw_error >= track_config.red_yaw_error_rad
+    ):
+        return "red"
+    if (
+        lateral_error >= track_config.orange_lateral_error_m
+        or yaw_error >= track_config.orange_yaw_error_rad
+    ):
+        return "orange"
+    if (
+        diagnostics.reinitialized
+        or lateral_error >= track_config.yellow_lateral_error_m
+        or yaw_error >= track_config.yellow_yaw_error_rad
+    ):
         return "yellow"
     return "green"
 
@@ -147,6 +224,9 @@ def arbitrate(
     safety_diagnostics: Optional[SafetyDiagnostics] = None,
     safety_health: Optional[SourceHealth] = None,
     shield_config: Optional[ShieldConfig] = None,
+    track_diagnostics: Optional[TrackConsistencyDiagnostics] = None,
+    track_health: Optional[SourceHealth] = None,
+    track_config: Optional[TrackConsistencyConfig] = None,
 ) -> ArbitrationDecision:
     odom_reason = _fresh_reason(now_s, odom_health, config.odom_timeout_s, "odom")
     if odom_reason:
@@ -155,13 +235,42 @@ def arbitrate(
     mpc_fresh = _is_fresh(now_s, mpc_health, config.command_timeout_s)
     reactive_fresh = _is_fresh(now_s, reactive_health, config.command_timeout_s)
 
-    if _shield_active(now_s, safety_health, shield_config):
-        if not _is_diagnostics_finite(safety_diagnostics):
-            return _stop("shield diagnostics non-finite")
+    local_shield_active = _shield_active(now_s, safety_health, shield_config)
+    track_shield_active = _track_consistency_active(
+        now_s,
+        track_health,
+        track_config,
+    )
 
-        state = _risk_state(safety_diagnostics, shield_config)
-        if state == "black":
-            return _stop("shield black")
+    if local_shield_active or track_shield_active:
+        state = "green"
+        local_speed_limit = config.max_speed
+        if local_shield_active:
+            if not _is_diagnostics_finite(safety_diagnostics):
+                return _stop("shield diagnostics non-finite")
+
+            state = _risk_state(safety_diagnostics, shield_config)
+            local_speed_limit = safety_diagnostics.reactive_speed_limit
+            if state == "black":
+                return _stop("shield black")
+
+        track_state = "green"
+        track_speed_limit = config.max_speed
+        if track_shield_active:
+            if not _is_track_diagnostics_finite(track_diagnostics):
+                return _stop("track diagnostics non-finite")
+
+            track_state = _track_consistency_state(track_diagnostics, track_config)
+            if track_state == "black":
+                return _stop("track black")
+            if track_state == "red":
+                return _stop("track red")
+            if track_state == "orange":
+                track_speed_limit = track_config.orange_speed_limit_mps
+            elif track_state == "yellow":
+                track_speed_limit = track_config.yellow_speed_limit_mps
+
+        combined_speed_limit = min(local_speed_limit, track_speed_limit)
 
         if state == "red":
             if reactive_fresh and _is_command_finite(reactive_command):
@@ -173,60 +282,85 @@ def arbitrate(
             return _stop("shield red reactive unavailable")
 
         if mpc_fresh and _is_command_finite(mpc_command):
-            if state == "green":
-                if mpc_command.speed > safety_diagnostics.reactive_speed_limit:
-                    limited = DriveCommand(
-                        mpc_command.steering_angle,
-                        safety_diagnostics.reactive_speed_limit,
-                    )
-                    return ArbitrationDecision(
-                        "shield_yellow",
-                        _clamp_command(limited, config),
-                        "shield green speed limited",
-                    )
-                return ArbitrationDecision(
-                    "mpc",
-                    _clamp_command(mpc_command, config),
-                    "shield green",
-                )
-
-            if state == "yellow":
-                limited = DriveCommand(
-                    mpc_command.steering_angle,
-                    min(mpc_command.speed, safety_diagnostics.reactive_speed_limit),
-                )
-                return ArbitrationDecision(
-                    "shield_yellow",
-                    _clamp_command(limited, config),
-                    "shield yellow speed limit",
-                )
-
-            if state == "orange":
+            if state == "orange" or track_state == "orange":
                 if reactive_fresh and _is_command_finite(reactive_command):
-                    blend = _clamp(shield_config.orange_blend, 0.0, 1.0)
+                    orange_blend = 0.5
+                    if shield_config is not None:
+                        orange_blend = shield_config.orange_blend
+                    blend = _clamp(orange_blend, 0.0, 1.0)
                     blended = DriveCommand(
                         (1.0 - blend) * mpc_command.steering_angle
                         + blend * reactive_command.steering_angle,
                         min(
                             mpc_command.speed,
                             reactive_command.speed,
-                            safety_diagnostics.reactive_speed_limit,
+                            combined_speed_limit,
                         ),
                     )
+                    if track_state == "orange" and state != "orange":
+                        return ArbitrationDecision(
+                            "track_orange",
+                            _clamp_command(blended, config),
+                            "track orange blend",
+                        )
                     return ArbitrationDecision(
                         "shield_orange",
                         _clamp_command(blended, config),
                         "shield orange blend",
                     )
+
                 limited = DriveCommand(
                     mpc_command.steering_angle,
-                    min(mpc_command.speed, safety_diagnostics.reactive_speed_limit),
+                    min(mpc_command.speed, combined_speed_limit),
                 )
+                if track_state == "orange" and state != "orange":
+                    return ArbitrationDecision(
+                        "track_yellow",
+                        _clamp_command(limited, config),
+                        "track orange degraded to speed limit",
+                    )
                 return ArbitrationDecision(
                     "shield_yellow",
                     _clamp_command(limited, config),
                     "shield orange degraded to speed limit",
                 )
+
+            if (
+                state == "yellow"
+                or track_state == "yellow"
+                or (
+                    local_shield_active
+                    and state == "green"
+                    and mpc_command.speed > local_speed_limit
+                )
+            ):
+                limited = DriveCommand(
+                    mpc_command.steering_angle,
+                    min(mpc_command.speed, combined_speed_limit),
+                )
+                if track_state == "yellow" and state != "yellow":
+                    return ArbitrationDecision(
+                        "track_yellow",
+                        _clamp_command(limited, config),
+                        "track yellow speed limit",
+                    )
+                if state == "green":
+                    return ArbitrationDecision(
+                        "shield_yellow",
+                        _clamp_command(limited, config),
+                        "shield green speed limited",
+                    )
+                return ArbitrationDecision(
+                    "shield_yellow",
+                    _clamp_command(limited, config),
+                    "shield yellow speed limit",
+                )
+
+            return ArbitrationDecision(
+                "mpc",
+                _clamp_command(mpc_command, config),
+                "shield green",
+            )
 
     if mpc_fresh and _is_command_finite(mpc_command):
         return ArbitrationDecision(

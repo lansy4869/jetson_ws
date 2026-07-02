@@ -15,6 +15,7 @@ BATTLE_REACTIVE_TOPIC = "/battle_fast2/drive_reactive"
 FRONT_CLEARANCE_TOPIC = "/battle_fast2/front_clearance_m"
 RISK_MIN_MARGIN_TOPIC = "/battle_fast2/risk_min_margin_m"
 REACTIVE_SPEED_LIMIT_TOPIC = "/battle_fast2/reactive_speed_limit_mps"
+TRACK_CONSISTENCY_TOPIC = "/frenet/ego_state"
 
 
 def _write_mpc_overrides(context):
@@ -52,6 +53,7 @@ def _launch_setup(context, *args, **kwargs):
     odom_topic = LaunchConfiguration("odom_topic")
     drive_topic = LaunchConfiguration("drive_topic")
     global_frame = LaunchConfiguration("global_frame")
+    centerline_csv = LaunchConfiguration("centerline_csv")
     max_speed = LaunchConfiguration("max_speed")
     max_steer = LaunchConfiguration("max_steer")
     command_timeout_s = LaunchConfiguration("command_timeout_s")
@@ -63,8 +65,42 @@ def _launch_setup(context, *args, **kwargs):
     shield_red_margin_m = LaunchConfiguration("shield_red_margin_m")
     shield_black_clearance_m = LaunchConfiguration("shield_black_clearance_m")
     shield_orange_blend = LaunchConfiguration("shield_orange_blend")
+    enable_track_consistency_shield = LaunchConfiguration(
+        "enable_track_consistency_shield"
+    )
+    track_diag_timeout_s = LaunchConfiguration("track_diag_timeout_s")
+    track_yellow_lateral_error_m = LaunchConfiguration(
+        "track_yellow_lateral_error_m"
+    )
+    track_orange_lateral_error_m = LaunchConfiguration(
+        "track_orange_lateral_error_m"
+    )
+    track_red_lateral_error_m = LaunchConfiguration("track_red_lateral_error_m")
+    track_yellow_yaw_error_rad = LaunchConfiguration("track_yellow_yaw_error_rad")
+    track_orange_yaw_error_rad = LaunchConfiguration("track_orange_yaw_error_rad")
+    track_red_yaw_error_rad = LaunchConfiguration("track_red_yaw_error_rad")
+    track_yellow_speed_limit_mps = LaunchConfiguration(
+        "track_yellow_speed_limit_mps"
+    )
+    track_orange_speed_limit_mps = LaunchConfiguration(
+        "track_orange_speed_limit_mps"
+    )
 
     return [
+        Node(
+            package="frenet_runtime",
+            executable="ego_frenet_node",
+            name="ego_frenet_node",
+            output="screen",
+            parameters=[
+                {
+                    "centerline_csv": centerline_csv,
+                    "odom_topic": odom_topic,
+                    "ego_state_topic": TRACK_CONSISTENCY_TOPIC,
+                    "global_frame": global_frame,
+                }
+            ],
+        ),
         Node(
             package="mpc_control",
             executable="mpc_node",
@@ -104,6 +140,7 @@ def _launch_setup(context, *args, **kwargs):
                     "front_clearance_topic": FRONT_CLEARANCE_TOPIC,
                     "risk_min_margin_topic": RISK_MIN_MARGIN_TOPIC,
                     "reactive_speed_limit_topic": REACTIVE_SPEED_LIMIT_TOPIC,
+                    "track_consistency_topic": TRACK_CONSISTENCY_TOPIC,
                     "max_speed": ParameterValue(max_speed, value_type=float),
                     "max_steer": ParameterValue(max_steer, value_type=float),
                     "command_timeout_s": ParameterValue(command_timeout_s, value_type=float),
@@ -136,6 +173,46 @@ def _launch_setup(context, *args, **kwargs):
                         shield_orange_blend,
                         value_type=float,
                     ),
+                    "enable_track_consistency_shield": ParameterValue(
+                        enable_track_consistency_shield,
+                        value_type=bool,
+                    ),
+                    "track_diag_timeout_s": ParameterValue(
+                        track_diag_timeout_s,
+                        value_type=float,
+                    ),
+                    "track_yellow_lateral_error_m": ParameterValue(
+                        track_yellow_lateral_error_m,
+                        value_type=float,
+                    ),
+                    "track_orange_lateral_error_m": ParameterValue(
+                        track_orange_lateral_error_m,
+                        value_type=float,
+                    ),
+                    "track_red_lateral_error_m": ParameterValue(
+                        track_red_lateral_error_m,
+                        value_type=float,
+                    ),
+                    "track_yellow_yaw_error_rad": ParameterValue(
+                        track_yellow_yaw_error_rad,
+                        value_type=float,
+                    ),
+                    "track_orange_yaw_error_rad": ParameterValue(
+                        track_orange_yaw_error_rad,
+                        value_type=float,
+                    ),
+                    "track_red_yaw_error_rad": ParameterValue(
+                        track_red_yaw_error_rad,
+                        value_type=float,
+                    ),
+                    "track_yellow_speed_limit_mps": ParameterValue(
+                        track_yellow_speed_limit_mps,
+                        value_type=float,
+                    ),
+                    "track_orange_speed_limit_mps": ParameterValue(
+                        track_orange_speed_limit_mps,
+                        value_type=float,
+                    ),
                 }
             ],
         ),
@@ -152,6 +229,7 @@ def generate_launch_description():
             DeclareLaunchArgument("drive_topic", default_value="/drive"),
             DeclareLaunchArgument("global_frame", default_value="map"),
             DeclareLaunchArgument("waypoint_csv", default_value=""),
+            DeclareLaunchArgument("centerline_csv", default_value=""),
             DeclareLaunchArgument(
                 "mpc_params_file",
                 default_value=os.path.join(mpc_dir, "config", "mpc_control.yaml"),
@@ -168,6 +246,19 @@ def generate_launch_description():
             DeclareLaunchArgument("shield_red_margin_m", default_value="0.18"),
             DeclareLaunchArgument("shield_black_clearance_m", default_value="0.30"),
             DeclareLaunchArgument("shield_orange_blend", default_value="0.55"),
+            DeclareLaunchArgument(
+                "enable_track_consistency_shield",
+                default_value="true",
+            ),
+            DeclareLaunchArgument("track_diag_timeout_s", default_value="0.3"),
+            DeclareLaunchArgument("track_yellow_lateral_error_m", default_value="0.35"),
+            DeclareLaunchArgument("track_orange_lateral_error_m", default_value="0.70"),
+            DeclareLaunchArgument("track_red_lateral_error_m", default_value="1.10"),
+            DeclareLaunchArgument("track_yellow_yaw_error_rad", default_value="0.35"),
+            DeclareLaunchArgument("track_orange_yaw_error_rad", default_value="0.70"),
+            DeclareLaunchArgument("track_red_yaw_error_rad", default_value="1.20"),
+            DeclareLaunchArgument("track_yellow_speed_limit_mps", default_value="1.2"),
+            DeclareLaunchArgument("track_orange_speed_limit_mps", default_value="0.7"),
             OpaqueFunction(function=_launch_setup),
         ]
     )

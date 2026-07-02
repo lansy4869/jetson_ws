@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 from ackermann_msgs.msg import AckermannDriveStamped
+from frenet_interfaces.msg import FrenetEgoState
 from nav_msgs.msg import Odometry
 import rclpy
 from rclpy.node import Node
@@ -12,6 +13,8 @@ from .drive_arbiter_core import (
     SafetyDiagnostics,
     ShieldConfig,
     SourceHealth,
+    TrackConsistencyConfig,
+    TrackConsistencyDiagnostics,
     arbitrate,
 )
 
@@ -44,12 +47,23 @@ class DriveArbiterNode(Node):
             "reactive_speed_limit_topic",
             "/battle_fast2/reactive_speed_limit_mps",
         )
+        self.declare_parameter("track_consistency_topic", "/frenet/ego_state")
         self.declare_parameter("shield_diag_timeout_s", 0.2)
         self.declare_parameter("shield_yellow_margin_m", 0.55)
         self.declare_parameter("shield_orange_margin_m", 0.35)
         self.declare_parameter("shield_red_margin_m", 0.18)
         self.declare_parameter("shield_black_clearance_m", 0.30)
         self.declare_parameter("shield_orange_blend", 0.55)
+        self.declare_parameter("enable_track_consistency_shield", True)
+        self.declare_parameter("track_diag_timeout_s", 0.3)
+        self.declare_parameter("track_yellow_lateral_error_m", 0.35)
+        self.declare_parameter("track_orange_lateral_error_m", 0.70)
+        self.declare_parameter("track_red_lateral_error_m", 1.10)
+        self.declare_parameter("track_yellow_yaw_error_rad", 0.35)
+        self.declare_parameter("track_orange_yaw_error_rad", 0.70)
+        self.declare_parameter("track_red_yaw_error_rad", 1.20)
+        self.declare_parameter("track_yellow_speed_limit_mps", 1.2)
+        self.declare_parameter("track_orange_speed_limit_mps", 0.7)
 
         self.mpc_drive_topic = self.get_parameter("mpc_drive_topic").value
         self.reactive_drive_topic = self.get_parameter("reactive_drive_topic").value
@@ -59,6 +73,9 @@ class DriveArbiterNode(Node):
         self.risk_min_margin_topic = self.get_parameter("risk_min_margin_topic").value
         self.reactive_speed_limit_topic = self.get_parameter(
             "reactive_speed_limit_topic"
+        ).value
+        self.track_consistency_topic = self.get_parameter(
+            "track_consistency_topic"
         ).value
         self.global_frame = _strip_leading_slashes(
             str(self.get_parameter("global_frame").value)
@@ -87,6 +104,34 @@ class DriveArbiterNode(Node):
             ),
             orange_blend=float(self.get_parameter("shield_orange_blend").value),
         )
+        self.track_config = TrackConsistencyConfig(
+            enabled=bool(self.get_parameter("enable_track_consistency_shield").value),
+            diag_timeout_s=float(self.get_parameter("track_diag_timeout_s").value),
+            yellow_lateral_error_m=float(
+                self.get_parameter("track_yellow_lateral_error_m").value
+            ),
+            orange_lateral_error_m=float(
+                self.get_parameter("track_orange_lateral_error_m").value
+            ),
+            red_lateral_error_m=float(
+                self.get_parameter("track_red_lateral_error_m").value
+            ),
+            yellow_yaw_error_rad=float(
+                self.get_parameter("track_yellow_yaw_error_rad").value
+            ),
+            orange_yaw_error_rad=float(
+                self.get_parameter("track_orange_yaw_error_rad").value
+            ),
+            red_yaw_error_rad=float(
+                self.get_parameter("track_red_yaw_error_rad").value
+            ),
+            yellow_speed_limit_mps=float(
+                self.get_parameter("track_yellow_speed_limit_mps").value
+            ),
+            orange_speed_limit_mps=float(
+                self.get_parameter("track_orange_speed_limit_mps").value
+            ),
+        )
 
         self.mpc_command = None
         self.mpc_health = SourceHealth(stamp_s=None, valid=False, reason="mpc missing")
@@ -108,6 +153,12 @@ class DriveArbiterNode(Node):
             stamp_s=None,
             valid=False,
             reason="safety diagnostics missing",
+        )
+        self.track_diagnostics = None
+        self.track_health = SourceHealth(
+            stamp_s=None,
+            valid=False,
+            reason="track consistency missing",
         )
         self.last_source = None
 
@@ -147,6 +198,12 @@ class DriveArbiterNode(Node):
             self._reactive_speed_limit_callback,
             25,
         )
+        self.create_subscription(
+            FrenetEgoState,
+            self.track_consistency_topic,
+            self._track_consistency_callback,
+            25,
+        )
         self.drive_publisher = self.create_publisher(
             AckermannDriveStamped,
             self.drive_topic,
@@ -157,11 +214,12 @@ class DriveArbiterNode(Node):
         self.create_timer(timer_period, self._timer_callback)
 
         self.get_logger().info(
-            "Drive arbiter ready: mpc=%s reactive=%s odom=%s output=%s"
+            "Drive arbiter ready: mpc=%s reactive=%s odom=%s track=%s output=%s"
             % (
                 self.mpc_drive_topic,
                 self.reactive_drive_topic,
                 self.odom_topic,
+                self.track_consistency_topic,
                 self.drive_topic,
             )
         )
@@ -223,6 +281,21 @@ class DriveArbiterNode(Node):
         )
         self.safety_health = SourceHealth(stamp_s=latest_complete_stamp, valid=True)
 
+    def _track_consistency_callback(self, msg):
+        frame_id = _strip_leading_slashes(msg.header.frame_id)
+        valid = bool(msg.valid)
+        if frame_id and frame_id != self.global_frame:
+            valid = False
+
+        self.track_diagnostics = TrackConsistencyDiagnostics(
+            valid=valid,
+            reinitialized=bool(msg.reinitialized),
+            lateral_error_m=float(msg.d),
+            yaw_error_rad=float(msg.yaw_error),
+            speed_mps=float(msg.speed),
+        )
+        self.track_health = SourceHealth(stamp_s=self._now_s(), valid=True)
+
     def _odom_callback(self, msg):
         frame_id = _strip_leading_slashes(msg.header.frame_id)
         if frame_id != self.global_frame:
@@ -247,6 +320,9 @@ class DriveArbiterNode(Node):
             safety_diagnostics=self.safety_diagnostics,
             safety_health=self.safety_health,
             shield_config=self.shield_config,
+            track_diagnostics=self.track_diagnostics,
+            track_health=self.track_health,
+            track_config=self.track_config,
         )
         self.drive_publisher.publish(self._to_msg(decision.command))
 

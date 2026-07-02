@@ -30,6 +30,14 @@ def test_package_declares_nav_msgs_dependency():
     assert "nav_msgs" in deps
 
 
+def test_package_declares_frenet_supervision_dependencies():
+    root = ET.parse(PACKAGE_ROOT / "package.xml").getroot()
+    deps = {element.text for element in root.findall("exec_depend")}
+
+    assert "frenet_interfaces" in deps
+    assert "frenet_runtime" in deps
+
+
 def test_setup_installs_global_mpc_battle_launch():
     text = (PACKAGE_ROOT / "setup.py").read_text(encoding="utf-8")
 
@@ -46,6 +54,23 @@ def test_experimental_launch_uses_private_control_topics():
     assert '"drive_arbiter"' in launch_text
     assert '"battle_fast2_node"' in launch_text
     assert '"mpc_control"' in launch_text
+
+
+def test_global_mpc_battle_launch_starts_frenet_supervisor():
+    launch_text = (
+        PACKAGE_ROOT / "launch" / "global_mpc_battle_arbiter.launch.py"
+    ).read_text(encoding="utf-8")
+
+    assert '"frenet_runtime"' in launch_text
+    assert '"ego_frenet_node"' in launch_text
+    assert "TRACK_CONSISTENCY_TOPIC" in launch_text
+    assert "enable_track_consistency_shield" in launch_text
+    assert "track_yellow_lateral_error_m" in launch_text
+    assert "track_orange_lateral_error_m" in launch_text
+    assert "track_red_lateral_error_m" in launch_text
+    assert "track_yellow_yaw_error_rad" in launch_text
+    assert "track_orange_yaw_error_rad" in launch_text
+    assert "track_red_yaw_error_rad" in launch_text
 
 
 def test_global_mpc_battle_launch_wires_safety_shield_topics():
@@ -74,6 +99,10 @@ def test_drive_arbiter_node_subscribes_to_safety_shield_diagnostics():
     assert "from std_msgs.msg import Float32" in source
     assert "SafetyDiagnostics" in source
     assert "ShieldConfig" in source
+    assert "from frenet_interfaces.msg import FrenetEgoState" in source
+    assert "TrackConsistencyDiagnostics" in source
+    assert "TrackConsistencyConfig" in source
     assert "_front_clearance_callback" in source
     assert "_risk_min_margin_callback" in source
     assert "_reactive_speed_limit_callback" in source
+    assert "_track_consistency_callback" in source
