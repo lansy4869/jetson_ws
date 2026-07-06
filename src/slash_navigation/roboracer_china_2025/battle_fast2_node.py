@@ -11,23 +11,24 @@ from ackermann_msgs.msg import AckermannDriveStamped
 from visualization_msgs.msg import Marker
 from geometry_msgs.msg import Point
 from builtin_interfaces.msg import Duration
-from std_msgs.msg import Float32
 from std_msgs.msg import Float32MultiArray
 import copy
 
-try:
-    from .reachability_core import ReachabilityConfig, select_reachable_gap
-except ImportError:
-    from reachability_core import ReachabilityConfig, select_reachable_gap
-
 # === 【AC-ARPS】自适应保形 Ackermann 残差预测安全层（残差式预测安全过滤器）===
+# 作为 ROS 包运行时走 try 分支；直接 python3 运行本文件时走 except 分支
 try:
-    from .ac_arps_ros import (
+    from roboracer_china_2025.ac_arps_ros import (
         declare_shield_parameters,
         build_shield_from_parameters,
         make_shield_debug_msg,
     )
 except ImportError:
+    import os
+    import sys
+    sys.path.insert(
+        0,
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), 'roboracer_china_2025'),
+    )
     from ac_arps_ros import (
         declare_shield_parameters,
         build_shield_from_parameters,
@@ -56,26 +57,6 @@ class BattleVehicleNode(Node):
         self.declare_parameter('drive_topic', '/drive')
         self.declare_parameter('marker_topic', '/arrow_marker_02')
         self.declare_parameter('debug_scan_topic', '/front_scan_02')
-        self.declare_parameter('front_clearance_topic', '/battle_fast2/front_clearance_m')
-        self.declare_parameter('risk_min_margin_topic', '/battle_fast2/risk_min_margin_m')
-        self.declare_parameter('reactive_speed_limit_topic', '/battle_fast2/reactive_speed_limit_mps')
-        self.declare_parameter('use_reachability_core', True)
-        self.declare_parameter('reachability_fallback_to_original', False)
-        self.declare_parameter('reachability_max_speed', 2.5)
-        self.declare_parameter('reachability_min_speed', 0.35)
-        self.declare_parameter('reachability_wheelbase', 0.33)
-        self.declare_parameter('reachability_vehicle_width', 0.29)
-        self.declare_parameter('reachability_front_overhang', 0.20)
-        self.declare_parameter('reachability_rear_overhang', 0.35)
-        self.declare_parameter('reachability_horizon', 2.5)
-        self.declare_parameter('reachability_max_steer', math.pi / 4.0)
-        self.declare_parameter('reachability_steer_samples', 41)
-        self.declare_parameter('reachability_base_margin', 0.16)
-        self.declare_parameter('reachability_system_delay', 0.16)
-        self.declare_parameter('reachability_max_brake_accel', 2.5)
-        self.declare_parameter('reachability_max_lateral_accel', 4.5)
-        self.declare_parameter('reachability_unknown_weight', 2.0)
-        self.declare_parameter('reachability_range_max', 12.0)
         # 【AC-ARPS】声明 shield_* 全套参数（车辆几何/预测/分级介入/保形/TTC/模式）
         declare_shield_parameters(self)
 
@@ -83,37 +64,12 @@ class BattleVehicleNode(Node):
         drive_topic = self.get_parameter('drive_topic').value
         marker_topic = self.get_parameter('marker_topic').value
         debug_scan_topic = self.get_parameter('debug_scan_topic').value
-        front_clearance_topic = self.get_parameter('front_clearance_topic').value
-        risk_min_margin_topic = self.get_parameter('risk_min_margin_topic').value
-        reactive_speed_limit_topic = self.get_parameter('reactive_speed_limit_topic').value
-        self.use_reachability_core = bool(self.get_parameter('use_reachability_core').value)
-        self.reachability_fallback_to_original = bool(
-            self.get_parameter('reachability_fallback_to_original').value
-        )
-        self.reachability_config = ReachabilityConfig(
-            max_speed=float(self.get_parameter('reachability_max_speed').value),
-            min_speed=float(self.get_parameter('reachability_min_speed').value),
-            wheelbase=float(self.get_parameter('reachability_wheelbase').value),
-            vehicle_width=float(self.get_parameter('reachability_vehicle_width').value),
-            front_overhang=float(self.get_parameter('reachability_front_overhang').value),
-            rear_overhang=float(self.get_parameter('reachability_rear_overhang').value),
-            horizon=float(self.get_parameter('reachability_horizon').value),
-            max_steer=float(self.get_parameter('reachability_max_steer').value),
-            steer_samples=int(self.get_parameter('reachability_steer_samples').value),
-            base_margin=float(self.get_parameter('reachability_base_margin').value),
-            system_delay=float(self.get_parameter('reachability_system_delay').value),
-            max_brake_accel=float(self.get_parameter('reachability_max_brake_accel').value),
-            max_lateral_accel=float(self.get_parameter('reachability_max_lateral_accel').value),
-            unknown_weight=float(self.get_parameter('reachability_unknown_weight').value),
-            range_max=float(self.get_parameter('reachability_range_max').value),
-        )
-
-        # === 【AC-ARPS 位置二】初始化安全层 ===
-        # 车辆尺寸参数（shield_wheelbase 等）必须按实车实测后通过 launch/yaml 覆盖。
-        # 不论基础控制器走 reachability 还是原启发式，发布前都会经过同一个安全层
-        self.predictive_shield = build_shield_from_parameters(self)
 
         self.get_logger().info(f"Battle Node Started. Topics: scan={scan_topic}, drive={drive_topic}")
+
+        # === 【AC-ARPS 位置二】初始化安全层 ===
+        # 车辆尺寸参数（shield_wheelbase 等）必须按实车实测后通过 launch/yaml 覆盖
+        self.predictive_shield = build_shield_from_parameters(self)
         if self.predictive_shield is not None:
             self.get_logger().info(
                 "AC-ARPS shield enabled. shadow_mode=%s speed_only=%s adaptive_margin=%s"
@@ -141,8 +97,6 @@ class BattleVehicleNode(Node):
         self.D = 0.2
         self.dynamic_obs = False
         self.chaoche = False
-        self.last_reachability_steer = 0.0
-        self.last_reachability_speed = 0.0
 
         # === ROS 2 通信配置 ===
         qos_profile = QoSProfile(
@@ -173,29 +127,12 @@ class BattleVehicleNode(Node):
             Marker, 
             marker_topic, 
             1)
-        self.front_clearance_pub = self.create_publisher(
-            Float32,
-            front_clearance_topic,
-            10)
-        self.risk_min_margin_pub = self.create_publisher(
-            Float32,
-            risk_min_margin_topic,
-            10)
-        self.reactive_speed_limit_pub = self.create_publisher(
-            Float32,
-            reactive_speed_limit_topic,
-            10)
         # 【AC-ARPS】调试话题：字段顺序见 ac_arps_core.DEBUG_ARRAY_FIELDS
         # [level, base_v, sug_v, base_δ, sug_δ, applied, clearance, ttc, q_t, r_eff, ms, n_pts]
         self.shield_debug_pub = self.create_publisher(
             Float32MultiArray,
             self.get_parameter('shield_debug_topic').value,
             10)
-        if self.use_reachability_core:
-            self.get_logger().info(
-                "Reachability core enabled. fallback_to_original=%s"
-                % self.reachability_fallback_to_original
-            )
 
     # === 原样保留的辅助函数 (微调 publish_arrow_marker 适配 Frame ID) ===
 
@@ -366,7 +303,6 @@ class BattleVehicleNode(Node):
 
         - shield 未启用或异常时原样返回（异常时安全层绝不接管，保持原行为）；
         - shadow_mode 下 filter() 恒返回基础指令，只发调试数据。
-        raw_ranges 必须是 nan_to_num 之前的原始扫描（inf/NaN 语义保留）。
         """
         if self.predictive_shield is None:
             return drive_msg
@@ -416,124 +352,20 @@ class BattleVehicleNode(Node):
             )
         return drive_msg
 
-    def try_reachability_control(self, data, raw_ranges, frame_id):
-        if not self.use_reachability_core:
-            return False
-
-        try:
-            result = select_reachable_gap(
-                ranges=raw_ranges,
-                angle_min=float(data.angle_min),
-                angle_increment=float(data.angle_increment),
-                current_speed=float(self.last_reachability_speed),
-                last_steer=float(self.last_reachability_steer),
-                config=self.reachability_config,
-            )
-        except Exception as exc:
-            self.get_logger().error(f"Reachability core failed: {exc}")
-            if self.reachability_fallback_to_original:
-                return False
-            self.publish_reachability_diagnostics(0.0, -1.0, 0.0)
-            self.publish_reachability_drive(data, 0.0, 0.0, frame_id, raw_ranges)
-            return True
-
-        if not result.valid:
-            self.get_logger().warn(f"Reachability core invalid: {result.reason}")
-            if self.reachability_fallback_to_original:
-                return False
-            self.publish_reachability_diagnostics(0.0, -1.0, 0.0)
-            self.publish_reachability_drive(data, 0.0, 0.0, frame_id, raw_ranges)
-            return True
-
-        self.publish_reachability_diagnostics(
-            result.free_distance,
-            result.min_clearance,
-            result.speed,
-        )
-        # 过滤后的实际发布值回写 last_*，保证下一帧 reachability 的
-        # current_speed / last_steer 与真实执行一致
-        published_steer, published_speed = self.publish_reachability_drive(
-            data, result.steer, result.speed, frame_id, raw_ranges
-        )
-        self.last_reachability_steer = published_steer
-        self.last_reachability_speed = published_speed
-        self.get_logger().debug(
-            "reachability steer=%.3f speed=%.3f free=%.2f clearance=%.2f unknown=%.2f score=%.2f"
-            % (
-                result.steer,
-                result.speed,
-                result.free_distance,
-                result.min_clearance,
-                result.unknown_ratio,
-                result.score,
-            )
-        )
-        return True
-
-    def publish_reachability_diagnostics(self, front_clearance, risk_min_margin, reactive_speed_limit):
-        front_msg = Float32()
-        front_msg.data = (
-            float(front_clearance)
-            if math.isfinite(float(front_clearance))
-            else 0.0
-        )
-        self.front_clearance_pub.publish(front_msg)
-
-        margin_msg = Float32()
-        margin_msg.data = (
-            float(risk_min_margin)
-            if math.isfinite(float(risk_min_margin))
-            else -1.0
-        )
-        self.risk_min_margin_pub.publish(margin_msg)
-
-        speed_msg = Float32()
-        speed_msg.data = (
-            float(reactive_speed_limit)
-            if math.isfinite(float(reactive_speed_limit))
-            else 0.0
-        )
-        self.reactive_speed_limit_pub.publish(speed_msg)
-
-    def publish_reachability_drive(self, data, steering_angle, speed, frame_id, raw_ranges=None):
-        drive_msg = AckermannDriveStamped()
-        drive_msg.header = data.header
-        drive_msg.drive.steering_angle = float(
-            np.clip(
-                steering_angle,
-                -self.reachability_config.max_steer,
-                self.reachability_config.max_steer,
-            )
-        )
-        drive_msg.drive.speed = float(np.clip(speed, 0.0, self.reachability_config.max_speed))
-
-        # 【AC-ARPS】reachability 基础指令同样在发布前过滤（与原启发式共用同一安全层）
-        if raw_ranges is not None:
-            drive_msg = self.apply_predictive_shield(data, raw_ranges, drive_msg)
-
-        self.drive_pub.publish(drive_msg)
-
-        marker_index = int(
-            np.clip(90 + math.degrees(drive_msg.drive.steering_angle), 0, 180)
-        )
-        self.publish_arrow_marker(marker_index, frame_id)
-        return float(drive_msg.drive.steering_angle), float(drive_msg.drive.speed)
-
     # === 核心回调逻辑（完全保持原流程） ===
     def middle_line_callback(self, data):
         # 【AC-ARPS 位置一】必须在 nan_to_num 之前保存原始扫描：
         # inf=量程内无回波(自由空间)、NaN=无效测量，安全层需要这两种语义，
         # 不能吃后面"inf/NaN→0 再邻居填补"生成的虚构距离
         raw_ranges = np.asarray(data.ranges, dtype=np.float32).copy()
-        current_frame = data.header.frame_id if data.header.frame_id else "laser"
-
-        if self.try_reachability_control(data, raw_ranges, current_frame):
-            return
 
         # 仿真器兼容性补丁：将 inf 转为 0，因为你的算法(fill_zeros)是专门处理0的
         # 如果不加这行，get_dis 拿到的都是 inf，算法会认为没有数据
         clean_ranges = np.nan_to_num(np.array(data.ranges), posinf=0.0, neginf=0.0)
         data.ranges = clean_ranges.tolist()
+
+        # 【新增】动态获取当前雷达的 Frame ID，不再硬编码 ego_racecar
+        current_frame = data.header.frame_id if data.header.frame_id else "laser"
 
         # 初始化本轮变量
         self.dynamic_obs = False
